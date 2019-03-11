@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Hebrew to Transliteration</title>
+  </head>
+  <body>
+    <header>
+      <div class="banner"><a href="index.html">HEBREW to TRANSLITERATION</a></div>
+      <nav>
+        <ul class="page-links">
+          <li><a href="index.html">Home</a></li>
+          <li class="selected"><a href="remove.html">Remove Diacritics</a></li>
+          <li><a href="sequence.html">Sequence</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="tips.html">Tips</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <span id="nav-arrow">&#8964</span>
+      </nav>
+    </header>
+    <section>
+      <div class="wrapper">
+        <form name="transliteration">
+          <h1>Remove either cantillation or vowels and cantillation:</h1>
+        <!-- Radio Boxes  -->
+        <div class="radioBoxesList">
+          <div>
+            <p><input type="radio" name="removeRadioBtn" value="cantillationOnly"> Remove Cantillation Only &nbsp</p>
+          </div>
+          <div>
+            <p><input type="radio" name="removeRadioBtn" value="cantillationVowels"> Remove Cantillation and Vowels</p>
+          </div>
+        </div>
+        
+        <!-- The text is inputed here  -->
+          <div class="input-area">
+            <label for="input">Type or Paste Text Here:</label><br>
+            <textarea id="inputRemove" name="input_text" rows="4" cols="40" placeholder="עִבְרִית" style="text-align: right; font: 20px SBL Hebrew, Times New Roman, serif; "></textarea><br>
+          </div>
+
+        <!-- The Text is outputted here  -->
+          <div class="output-area">
+            <label for="output">Output:</label><br>
+            <textarea id="outputRemove" name="output_text" rows="5" cols="40" placeholder="עברית" style="text-align: right; font: 20px SBL Hebrew, Times New Roman, serif;"></textarea><br>
+          </div>
+
+          <button id="input_button" type="button" name="submit_button">Submit</button>
+          <button type="reset" name="reset_button">Reset</button> <br>
+
+        </form>
+      </div>
+    </section>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-contact">
+          Charles Loder &copy 2018 <br>
+          <a href="Contact.html">Contact</a>
+        </div>
+        <div class="footer-icons">
+          <a href="https://independentresearcher.academia.edu/CharlesLoder"><img src="imgs/academia.ico" alt="academia" class="icons"></a>
+            <a href="https://github.com/charlesLoder"><img src="imgs/github2.png" alt="github" class="icons" id="github-favicon"></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/remove.js"></script>
+  </body>
+</html>

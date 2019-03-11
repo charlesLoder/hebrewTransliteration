@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119561405-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-119561405-1');
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Hebrew to Transliteration</title>
+  </head>
+  <body>
+    <header>
+      <div class="banner"><a href="index.html">HEBREW to TRANSLITERATION</a></div>
+      <nav>
+        <ul class="page-links">
+          <li class="selected"><a href="index.html">Home</a></li>
+          <li><a href="remove.html">Remove Diacritics</a></li>
+          <li><a href="sequence.html">Sequence</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="tips.html">Tips</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <span id="nav-arrow">&#8964</span>
+      </nav>
+    </header>
+    <section>
+      <div class="wrapper">
+        <form name="transliteration">
+          <h1>Enter Text</h1>
+          <p>
+            <input type="checkbox" name="qametsQatan" id="qametsQatan">
+            <label for="qametsQatan">Check to distinguish between Qamets Qatan and Qamets Gadol</label>
+          </p>
+        <!-- The text is inputed here  -->
+          <div class="input-area">
+            <label for="input">Type or Paste Text Here:</label><br>
+            <textarea id="input" name="input_text" rows="4" cols="40" placeholder="עברית" style="text-align: right; font: 20px SBL Hebrew, Times New Roman, serif; "></textarea><br>
+          </div>
+
+        <!-- The Text is outputted here  -->
+          <div class="output-area">
+            <label for="output">Transliteration:</label><br>
+            <textarea id="output" name="output_text" rows="5" cols="40" placeholder="ʿbryt" style="font: italic 16px Charis SIL Compact, Charis SIL, Times New Roman, serif;"></textarea><br>
+          </div>
+
+          <button id="input_button" type="button" name="submit_button">Submit</button>
+          <button type="reset" name="reset_button">Reset</button> <br>
+
+        </form>
+      </div>
+    </section>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-contact">
+          Charles Loder &copy 2018 <br>
+          <a href="Contact.html">Contact</a>
+        </div>
+        <div class="footer-icons">
+          <a href="https://independentresearcher.academia.edu/CharlesLoder"><img src="imgs/academia.ico" alt="academia" class="icons"></a>
+            <a href="https://github.com/charlesLoder"><img src="imgs/github2.png" alt="github" class="icons" id="github-favicon"></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/sequence.js"></script>
+    <script type="text/javascript" src="js/transliterate2.js"></script>
+  </body>
+</html>
