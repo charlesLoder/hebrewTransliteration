@@ -1,0 +1,26 @@
+footer {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  background-color: #404040;
+  color: #fff;
+  font-family: sans-serif;
+  font-size: 12px;
+  font-weight: lighter;
+}
+
+.footer-container {
+  width: 90%;
+  margin: 20px 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.icons {
+  max-width: 24px;
+  border-radius: 50%;
+  margin-left: 5px;
+}

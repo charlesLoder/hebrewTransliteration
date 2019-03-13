@@ -1,0 +1,23 @@
+main {
+  background-color: #f4f3f0;
+  box-shadow: inset 0px 4px 4px -1px rgba(0, 0, 0, .3);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  align-content: center;
+  flex: 1;
+}
+
+.wrapper {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  margin: auto;
+  padding-bottom: 10px;
+  border-radius: 5px;
+  background-color: white;
+}
