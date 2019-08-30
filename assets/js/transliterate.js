@@ -3,8 +3,8 @@ const heb = require('hebrew-transliteration')
 const transliterate = heb.transliterate
 
 $('#input_button').click(() => {
-  let qametsQatan = $('input[type=checkbox]').prop('checked')
+  let qametsQatanVal = $('input[type=checkbox]').prop('checked')
   let hebText = $('#input').val()
-  let transText = transliterate(hebText, {'isSeqeunced': true, 'qametsQatan': qametsQatan})
+  let transText = transliterate(hebText, {isSequenced: true, qametsQatan: qametsQatanVal})
   $('#output').val(transText)
 })
