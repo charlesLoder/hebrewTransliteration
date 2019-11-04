@@ -1,9 +1,11 @@
-const $ = require('jquery')
-const heb = require('hebrew-transliteration')
-const sequence = heb.sequence
+const inputBtn = document.querySelector('#input_button');
+const input = document.querySelector('#input');
+const output = document.querySelector('#output');
+const heb = require('hebrew-transliteration');
+const sequence = heb.sequence;
 
-$('#input_button').click(() => {
-  let hebText = $('#input').val()
-  let seqText = sequence(hebText)
-  $('#output').val(seqText)
+inputBtn.addEventListener('click', () => {
+  let hebText = input.value;
+  let transText = sequence(hebText); 
+  output.value = transText;
 })
