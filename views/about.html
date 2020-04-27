@@ -1,24 +1,33 @@
 <extends src="layout.html">
-  <block name='content'>
-    <h1>About</h1>
-    <h2>What does this app do?</h2>
-    <p>This app transliterates Hebrew text, with or without vowels, according to the SBL Academic Style (<cite>The SBL
-        Handbook of Style</cite> §5.1.1).</p>
-    <h2>Why use transliteration?</h2>
-    <p>Though the advent of Unicode has allowed many scripts to live in the digital world, transliteration is still
-      useful. For starters, many publishers still require it. More importantly, it reveals commonalities between
-      languages that may be obscured because of the script in which the languages are written.</p>
-    <p>In their native scripts, the relationship between the Arabic word السلام and the Hebrew word שלום is not
-      apparent. When transliterated, the relationship is clearer:</p>
-    <p class="example">
-      السلام = <i>as-salām</i> 'peace'<br>
-      שלום = <i>šālôm</i> 'peace'
-    </p>
-    <p>The shared letters 's/š', 'l', and 'm' show that these two words are related (i.e. cognates).</p>
-    <h2>Why <i>this</i> method of transliteration?</h2>
-    <p>The SBL Academic Style of transliteration is specifically designed to represent all the different consonant and
-      vowel signs used in the Hebrew Bible. A full list can be found <a href="http://www.viceregency.com/Translit.htm"
-        style="text-decoration: underline;">here</a>. In this method the focus is on representing the text and not
-      necessarily the language.</p>
-  </block>
+    <block name='content'>
+        <h1>About</h1>
+        <h2>What does this app do?</h2>
+        <p>This app transliterates Hebrew text, with or without vowels, according to the SBL Academic Style or the
+            General Purpose Style (<cite>The SBL Handbook of Style</cite> §5.1.1 & 5.1.2).</p>
+        <h2>Why use transliteration?</h2>
+        <p>Though the advent of Unicode has allowed many scripts to live in the digital world, transliteration is still
+            useful. For starters, many publishers still require it. More importantly, it reveals commonalities between
+            languages that may be obscured because of the script in which the languages are written.</p>
+        <p>In their native scripts, the relationship between the Arabic word السلام and the Hebrew word שלום is not
+            apparent. When transliterated, the relationship is clearer:</p>
+        <p class="example">
+            السلام = <i>as-salām</i> 'peace'<br>
+            שלום = <i>šālôm</i> 'peace'
+        </p>
+        <p>The shared letters 's/š', 'l', and 'm' show that these two words are related (i.e. cognates).</p>
+        <h2>Why <i>these</i> methods of transliteration?</h2>
+        <p>The SBL Academic Style of transliteration is specifically designed to represent all the different consonant
+            and
+            vowel signs used in the Hebrew Bible. A full list can be found <a
+                href="http://www.viceregency.com/Translit.htm" style="text-decoration: underline;">here</a>. In this
+            method the focus is on representing the text and not
+            necessarily the language.</p>
+        <p>The SBL General Purpose Style focuses on representing an approximate pronunciation.
+            This can be classified as Romanization.
+            The best of this style is for helping in the pronunciation of particular words (e.g. בְּרֵאשִׁית > bereshit).
+            Since the style guide allows for flexibility in th application of the General Purpose Style, this particular
+            application attemps to mimic Modern Hebrew.
+            Only the bet, peh, and kaf are spirantized; aleph and ayin are omitted.
+        </p>
+    </block>
 </extends>

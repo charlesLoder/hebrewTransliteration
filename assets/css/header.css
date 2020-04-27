@@ -35,7 +35,7 @@ nav {
 
 .page-links li a:hover {
   font-weight: 800;
-  font-size: 20px;
+  /* font-size: 20px; */
 }
 
 .selected {
