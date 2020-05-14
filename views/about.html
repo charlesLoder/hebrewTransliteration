@@ -1,34 +1,116 @@
 <extends src="layout.html">
     <block name='content'>
         <h1>About</h1>
-        <h2>What does this app do?</h2>
-        <p>This app transliterates Hebrew text, with or without vowels, according to the SBL Academic Style or the
-            General Purpose Style (<cite>The SBL Handbook of Style</cite> §5.1.1 & 5.1.2).</p>
-        <h2>Why use transliteration?</h2>
-        <p>Though the advent of Unicode has allowed many scripts to live in the digital world, transliteration is still
-            useful. For starters, many publishers still require it. More importantly, it reveals commonalities between
-            languages that may be obscured because of the script in which the languages are written.</p>
-        <p>In their native scripts, the relationship between the Arabic word السلام and the Hebrew word שלום is not
-            apparent. When transliterated, the relationship is clearer:</p>
-        <p class="example">
-            السلام = <i>as-salām</i> 'peace'<br>
-            שלום = <i>šālôm</i> 'peace'
-        </p>
-        <p>The shared letters 's/š', 'l', and 'm' show that these two words are related (i.e. cognates).</p>
-        <h2>Why <i>these</i> methods of transliteration?</h2>
-        <p>The SBL Academic Style of transliteration is specifically designed to represent all the different consonant
-            and
-            vowel signs used in the Hebrew Bible. A full list can be found <a
-                href="http://www.viceregency.com/Translit.htm" style="text-decoration: underline;">here</a>. In this
-            method the focus is on representing the text and not
-            necessarily the language.</p>
-        <p>The SBL General Purpose Style focuses on representing an approximate pronunciation.
-            This can be classified as Romanization.
-            The best of this style is for helping in the pronunciation of particular words (e.g. בְּרֵאשִׁית > bereshit).
-            Since the style guide allows for flexibility in the application of the General Purpose Style, this
-            particular
-            application attemps to mimic Modern Hebrew.
-            Only the bet, peh, and kaf are spirantized; aleph and ayin are omitted.
-        </p>
+        <button class="accordion">What does this app do?</button>
+        <div class="panel">
+            <p>This app transliterates Hebrew text, with or without vowels, according to the SBL Academic Style or the
+                General Purpose Style (<cite>The SBL Handbook of Style</cite> §5.1.1 & 5.1.2).</p>
+        </div>
+        <button class="accordion">Why use transliteration?</button>
+        <div class="panel">
+            <p>
+                Though the advent of Unicode has allowed many scripts to live in the digital world, transliteration is
+                still useful. For starters, many publishers still require it. More importantly, it reveals commonalities
+                between languages that may be obscured because of the script in which the languages are written.
+            </p>
+            <p>
+                In their native scripts, the relationship between the Arabic word السلام and the Hebrew word <span
+                    class="heb-text">שלום</span> is not apparent. When transliterated, the relationship is clearer:
+            </p>
+            <p class="example">
+                السلام = <i>as-salām</i> 'peace'<br>
+                <span class="heb-text">שלום</span> = <i>šālôm</i> 'peace'
+            </p>
+            <p>The shared letters <i>s</i>/<i>š</i>, <i>l</i>, and <i>m</i> show that these two words are related (i.e.
+                cognates).
+            </p>
+        </div>
+        <button class="accordion">Academic Style Rules</button>
+        <div class="panel">
+            <ol>
+                <li>
+                    The consonants <i>he</i>, <i>vav</i>, and <i>yod</i>, used to indicate long vowels (<i>matres
+                        lectionis</i>), are transliterated as a circumflex over the vowel: <i>â</i>, <i>ê</i>,
+                    <i>î</i>, <i>ô</i>, <i>û</i>; they are also taken into account when a transliteration reproduces an
+                    unpointed text (extrabiblical inscriptions, Qumran texts, ketiv, etc.) and for the purposes of
+                    alphabetization. With a final <i>he</i>, distinguish between the feminine singular possessive ending
+                    (<i>malkāh</i>, &quot;her king&quot;) and the feminine ending -<i>â</i> (<i>malkâ</i>,
+                    &quot;queen&quot;): the <span class="heb-text">ָ הּ</span> (<i>hê</i> with a <i>mappîq</i>) should
+                    be written as -<i>āh</i>.
+                    <br><strong>Note</strong>: the app <em>cannot</em> produce vowels in transliterations from unpointed
+                    text.
+                </li>
+                <li>
+                    Always transliterate quiescent <i>aleph</i> using <i>ʾ</i>: e.g., <i>lōʾ</i>, &quot;not&quot;;
+                    <i>hûʾ</i>, &quot;he&quot;; <i>rōʾš</i>, &quot;head&quot;; Aramaic <i>malkāʾ</i>, &quot;the
+                    king.&quot;
+                </li>
+                <li>
+                    Transliterate short vowels that are written fully as <i>i(w)</i>, <i>o(w)</i>, <i>u(w)</i>:
+                    e.g.,
+                    <i>hu(w)kkâ</i> for <span class="heb-text">הכּוָּה</span>.
+                    <br><strong>Note</strong>: the app <em>cannot</em> recognize this.
+                </li>
+                <li>
+                    Do <strong>not</strong> indicate <i>begadkepat</i> spirantization (absence of dagesh forte) unless
+                    it is
+                    important to the discussion. Exceptions may be shown by underlining the consonant: e.g.,<span
+                        class="heb-text">יָקְתְאֵל</span> =
+                    <i>yoqtĕʾēl</i> (see <cite>GKC</cite> §21).
+                </li>
+                <li>
+                    Indicate <i>dagesh forte</i> by doubling the consonant. A euphonic <i>dagesh</i> should not be
+                    doubled:
+                    e.g., <span class="heb-text">מַה־שְּׁמֹו</span> = <i>mah-šĕmô</i> (see <cite>GKC</cite> §20).
+                </li>
+                <li>
+                    A silent <i>shewa</i> is not transliterated, including when it is the second of two
+                    <i>shewas</i> at the end
+                    of a word: e.g., <i>ʾatt</i> for <span class="heb-text">אַתְּ</span>; <i>yādalt</i> for <span
+                        class="heb-text">יָדַלְתְּ</span>.
+                </li>
+                <li>
+                    Do not mark stress unless it is relevant to a particular point. If stress is relevant, use an acute
+                    mark for the
+                    primary accent and a grave mark for secondary accent.
+                </li>
+                <li>
+                    Do not capitalize transliterated proper names, although every transliteration should be capitalized
+                    at the beginning of a sentence.
+                </li>
+                <li>
+                    Use a hyphen to indicate a <i>maqqep</i>.
+                </li>
+            </ol>
+
+        </div>
+        <button class="accordion">General Purpose Style Rules</button>
+        <div class="panel">
+            <ol>
+                <li>
+                    For the names of the <i>binyanim</i> in the general-purpose style, see §5.1.1.3.
+                </li>
+                <li>
+                    When spelling Hebrew terms that begin with the definite article (<i>ha</i>), capitalize only the
+                    first letter of the word, and do not double the following consonant; thus, Birkat Hatorah
+                    (<i>not</i> Birkat HaTorah or Birkat haTorah or Birkat Hattorah).</li>
+                <li>
+                    Spirant forms (<i>dagesh lene</i>) are optional, based upon convention and appearance. (In modern
+                    Hebrew, the presence or absence of the dagesh lene generally affects the pronunciation of only
+                    <i>bet</i>, <i>kaf</i>, and <i>pe</i> of the <i>begadkepat</i> letters.). The main guideline is that
+                    any given decision should remain consistent throughout a manuscript.
+                </li>
+                <li>
+                    Doubled forms (<i>dagesh forte</i>) should be doubled in transliteration (e.g., <i>hinneh</i>).
+                    The two exceptions to this doubling rule are <span class="heb-text">צ</span> (<i>ts</i>) and <span
+                        class="heb-text">שׁ</span> (<i>sh</i>); these two consonants
+                    should not be doubled (e.g., <span class="heb-text">מַשָּׁא</span> = <i>masha</i>’).
+                </li>
+            </ol>
+        </div>
+    </block>
+
+    <block name='javascript'>
+        <script src='js/about.js' defer></script>
     </block>
 </extends>

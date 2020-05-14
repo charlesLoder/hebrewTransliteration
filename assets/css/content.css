@@ -6,7 +6,7 @@ form,
 
 label {
   font-family: sans-serif;
-  font-size: 14px;
+  font-size: 1.1em;
   font-weight: lighter;
 }
 
@@ -17,18 +17,66 @@ textarea {
   margin-top: 5px;
 }
 
+#more-info {
+  font-size: 1em;
+}
+
 .output-area {
   margin-top: 20px;
 }
 
 button {
-  margin-top: 10px;
-  padding: 3px;
-  font-family: sans-serif;
+  margin-top: 0.75em;
+  padding: 0.25em;
   font-size: 12px;
   font-weight: lighter;
 }
 
 .example {
   margin-left: 25px;
+}
+
+.accordion {
+  background-color: #f4f3f0;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+
+.active,
+.accordion:hover {
+  background-color: #ccc;
+}
+
+.accordion:after {
+  content: "\02795"; /* Unicode character for "plus" sign (+) */
+  font-size: 0.9em;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+.panel {
+  padding: 0.75em 1.25em 0;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.panel > p {
+  font-size: 0.9em;
+}
+
+.heb-text {
+  font-family: "SBL Hebrew", "Times New Roman", "serif";
 }
