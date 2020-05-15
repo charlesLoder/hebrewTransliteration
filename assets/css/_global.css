@@ -41,3 +41,14 @@ ol > li {
 ul {
   list-style: none;
 }
+
+table {
+  border-spacing: 0.9em;
+  margin: auto;
+}
+
+th,
+td {
+  text-align: center;
+  padding: 0 0.5em;
+}
