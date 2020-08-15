@@ -1,32 +1,65 @@
-<extends src='layout.html'>
-  <block name='content'>
+<extends src="layout.html">
+  <block name="content">
     <form name="transliteration">
       <h1>Remove either cantillation or vowels and cantillation:</h1>
       <!-- Radio Boxes  -->
-      <p>
-        <input type="checkbox" name="removeVowles" id="removeVowels">
-        <label for="removeVowels">Check to remove vowels also.</label>
-      </p>
+      <div class="check-wrapper">
+        <p>
+          <input type="checkbox" name="removeVowles" id="removeVowels" />
+          <label for="removeVowels">Check to remove vowels also.</label>
+        </p>
+        <p>
+          <input type="checkbox" name="removeShinDot" id="removeShinDot" />
+          <label for="removeShinDot">Check to remove shin dots.</label>
+        </p>
+        <p>
+          <input type="checkbox" name="removeSinDot" id="removeSinDot" />
+          <label for="removeSinDot">Check to remove sin dots.</label>
+        </p>
+      </div>
 
       <!-- The text is inputed here  -->
       <div class="input-area">
-        <label for="input">Type or Paste Text Here:</label><br>
-        <textarea id="input" name="input_text" rows="4" cols="40" placeholder="עִבְרִית" style="text-align: right; font: 20px SBL Hebrew, Times New Roman, serif; "></textarea><br>
+        <label for="input">Type or Paste Text Here:</label><br />
+        <textarea
+          id="input"
+          name="input_text"
+          rows="4"
+          cols="40"
+          placeholder="עִבְרִית"
+          style="
+            text-align: right;
+            font: 20px SBL Hebrew, Times New Roman, serif;
+          "
+        ></textarea
+        ><br />
       </div>
 
       <!-- The Text is outputted here  -->
       <div class="output-area">
-        <label for="output">Output:</label><br>
-        <textarea id="output" name="output_text" rows="5" cols="40" placeholder="עברית" style="text-align: right; font: 20px SBL Hebrew, Times New Roman, serif;"></textarea><br>
+        <label for="output">Output:</label><br />
+        <textarea
+          id="output"
+          name="output_text"
+          rows="5"
+          cols="40"
+          placeholder="עברית"
+          style="
+            text-align: right;
+            font: 20px SBL Hebrew, Times New Roman, serif;
+          "
+        ></textarea
+        ><br />
       </div>
 
-      <button id="input_button" type="button" name="remove_button">Remove</button>
-      <button type="reset" name="reset_button">Reset</button> <br>
-
+      <button id="input_button" type="button" name="remove_button">
+        Remove
+      </button>
+      <button type="reset" name="reset_button">Reset</button> <br />
     </form>
   </block>
 
-  <block name='javascript'>
-    <script src='js/remove.js' defer></script>
+  <block name="javascript">
+    <script src="js/remove.js" defer></script>
   </block>
 </extends>

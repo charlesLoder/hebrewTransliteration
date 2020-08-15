@@ -81,3 +81,18 @@ button {
   font-family: "SBL Hebrew", "Times New Roman", "serif";
   font-size: 1.2em;
 }
+
+.check-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: initial;
+}
+
+.check-wrapper > p {
+  display: flex;
+  flex-direction: row;
+}
+
+.check-wrapper > p > label {
+  padding-left: 0.25rem;
+}
