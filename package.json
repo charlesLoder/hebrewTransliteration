@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "ava": "^1.4.1",
+    "push-dir": "^0.4.1",
     "rimraf": "^2.6.1",
     "snazzy": "^7.0.0",
     "standard": "^10.0.2"
@@ -34,6 +35,7 @@
     "test": "NODE_ENV=test ava",
     "start": "spike watch",
     "build": "spike compile",
-    "prod": "NODE_ENV=production spike compile -e production"
+    "prod": "NODE_ENV=production spike compile -e production",
+    "push:gh-pages": "npx push-dir --dir=public --branch=gh-pages"
   }
 }
