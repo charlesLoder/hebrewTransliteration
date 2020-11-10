@@ -32,8 +32,9 @@ inputBtn.addEventListener("click", () => {
     let hebText = input.value;
     const niqqud = /[\u{05B0}-\u{05BC},\u{05C7}]/u;
     if (!niqqud.test(hebText)) {
-      alert(`The text entered does not have any niqqud (vowels).
-        This will only transliterate consonants.`);
+      let mssg =
+        "The text entered does not have any niqqud (vowels).\nThis will only transliterate consonants.\nVisit https://nakdan.dicta.org.il/ for adding niqqud to text";
+      alert(mssg);
     }
     let transText = transliterate(hebText, {
       isSequenced: true,
