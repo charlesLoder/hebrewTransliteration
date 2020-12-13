@@ -4,6 +4,10 @@ form,
   text-align: left;
 }
 
+form {
+  margin-bottom: 1rem;
+}
+
 label {
   font-family: sans-serif;
   font-size: 1.1em;
@@ -69,7 +73,7 @@ button {
   padding: 0.75em 1.25em 0;
   background-color: white;
   max-height: 0;
-  overflow: hidden;
+  overflow: auto;
   transition: max-height 0.2s ease-out;
 }
 

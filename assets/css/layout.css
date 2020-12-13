@@ -1,6 +1,6 @@
 main {
   background-color: #f4f3f0;
-  box-shadow: inset 0px 4px 4px -1px rgba(0, 0, 0, .3);
+  box-shadow: inset 0px 4px 4px -1px rgba(0, 0, 0, 0.3);
   padding-top: 15px;
   padding-bottom: 15px;
   display: flex;
@@ -20,4 +20,22 @@ main {
   padding-bottom: 10px;
   border-radius: 5px;
   background-color: white;
+}
+
+#feedback {
+  width: 6rem;
+  height: 2.5rem;
+  position: fixed;
+  top: 50%;
+  right: -2rem;
+  transform: rotate(90deg);
+  background: #404040;
+  color: #fff;
+  border-radius: 0 0 5px 5px;
+  text-align: center;
+}
+
+#feedback a {
+  display: block;
+  padding-top: 0.75rem;
 }

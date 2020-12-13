@@ -1,455 +1,474 @@
 <extends src="layout.html">
-    <block name='content'>
-        <h1>About</h1>
-        <button class="accordion">What does this app do?</button>
-        <div class="panel">
-            <p>This app transliterates Hebrew text, with or without vowels, according to the SBL Academic Style or the
-                General Purpose Style (<cite>The SBL Handbook of Style</cite> §5.1.1 & 5.1.2).</p>
-        </div>
-        <button class="accordion">Why use transliteration?</button>
-        <div class="panel">
-            <p>
-                Though the advent of Unicode has allowed many scripts to live in the digital world, transliteration is
-                still useful. For starters, many publishers still require it. More importantly, it reveals commonalities
-                between languages that may be obscured because of the script in which the languages are written.
-            </p>
-            <p>
-                In their native scripts, the relationship between the Arabic word السلام and the Hebrew word <span
-                    class="heb-text">שלום</span> is not apparent. When transliterated, the relationship is clearer:
-            </p>
-            <p class="example">
-                السلام = <i>as-salām</i> 'peace'<br>
-                <span class="heb-text">שלום</span> = <i>šālôm</i> 'peace'
-            </p>
-            <p>The shared letters <i>s</i>/<i>š</i>, <i>l</i>, and <i>m</i> show that these two words are related (i.e.
-                cognates).
-            </p>
-        </div>
-        <button class="accordion">Academic Style Consonants</button>
-        <div class="panel">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="heb-text">א</span> <i>aleph</i></td>
-                        <td><i>ʿ</i></td>
-                        <td><span class="heb-text">מ ם</span> <i>mem</i></td>
-                        <td><i>m</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ב</span> <i>bet</i></td>
-                        <td><i>b</i></td>
-                        <td><span class="heb-text">נ ן</span> <i>nun</i></td>
-                        <td><i>n</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ג</span> <i>gimel</i></td>
-                        <td><i>g</i></td>
-                        <td><span class="heb-text">ס</span> <i>samek</i></td>
-                        <td><i>s</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ד</span> <i>dalet</i></td>
-                        <td><i>d</i></td>
-                        <td><span class="heb-text">ע</span> <i>ʿayin</i></td>
-                        <td><i>ʿ</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ה</span> <i>he</i></td>
-                        <td><i>h</i></td>
-                        <td><span class="heb-text">פ ף</span> <i>pe</i></td>
-                        <td><i>p</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ו</span> <i>vav</i></td>
-                        <td><i>w</i></td>
-                        <td><span class="heb-text">צ ץ</span> <i>tsade</i></td>
-                        <td><i>ṣ</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ז</span> <i>zayin</i></td>
-                        <td><i>z</i></td>
-                        <td><span class="heb-text">ק</span> <i>qoph</i></td>
-                        <td><i>q</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ח</span> <i>khet</i></td>
-                        <td><i>ḥ</i></td>
-                        <td><span class="heb-text">ר</span> <i>resh</i></td>
-                        <td><i>r</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ט</span> <i>tet</i></td>
-                        <td><i>ṭ</i></td>
-                        <td><span class="heb-text">שׂ</span> <i>sin</i></td>
-                        <td><i>ś</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">י</span> <i>yod</i></td>
-                        <td><i>y</i></td>
-                        <td><span class="heb-text">שׁ</span> <i>shin</i></td>
-                        <td><i>š</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">כ ך</span> <i>kaph</i></td>
-                        <td><i>k</i></td>
-                        <td><span class="heb-text">ת</span> <i>tav</i></td>
-                        <td><i>t</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ל</span> <i>lamed</i></td>
-                        <td><i>l</i></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <button class="accordion">Academic Style Vowels</button>
-        <div class="panel">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="heb-text">◌ַ</span> <i>patakh</i></td>
-                        <td><i>a</i></td>
-                        <td><span class="heb-text">י◌ִ</span> <i>hireq yod</i></td>
-                        <td><i>î</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ַ</span> furtive <i>patakh</i></td>
-                        <td><i>a</i></td>
-                        <td><span class="heb-text">◌ָ</span> <i>qamets khatuf</i></td>
-                        <td><i>o</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ָ</span> <i>qamets</i></td>
-                        <td><i>ā</i></td>
-                        <td><span class="heb-text">◌ֹ</span> <i>holem</i></td>
-                        <td><i>ō</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ה◌ָ</span> final <i>qamets he</i></td>
-                        <td><i>â</i></td>
-                        <td><span class="heb-text">ֹו</span> full <i>holem</i></td>
-                        <td><i>ô</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">יו◌ָ</span> Three-ms sufx</td>
-                        <td><i>āyw</i></td>
-                        <td><span class="heb-text">◌ֻ</span> short <i>qibbuts</i></td>
-                        <td><i>u</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ֶ</span> <i>segol</i></td>
-                        <td><i>e</i></td>
-                        <td><span class="heb-text">◌ֻ</span> long <i>qibbuts</i></td>
-                        <td><i>ū</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ֵ</span> <i>tsere</i></td>
-                        <td><i>ē</i></td>
-                        <td><span class="heb-text">וּ</span> <i>shureq</i></td>
-                        <td><i>û</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">י◌ֵ</span> <i>tsere yod</i></td>
-                        <td><i>ê</i></td>
-                        <td><span class="heb-text">◌ֳ</span> <i>khatef qamets</i></td>
-                        <td><i>ŏ</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">י◌ֶ</span> <i>segol yod</i></td>
-                        <td><i>ê</i></td>
-                        <td><span class="heb-text">◌ֲ</span> <i>khatef patakh</i></td>
-                        <td><i>ă</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ִ</span> short <i>hiriq</i></td>
-                        <td><i>i</i></td>
-                        <td><span class="heb-text">◌ֱ</span> <i>khatef segol</i></td>
-                        <td><i>ĕ</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ִ</span> long <i>hiriq</i></td>
-                        <td><i>ī</i></td>
-                        <td><span class="heb-text">◌ְ</span> vocal <i>shewa</i></td>
-                        <td><i>ǝ</i></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <button class="accordion">Academic Style Rules</button>
-        <div class="panel">
-            <ol>
-                <li>
-                    The consonants <i>he</i>, <i>vav</i>, and <i>yod</i>, used to indicate long vowels (<i>matres
-                        lectionis</i>), are transliterated as a circumflex over the vowel: <i>â</i>, <i>ê</i>,
-                    <i>î</i>, <i>ô</i>, <i>û</i>; they are also taken into account when a transliteration reproduces an
-                    unpointed text (extrabiblical inscriptions, Qumran texts, ketiv, etc.) and for the purposes of
-                    alphabetization. With a final <i>he</i>, distinguish between the feminine singular possessive ending
-                    (<i>malkāh</i>, &quot;her king&quot;) and the feminine ending -<i>â</i> (<i>malkâ</i>,
-                    &quot;queen&quot;): the <span class="heb-text">ָ הּ</span> (<i>hê</i> with a <i>mappîq</i>) should
-                    be written as -<i>āh</i>.
-                    <br><strong>Note</strong>: the app <em>cannot</em> produce vowels in transliterations from unpointed
-                    text.
-                </li>
-                <li>
-                    Always transliterate quiescent <i>aleph</i> using <i>ʾ</i>: e.g., <i>lōʾ</i>, &quot;not&quot;;
-                    <i>hûʾ</i>, &quot;he&quot;; <i>rōʾš</i>, &quot;head&quot;; Aramaic <i>malkāʾ</i>, &quot;the
-                    king.&quot;
-                </li>
-                <li>
-                    Transliterate short vowels that are written fully as <i>i(w)</i>, <i>o(w)</i>, <i>u(w)</i>:
-                    e.g.,
-                    <i>hu(w)kkâ</i> for <span class="heb-text">הכּוָּה</span>.
-                    <br><strong>Note</strong>: the app <em>cannot</em> recognize this.
-                </li>
-                <li>
-                    Do <strong>not</strong> indicate <i>begadkepat</i> spirantization (absence of dagesh forte) unless
-                    it is
-                    important to the discussion. Exceptions may be shown by underlining the consonant: e.g.,<span
-                        class="heb-text">יָקְתְאֵל</span> =
-                    <i>yoqtĕʾēl</i> (see <cite>GKC</cite> §21).
-                </li>
-                <li>
-                    Indicate <i>dagesh forte</i> by doubling the consonant. A euphonic <i>dagesh</i> should not be
-                    doubled:
-                    e.g., <span class="heb-text">מַה־שְּׁמֹו</span> = <i>mah-šĕmô</i> (see <cite>GKC</cite> §20).
-                </li>
-                <li>
-                    A silent <i>shewa</i> is not transliterated, including when it is the second of two
-                    <i>shewas</i> at the end
-                    of a word: e.g., <i>ʾatt</i> for <span class="heb-text">אַתְּ</span>; <i>yādalt</i> for <span
-                        class="heb-text">יָדַלְתְּ</span>.
-                </li>
-                <li>
-                    Do not mark stress unless it is relevant to a particular point. If stress is relevant, use an acute
-                    mark for the
-                    primary accent and a grave mark for secondary accent.
-                </li>
-                <li>
-                    Do not capitalize transliterated proper names, although every transliteration should be capitalized
-                    at the beginning of a sentence.
-                </li>
-                <li>
-                    Use a hyphen to indicate a <i>maqqep</i>.
-                </li>
-            </ol>
+  <block name="content">
+    <h1>About</h1>
+    <button class="accordion">What does this app do?</button>
+    <div class="panel">
+      <p>
+        This app transliterates Hebrew text, with or without vowels, according
+        to the SBL Academic Style or the General Purpose Style (<cite
+          >The SBL Handbook of Style</cite
+        >
+        §5.1.1 & 5.1.2).
+      </p>
+    </div>
+    <button class="accordion">Why use transliteration?</button>
+    <div class="panel">
+      <p>
+        Though the advent of Unicode has allowed many scripts to live in the
+        digital world, transliteration is still useful. For starters, many
+        publishers still require it. More importantly, it reveals commonalities
+        between languages that may be obscured because of the script in which
+        the languages are written.
+      </p>
+      <p>
+        In their native scripts, the relationship between the Arabic word السلام
+        and the Hebrew word <span class="heb-text">שלום</span> is not apparent.
+        When transliterated, the relationship is clearer:
+      </p>
+      <p class="example">
+        السلام = <i>as-salām</i> 'peace'<br />
+        <span class="heb-text">שלום</span> = <i>šālôm</i> 'peace'
+      </p>
+      <p>
+        The shared letters <i>s</i>/<i>š</i>, <i>l</i>, and <i>m</i> show that
+        these two words are related (i.e. cognates).
+      </p>
+    </div>
+    <button class="accordion">Academic Style Consonants</button>
+    <div class="panel">
+      <table>
+        <thead>
+          <tr>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="heb-text">א</span> <i>aleph</i></td>
+            <td><i>ʿ</i></td>
+            <td><span class="heb-text">מ ם</span> <i>mem</i></td>
+            <td><i>m</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ב</span> <i>bet</i></td>
+            <td><i>b</i></td>
+            <td><span class="heb-text">נ ן</span> <i>nun</i></td>
+            <td><i>n</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ג</span> <i>gimel</i></td>
+            <td><i>g</i></td>
+            <td><span class="heb-text">ס</span> <i>samek</i></td>
+            <td><i>s</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ד</span> <i>dalet</i></td>
+            <td><i>d</i></td>
+            <td><span class="heb-text">ע</span> <i>ʿayin</i></td>
+            <td><i>ʿ</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ה</span> <i>he</i></td>
+            <td><i>h</i></td>
+            <td><span class="heb-text">פ ף</span> <i>pe</i></td>
+            <td><i>p</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ו</span> <i>vav</i></td>
+            <td><i>w</i></td>
+            <td><span class="heb-text">צ ץ</span> <i>tsade</i></td>
+            <td><i>ṣ</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ז</span> <i>zayin</i></td>
+            <td><i>z</i></td>
+            <td><span class="heb-text">ק</span> <i>qoph</i></td>
+            <td><i>q</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ח</span> <i>khet</i></td>
+            <td><i>ḥ</i></td>
+            <td><span class="heb-text">ר</span> <i>resh</i></td>
+            <td><i>r</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ט</span> <i>tet</i></td>
+            <td><i>ṭ</i></td>
+            <td><span class="heb-text">שׂ</span> <i>sin</i></td>
+            <td><i>ś</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">י</span> <i>yod</i></td>
+            <td><i>y</i></td>
+            <td><span class="heb-text">שׁ</span> <i>shin</i></td>
+            <td><i>š</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">כ ך</span> <i>kaph</i></td>
+            <td><i>k</i></td>
+            <td><span class="heb-text">ת</span> <i>tav</i></td>
+            <td><i>t</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ל</span> <i>lamed</i></td>
+            <td><i>l</i></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="accordion">Academic Style Vowels</button>
+    <div class="panel">
+      <table>
+        <thead>
+          <tr>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="heb-text">◌ַ</span> <i>patakh</i></td>
+            <td><i>a</i></td>
+            <td><span class="heb-text">י◌ִ</span> <i>hireq yod</i></td>
+            <td><i>î</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ַ</span> furtive <i>patakh</i></td>
+            <td><i>a</i></td>
+            <td><span class="heb-text">◌ָ</span> <i>qamets khatuf</i></td>
+            <td><i>o</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ָ</span> <i>qamets</i></td>
+            <td><i>ā</i></td>
+            <td><span class="heb-text">◌ֹ</span> <i>holem</i></td>
+            <td><i>ō</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ה◌ָ</span> final <i>qamets he</i></td>
+            <td><i>â</i></td>
+            <td><span class="heb-text">ֹו</span> full <i>holem</i></td>
+            <td><i>ô</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">יו◌ָ</span> Three-ms sufx</td>
+            <td><i>āyw</i></td>
+            <td><span class="heb-text">◌ֻ</span> short <i>qibbuts</i></td>
+            <td><i>u</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ֶ</span> <i>segol</i></td>
+            <td><i>e</i></td>
+            <td><span class="heb-text">◌ֻ</span> long <i>qibbuts</i></td>
+            <td><i>ū</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ֵ</span> <i>tsere</i></td>
+            <td><i>ē</i></td>
+            <td><span class="heb-text">וּ</span> <i>shureq</i></td>
+            <td><i>û</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">י◌ֵ</span> <i>tsere yod</i></td>
+            <td><i>ê</i></td>
+            <td><span class="heb-text">◌ֳ</span> <i>khatef qamets</i></td>
+            <td><i>ŏ</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">י◌ֶ</span> <i>segol yod</i></td>
+            <td><i>ê</i></td>
+            <td><span class="heb-text">◌ֲ</span> <i>khatef patakh</i></td>
+            <td><i>ă</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ִ</span> short <i>hiriq</i></td>
+            <td><i>i</i></td>
+            <td><span class="heb-text">◌ֱ</span> <i>khatef segol</i></td>
+            <td><i>ĕ</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ִ</span> long <i>hiriq</i></td>
+            <td><i>ī</i></td>
+            <td><span class="heb-text">◌ְ</span> vocal <i>shewa</i></td>
+            <td><i>ǝ</i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="accordion">Academic Style Rules</button>
+    <div class="panel">
+      <ol>
+        <li>
+          The consonants <i>he</i>, <i>vav</i>, and <i>yod</i>, used to indicate
+          long vowels (<i>matres lectionis</i>), are transliterated as a
+          circumflex over the vowel: <i>â</i>, <i>ê</i>, <i>î</i>, <i>ô</i>,
+          <i>û</i>; they are also taken into account when a transliteration
+          reproduces an unpointed text (extrabiblical inscriptions, Qumran
+          texts, ketiv, etc.) and for the purposes of alphabetization. With a
+          final <i>he</i>, distinguish between the feminine singular possessive
+          ending (<i>malkāh</i>, &quot;her king&quot;) and the feminine ending
+          -<i>â</i> (<i>malkâ</i>, &quot;queen&quot;): the
+          <span class="heb-text">ָ הּ</span> (<i>hê</i> with a <i>mappîq</i>)
+          should be written as -<i>āh</i>. <br /><strong>Note</strong>: the app
+          <em>cannot</em> produce vowels in transliterations from unpointed
+          text.
+        </li>
+        <li>
+          Always transliterate quiescent <i>aleph</i> using <i>ʾ</i>: e.g.,
+          <i>lōʾ</i>, &quot;not&quot;; <i>hûʾ</i>, &quot;he&quot;; <i>rōʾš</i>,
+          &quot;head&quot;; Aramaic <i>malkāʾ</i>, &quot;the king.&quot;
+        </li>
+        <li>
+          Transliterate short vowels that are written fully as <i>i(w)</i>,
+          <i>o(w)</i>, <i>u(w)</i>: e.g., <i>hu(w)kkâ</i> for
+          <span class="heb-text">הכּוָּה</span>. <br /><strong>Note</strong>:
+          the app <em>cannot</em> recognize this.
+        </li>
+        <li>
+          Do <strong>not</strong> indicate <i>begadkepat</i> spirantization
+          (absence of dagesh forte) unless it is important to the discussion.
+          Exceptions may be shown by underlining the consonant: e.g.,<span
+            class="heb-text"
+            >יָקְתְאֵל</span
+          >
+          = <i>yoqtĕʾēl</i> (see <cite>GKC</cite> §21).
+        </li>
+        <li>
+          Indicate <i>dagesh forte</i> by doubling the consonant. A euphonic
+          <i>dagesh</i> should not be doubled: e.g.,
+          <span class="heb-text">מַה־שְּׁמֹו</span> = <i>mah-šĕmô</i> (see
+          <cite>GKC</cite> §20).
+        </li>
+        <li>
+          A silent <i>shewa</i> is not transliterated, including when it is the
+          second of two <i>shewas</i> at the end of a word: e.g.,
+          <i>ʾatt</i> for <span class="heb-text">אַתְּ</span>; <i>yādalt</i> for
+          <span class="heb-text">יָדַלְתְּ</span>.
+        </li>
+        <li>
+          Do not mark stress unless it is relevant to a particular point. If
+          stress is relevant, use an acute mark for the primary accent and a
+          grave mark for secondary accent.
+        </li>
+        <li>
+          Do not capitalize transliterated proper names, although every
+          transliteration should be capitalized at the beginning of a sentence.
+        </li>
+        <li>Use a hyphen to indicate a <i>maqqep</i>.</li>
+      </ol>
+    </div>
+    <button class="accordion">General Purpose Style Consonants</button>
+    <div class="panel">
+      <table>
+        <thead>
+          <tr>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="heb-text">א</span> <i>aleph</i></td>
+            <td><i>ʿ</i> or omit</td>
+            <td><span class="heb-text">מ ם</span> <i>mem</i></td>
+            <td><i>m</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ב</span> <i>bet</i></td>
+            <td><i>b, v</i></td>
+            <td><span class="heb-text">נ ן</span> <i>nun</i></td>
+            <td><i>n</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ג</span> <i>gimel</i></td>
+            <td><i>g, gh</i></td>
+            <td><span class="heb-text">ס</span> <i>samek</i></td>
+            <td><i>s</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ד</span> <i>dalet</i></td>
+            <td><i>d, dh</i></td>
+            <td><span class="heb-text">ע</span> <i>ʿayin</i></td>
+            <td><i>ʿ</i> or omit</td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ה</span> <i>he</i></td>
+            <td><i>h</i></td>
+            <td><span class="heb-text">פ ף</span> <i>pe</i></td>
+            <td><i>p, ph</i> or <i>f</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ו</span> <i>vav</i></td>
+            <td><i>v</i> or <i>w</i></td>
+            <td><span class="heb-text">צ ץ</span> <i>tsade</i></td>
+            <td><i>ts</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ז</span> <i>zayin</i></td>
+            <td><i>z</i></td>
+            <td><span class="heb-text">ק</span> <i>qoph</i></td>
+            <td><i>q</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ח</span> <i>khet</i></td>
+            <td><i>kh</i> or <i>h</i></td>
+            <td><span class="heb-text">ר</span> <i>resh</i></td>
+            <td><i>r</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ט</span> <i>tet</i></td>
+            <td><i>t</i></td>
+            <td><span class="heb-text">שׂ</span> <i>sin</i></td>
+            <td><i>s</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">י</span> <i>yod</i></td>
+            <td><i>y</i></td>
+            <td><span class="heb-text">שׁ</span> <i>shin</i></td>
+            <td><i>sh</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">כ ך</span> <i>kaph</i></td>
+            <td><i>k, kh</i></td>
+            <td><span class="heb-text">ת</span> <i>tav</i></td>
+            <td><i>t, th</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ל</span> <i>lamed</i></td>
+            <td><i>l</i></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="accordion">General Purpose Style Vowels</button>
+    <div class="panel">
+      <table>
+        <thead>
+          <tr>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+            <th>Consonant</th>
+            <th>Transliteration</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="heb-text">◌ַ</span> <i>patakh</i></td>
+            <td><i>a</i></td>
+            <td><span class="heb-text">י◌ִ</span> <i>hireq yod</i></td>
+            <td><i>i</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ַ</span> furtive <i>patakh</i></td>
+            <td><i>a</i></td>
+            <td><span class="heb-text">◌ָ</span> <i>qamets khatuf</i></td>
+            <td><i>o</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ָ</span> <i>qamets</i></td>
+            <td><i>a</i></td>
+            <td><span class="heb-text">◌ֹ</span> <i>holem</i></td>
+            <td><i>o</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">ה◌ָ</span> final <i>qamets he</i></td>
+            <td><i>ah</i></td>
+            <td><span class="heb-text">ֹו</span> full <i>holem</i></td>
+            <td><i>o</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">יו◌ָ</span> Three-ms sufx</td>
+            <td><i>ayw</i></td>
+            <td><span class="heb-text">◌ֻ</span> short <i>qibbuts</i></td>
+            <td><i>u</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ֶ</span> <i>segol</i></td>
+            <td><i>e</i></td>
+            <td><span class="heb-text">◌ֻ</span> long <i>qibbuts</i></td>
+            <td><i>u</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ֵ</span> <i>tsere</i></td>
+            <td><i>e</i></td>
+            <td><span class="heb-text">וּ</span> <i>shureq</i></td>
+            <td><i>u</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">י◌ֵ</span> <i>tsere yod</i></td>
+            <td><i>e</i></td>
+            <td><span class="heb-text">◌ֳ</span> <i>khatef qamets</i></td>
+            <td><i>o</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">י◌ֶ</span> <i>segol yod</i></td>
+            <td><i>e</i></td>
+            <td><span class="heb-text">◌ֲ</span> <i>khatef patakh</i></td>
+            <td><i>a</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ִ</span> short <i>hiriq</i></td>
+            <td><i>i</i></td>
+            <td><span class="heb-text">◌ֱ</span> <i>khatef segol</i></td>
+            <td><i>e</i></td>
+          </tr>
+          <tr>
+            <td><span class="heb-text">◌ִ</span> long <i>hiriq</i></td>
+            <td><i>i</i></td>
+            <td><span class="heb-text">◌ְ</span> vocal <i>shewa</i></td>
+            <td><i>e</i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button class="accordion">General Purpose Style Rules</button>
+    <div class="panel">
+      <ol>
+        <li>
+          For the names of the <i>binyanim</i> in the general-purpose style, see
+          §5.1.1.3.
+        </li>
+        <li>
+          When spelling Hebrew terms that begin with the definite article
+          (<i>ha</i>), capitalize only the first letter of the word, and do not
+          double the following consonant; thus, Birkat Hatorah (<i>not</i>
+          Birkat HaTorah or Birkat haTorah or Birkat Hattorah).
+        </li>
+        <li>
+          Spirant forms (<i>dagesh lene</i>) are optional, based upon convention
+          and appearance. (In modern Hebrew, the presence or absence of the
+          dagesh lene generally affects the pronunciation of only <i>bet</i>,
+          <i>kaf</i>, and <i>pe</i> of the <i>begadkepat</i> letters.). The main
+          guideline is that any given decision should remain consistent
+          throughout a manuscript.
+          <br />
+          <b>Note</b>: this app only uses alternate forms for <i>bet</i>,
+          <i>kaf</i>, and <i>pe</i> of the <i>begadkepat</i> letters
+        </li>
+        <li>
+          Doubled forms (<i>dagesh forte</i>) should be doubled in
+          transliteration (e.g., <i>hinneh</i>). The two exceptions to this
+          doubling rule are <span class="heb-text">צ</span> (<i>ts</i>) and
+          <span class="heb-text">שׁ</span> (<i>sh</i>); these two consonants
+          should not be doubled (e.g., <span class="heb-text">מַשָּׁא</span> =
+          <i>masha</i>’).
+        </li>
+      </ol>
+    </div>
+  </block>
 
-        </div>
-        <button class="accordion">General Purpose Style Consonants</button>
-        <div class="panel">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="heb-text">א</span> <i>aleph</i></td>
-                        <td><i>ʿ</i> or omit</td>
-                        <td><span class="heb-text">מ ם</span> <i>mem</i></td>
-                        <td><i>m</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ב</span> <i>bet</i></td>
-                        <td><i>b, v</i></td>
-                        <td><span class="heb-text">נ ן</span> <i>nun</i></td>
-                        <td><i>n</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ג</span> <i>gimel</i></td>
-                        <td><i>g, gh</i></td>
-                        <td><span class="heb-text">ס</span> <i>samek</i></td>
-                        <td><i>s</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ד</span> <i>dalet</i></td>
-                        <td><i>d, dh</i></td>
-                        <td><span class="heb-text">ע</span> <i>ʿayin</i></td>
-                        <td><i>ʿ</i> or omit</td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ה</span> <i>he</i></td>
-                        <td><i>h</i></td>
-                        <td><span class="heb-text">פ ף</span> <i>pe</i></td>
-                        <td><i>p, ph</i> or <i>f</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ו</span> <i>vav</i></td>
-                        <td><i>v</i> or <i>w</i></td>
-                        <td><span class="heb-text">צ ץ</span> <i>tsade</i></td>
-                        <td><i>ts</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ז</span> <i>zayin</i></td>
-                        <td><i>z</i></td>
-                        <td><span class="heb-text">ק</span> <i>qoph</i></td>
-                        <td><i>q</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ח</span> <i>khet</i></td>
-                        <td><i>kh</i> or <i>h</i></td>
-                        <td><span class="heb-text">ר</span> <i>resh</i></td>
-                        <td><i>r</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ט</span> <i>tet</i></td>
-                        <td><i>t</i></td>
-                        <td><span class="heb-text">שׂ</span> <i>sin</i></td>
-                        <td><i>s</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">י</span> <i>yod</i></td>
-                        <td><i>y</i></td>
-                        <td><span class="heb-text">שׁ</span> <i>shin</i></td>
-                        <td><i>sh</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">כ ך</span> <i>kaph</i></td>
-                        <td><i>k, kh</i></td>
-                        <td><span class="heb-text">ת</span> <i>tav</i></td>
-                        <td><i>t, th</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ל</span> <i>lamed</i></td>
-                        <td><i>l</i></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <button class="accordion">General Purpose Style Vowels</button>
-        <div class="panel">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                        <th>Consonant</th>
-                        <th>Transliteration</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="heb-text">◌ַ</span> <i>patakh</i></td>
-                        <td><i>a</i></td>
-                        <td><span class="heb-text">י◌ִ</span> <i>hireq yod</i></td>
-                        <td><i>i</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ַ</span> furtive <i>patakh</i></td>
-                        <td><i>a</i></td>
-                        <td><span class="heb-text">◌ָ</span> <i>qamets khatuf</i></td>
-                        <td><i>o</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ָ</span> <i>qamets</i></td>
-                        <td><i>a</i></td>
-                        <td><span class="heb-text">◌ֹ</span> <i>holem</i></td>
-                        <td><i>o</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">ה◌ָ</span> final <i>qamets he</i></td>
-                        <td><i>ah</i></td>
-                        <td><span class="heb-text">ֹו</span> full <i>holem</i></td>
-                        <td><i>o</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">יו◌ָ</span> Three-ms sufx</td>
-                        <td><i>ayw</i></td>
-                        <td><span class="heb-text">◌ֻ</span> short <i>qibbuts</i></td>
-                        <td><i>u</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ֶ</span> <i>segol</i></td>
-                        <td><i>e</i></td>
-                        <td><span class="heb-text">◌ֻ</span> long <i>qibbuts</i></td>
-                        <td><i>u</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ֵ</span> <i>tsere</i></td>
-                        <td><i>e</i></td>
-                        <td><span class="heb-text">וּ</span> <i>shureq</i></td>
-                        <td><i>u</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">י◌ֵ</span> <i>tsere yod</i></td>
-                        <td><i>e</i></td>
-                        <td><span class="heb-text">◌ֳ</span> <i>khatef qamets</i></td>
-                        <td><i>o</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">י◌ֶ</span> <i>segol yod</i></td>
-                        <td><i>e</i></td>
-                        <td><span class="heb-text">◌ֲ</span> <i>khatef patakh</i></td>
-                        <td><i>a</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ִ</span> short <i>hiriq</i></td>
-                        <td><i>i</i></td>
-                        <td><span class="heb-text">◌ֱ</span> <i>khatef segol</i></td>
-                        <td><i>e</i></td>
-                    </tr>
-                    <tr>
-                        <td><span class="heb-text">◌ִ</span> long <i>hiriq</i></td>
-                        <td><i>i</i></td>
-                        <td><span class="heb-text">◌ְ</span> vocal <i>shewa</i></td>
-                        <td><i>e</i></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <button class="accordion">General Purpose Style Rules</button>
-        <div class="panel">
-            <ol>
-                <li>
-                    For the names of the <i>binyanim</i> in the general-purpose style, see §5.1.1.3.
-                </li>
-                <li>
-                    When spelling Hebrew terms that begin with the definite article (<i>ha</i>), capitalize only the
-                    first letter of the word, and do not double the following consonant; thus, Birkat Hatorah
-                    (<i>not</i> Birkat HaTorah or Birkat haTorah or Birkat Hattorah).</li>
-                <li>
-                    Spirant forms (<i>dagesh lene</i>) are optional, based upon convention and appearance. (In modern
-                    Hebrew, the presence or absence of the dagesh lene generally affects the pronunciation of only
-                    <i>bet</i>, <i>kaf</i>, and <i>pe</i> of the <i>begadkepat</i> letters.). The main guideline is that
-                    any given decision should remain consistent throughout a manuscript.
-                    <br>
-                    <b>Note</b>: this app only uses alternate forms for <i>bet</i>, <i>kaf</i>, and <i>pe</i> of the
-                    <i>begadkepat</i> letters
-                </li>
-                <li>
-                    Doubled forms (<i>dagesh forte</i>) should be doubled in transliteration (e.g., <i>hinneh</i>).
-                    The two exceptions to this doubling rule are <span class="heb-text">צ</span> (<i>ts</i>) and <span
-                        class="heb-text">שׁ</span> (<i>sh</i>); these two consonants
-                    should not be doubled (e.g., <span class="heb-text">מַשָּׁא</span> = <i>masha</i>’).
-                </li>
-            </ol>
-        </div>
-    </block>
-
-    <block name='javascript'>
-        <script src='js/about.js' defer></script>
-    </block>
+  <block name="javascript">
+    <script src="js/about.js" defer></script>
+  </block>
 </extends>

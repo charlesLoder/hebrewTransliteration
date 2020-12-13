@@ -1,33 +1,59 @@
-<extends src='layout.html'>
-  <block name='content'>
+<extends src="layout.html">
+  <block name="content">
     <form name="transliteration">
       <h1>Enter Text</h1>
       <p>
-        This allows you to normalize Hebrew text according to the <a href="https://www.sbl-site.org/Fonts/SBLHebrewUserManual1.5x.pdf"><cite>SBL
-            Font User Manual</cite></a> (p.8).
-        The consonant will always come first, followed by a ligature mark, dagesh, or rafe, then a vowel, and lastly a
-        cantillation mark.
-        This process is automatically run in the <a href="index.html">Home</a> page app.
+        This allows you to normalize Hebrew text according to the
+        <a href="https://www.sbl-site.org/Fonts/SBLHebrewUserManual1.5x.pdf"
+          ><cite>SBL Font User Manual</cite></a
+        >
+        (p.8). The consonant will always come first, followed by a ligature
+        mark, dagesh, or rafe, then a vowel, and lastly a cantillation mark.
+        This process is automatically run in the
+        <a href="index.html">Home</a> page app.
       </p>
       <!-- The text is inputed here  -->
       <div class="input-area">
-        <label for="input">Type or Paste Text Here:</label><br>
-        <textarea id="input" name="input_text" rows="4" cols="40" placeholder="עברית" style="text-align: right; font: 20px SBL Hebrew, Times New Roman, serif; "></textarea><br>
+        <label for="input">Type or Paste Text Here:</label><br />
+        <textarea
+          id="input"
+          name="input_text"
+          rows="4"
+          cols="40"
+          placeholder="עברית"
+          style="
+            text-align: right;
+            font: 20px SBL Hebrew, Times New Roman, serif;
+          "
+        ></textarea
+        ><br />
       </div>
 
       <!-- The Text is outputted here  -->
       <div class="output-area">
-        <label for="output">Re-Sequenced Text:</label><br>
-        <textarea id="output" name="output_text" rows="5" cols="40" placeholder="עברית" style="text-align: right; font: 20px SBL Hebrew, Times New Roman, serif; "></textarea><br>
+        <label for="output">Re-Sequenced Text:</label><br />
+        <textarea
+          id="output"
+          name="output_text"
+          rows="5"
+          cols="40"
+          placeholder="עברית"
+          style="
+            text-align: right;
+            font: 20px SBL Hebrew, Times New Roman, serif;
+          "
+        ></textarea
+        ><br />
       </div>
 
-      <button id="input_button" type="button" name="submit_button">Submit</button>
-      <button type="reset" name="reset_button">Reset</button> <br>
-
+      <button id="input_button" type="button" name="submit_button">
+        Submit
+      </button>
+      <button type="reset" name="reset_button">Reset</button> <br />
     </form>
   </block>
 
-  <block name='javascript'>
-    <script src='js/sequence.js' defer></script>
+  <block name="javascript">
+    <script src="js/sequence.js" defer></script>
   </block>
 </extends>
