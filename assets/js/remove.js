@@ -4,15 +4,20 @@ const output = document.querySelector("#output");
 const heb = require("hebrew-transliteration");
 const remove = heb.remove;
 
-inputBtn.addEventListener("click", () => {
-  let removeVowelsVal = document.querySelector("#removeVowels").checked;
-  let removeShinVal = document.querySelector("#removeShinDot").checked;
-  let removeSinVal = document.querySelector("#removeSinDot").checked;
-  let hebText = input.value;
-  let transText = remove(hebText, {
-    removeVowels: removeVowelsVal,
-    removeShinDot: removeShinVal,
-    removeSinDot: removeSinVal,
+const removeTransliteration = (hebText) => {
+  return remove(hebText, {
+    removeVowels: document.querySelector("#removeVowels").checked,
+    removeShinDot: document.querySelector("#removeShinDot").checked,
+    removeSinDot: document.querySelector("#removeSinDot").checked,
   });
-  output.value = transText;
+};
+
+document.querySelectorAll(".check-wrapper").forEach((el) =>
+  el.addEventListener("change", () => {
+    output.placeholder = removeTransliteration(input.placeholder);
+  })
+);
+
+inputBtn.addEventListener("click", () => {
+  output.value = removeTransliteration(input.value);
 });
