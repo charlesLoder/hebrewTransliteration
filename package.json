@@ -36,6 +36,6 @@
     "start": "spike watch",
     "build": "rm -rf ./public && spike compile",
     "prod": "NODE_ENV=production spike compile -e production",
-    "push:gh-pages": "npx push-dir --dir=public --branch=gh-pages"
+    "push:gh-pages": "npm run build && npx push-dir --dir=public --branch=gh-pages"
   }
 }
