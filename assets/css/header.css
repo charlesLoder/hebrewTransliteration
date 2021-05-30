@@ -43,11 +43,11 @@ nav {
 }
 
 .page-links li:first-child,
-.page-links li+li {
+.page-links li + li {
   border-bottom: 1px solid;
 }
 
 #nav-arrow {
   font-size: 32px;
-  padding: 0px 30px;
+  padding: 0px 30px 15px;
 }
