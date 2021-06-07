@@ -90,6 +90,7 @@ button {
   display: flex;
   flex-direction: row;
   flex-wrap: initial;
+  justify-content: space-between;
 }
 
 .check-wrapper > p {
