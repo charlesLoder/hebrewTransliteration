@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#" lang="en">
+  <head><!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-119561405-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-119561405-1");
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.css">
+    <meta property="og:title" content="Hebrew to Transliteration">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Hebrew to Transliteration">
+    <meta property="og:description" content="A web app for transliterating Hebrew according to SBL guidelines.">
+    <meta property="twitter:description" content="A web app for transliterating Hebrew according to SBL guidelines.">
+    <meta property="og:url" content="https://charlesLoder.github.io/hebrewTransliteration">
+    <meta property="og:image" content="img/ibriyt.png">
+    <meta property="twitter:image" content="img/ibriyt.png">
+    <meta property="og:image:width" content="667">
+    <meta property="og:image:height" content="350">
+    <meta name="keywords" content="hebrew, transliteration, romanization, SBL, automatic hebrew transliteration">
+    <meta name="description" content="A web app for transliterating Hebrew according to SBL guidelines.">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="shortcut icon" href="img/ibriyt-small.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Hebrew to Transliteration</title>
+  </head>
+  <body>
+    <header>
+      <div class="banner">
+        <a href="index.html">HEBREW to TRANSLITERATION</a>
+      </div>
+      <nav>
+        <ul class="page-links">
+          <li class="undefined">
+            <a href="index.html">Transliterate</a>
+          </li>
+          <li class="undefined">
+            <a href="remove.html">Remove</a>
+          </li>
+          <li class="undefined">
+            <a href="sequence.html">Sequence</a>
+          </li>
+          <li class="undefined">
+            <a href="about.html">About</a>
+          </li>
+          <li class="selected">
+            <a href="tips.html">Tips</a>
+          </li>
+          <li class="undefined">
+            <a href="contact.html">Contact</a>
+          </li>
+        </ul>
+        <span id="nav-arrow">⌄</span>
+      </nav>
+    </header>
+    <main id="tips">
+      <div class="wrapper">
+        <div id="feedback">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeMihNJAMkswj78ZiUoYdV2uczqa86-YkwtgsuC-GgOMjKdXg/viewform" target="_blank" rel="noopener">Feedback</a>
+        </div>
+        <div class="content">
+          <h1>Tips</h1>
+          <h2>What’s the best text to use?</h2>
+          <p>
+      Any unicode Hebrew text will work, though I recommend
+      <a href="https://he.wikisource.org/wiki/%D7%9E%D7%A9%D7%AA%D7%9E%D7%A9:Dovi/%D7%9E%D7%A7%D7%A8%D7%90_%D7%A2%D7%9C_%D7%A4%D7%99_%D7%94%D7%9E%D7%A1%D7%95%D7%A8%D7%94" target="_blank" rel="noopener">
+              <i>Miqra According to the Masorah.</i>
+            </a>
+      You can enter the text yourself or copy and paste the text from your
+      favorite online Hebrew Bible.
+    </p>
+          <h2>Some transliterations don’t seem right.</h2>
+          <p>
+      There are a few known issues. Defectively written long vowels are not
+      properly transliterated nor short vowels written using a mater. The qamtas
+      qatan is not always accurate as well.
+    </p>
+          <h2>What should I do if I find something wrong?</h2>
+          <p>
+      Please submit
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeMihNJAMkswj78ZiUoYdV2uczqa86-YkwtgsuC-GgOMjKdXg/viewform" target="_blank" rel="noopener">Feedback</a>!
+    </p>
+          <h2>Can I work on the code myself?</h2>
+          <p>
+      Yes! The code for the
+      <a href="https://github.com/charlesLoder/hebrew-transliteration" target="_blank" rel="noopener">transliteration module</a>
+      and the
+      <a href="https://github.com/charlesLoder/hebrewTransliteration" target="_blank" rel="noopener noreferrer">website</a>
+      are available on Github. Hack away!
+    </p>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="footer-container">
+        <div class="footer-contact">
+    Charles Loder © 2018 <br><a href="contact.html">Contact</a></div>
+        <div class="footer-icons">
+          <a href="https://independentresearcher.academia.edu/CharlesLoder">
+            <img src="img/academia.ico" alt="academia" class="icons">
+          </a>
+          <a href="https://github.com/charlesLoder">
+            <img src="img/github.png" alt="github" class="icons" id="github-favicon">
+          </a>
+        </div>
+      </div>
+    </footer>
+    <script src="js/index.js" defer></script>
+  </body>
+</html>
