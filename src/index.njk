@@ -1,0 +1,26 @@
+---js
+{
+  title: "Transliterate",
+  description: "Transliterate Hebrew text with a customizable schema",
+  layout: "functions.njk",
+  mainText: "Transliterate Hebrew using SBL Academic or create a customized schema.",
+  actionBtn: "transliterate",
+  inTxt: {
+    dir: "rtl",
+    placeholder: "עִבְרִית",
+    classes: ["heb-text-area", "font-size-24"]
+  },
+  outTxt: {
+    dir: "ltr",
+    placeholder: "ʿibrît",
+    classes: ["transliteration-text-area", "font-size-20", "text-extra-letter-spacing"]
+  },
+  jsFile: "/assets/transliterate.js",
+  modals: [{
+    src: "schema-modal.njk",
+    id: "schema-modal",
+    btnHref: "#schema-modal",
+    btnText: "Customize transliteration"
+  }],
+}
+---

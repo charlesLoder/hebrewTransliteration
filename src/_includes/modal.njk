@@ -1,0 +1,25 @@
+<div
+  class="modal" id="{{ modal.id }}" tabindex="-1" role="dialog">
+  <!-- Modal Dialog start -->
+  <div
+    class="modal-dialog" role="document">
+    <!-- Modal Content start -->
+    <div class="modal-content">
+      <a href="#" class="btn close" role="button" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </a>
+      <!-- Modal Cards start -->
+      <div class="modal-cards" id="modal-cards">
+        {% block cards %}
+          {{ cards | safe }}
+        {% endblock %}
+      </div>
+      <!-- Modal Cards end -->
+      {% block controls %}
+        {{ controls | safe }}
+      {% endblock %}
+    </div>
+    <!-- Modal Content end -->
+  </div>
+  <!-- Modal Dialog end -->
+</div>

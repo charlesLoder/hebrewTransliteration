@@ -1,0 +1,23 @@
+:root {
+  --dm-button-primary-bg-color: #5352ed;
+  --dm-button-primary-border-color: #5352ed;
+  --dm-button-primary-bg-color-hover: #857cfc;
+  --dm-button-primary-border-color-hover: #857cfc;
+  --dm-input-border-color-focus: #5352ed;
+  --modal-content-width: 50rem;
+  --tooltip-width: 15rem;
+}
+
+textarea {
+  resize: none;
+}
+
+/* try to improve w/ font face */
+.heb-text-area {
+  font-family: "SBL Hebrew", "Times New Roman", "serif";
+}
+
+.transliteration-text-area {
+  font-family: "Charis SIL", "Times New Roman", "serif";
+  font-style: italic;
+}

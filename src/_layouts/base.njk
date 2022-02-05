@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="{{ config.lang }}">
+  {% include "head.njk" %}
+  <body data-set-preferred-mode-onload="true">
+    {% for modal in modals %}
+      <!-- Modal start -->
+      {% include modal.src %}
+      <!-- Modal end -->
+    {% endfor %}
+    <!-- Page wrapper start -->
+    <div class="page-wrapper with-navbar">
+      {% include "nav.njk" %}
+      <!-- Content wrapper start -->
+      <div class="content-wrapper position-static bg-light-lm">
+        {% block content %}
+          {{ content | safe }}
+        {% endblock %}
+      </div>
+      <!-- Content wrapper end -->
+      {# {% include "partials/footer.njk" %} #}
+    </div>
+    <!-- Page wrapper end -->
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    <script>
+      const toggle = document.querySelector('#dm-toggle');
+      toggle.addEventListener('click', () => halfmoon.toggleDarkMode())
+    </script>
+  </body>
+</html>

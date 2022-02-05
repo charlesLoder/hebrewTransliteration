@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production",
+    "update": "ncu"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.0",
+    "html-minifier": "^4.0.0",
+    "npm-check-updates": "^12.2.1"
+  },
+  "dependencies": {
+    "@jamshop/eleventy-plugin-esbuild": "^1.0.2",
+    "clean-css": "^5.2.4",
+    "hebrew-transliteration": "^2.0.1"
+  }
+}
