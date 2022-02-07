@@ -11,12 +11,18 @@
           <div class="txt-area-wrapper d-flex flex-column">
             {% set inClasses = ["form-control", (inTxt.classes | join(' '))] | join(' ') %}
             <textarea class="{{ inClasses }}" placeholder="{{ inTxt.placeholder }}" dir="{{ inTxt.dir }}" id="input"></textarea>
-            <button class="btn btn-lg btn-primary mx-auto my-20" id="action-btn">{{ actionBtn }}</button>
+            <button class="btn btn-primary mx-auto my-20" id="action-btn">{{ actionBtn }}</button>
             {% set outClasses = ["form-control", (outTxt.classes | join(' '))] | join(' ') %}
             <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
-            {% for modal in modals %}
-              <a href="{{ modal.btnHref }}" class="btn btn-primary ml-auto mt-20" role="button">{{ modal.btnText }}</a>
-            {% endfor %}
+            {% if modals.length %}
+              <div class="d-flex flex-column flex-sm-row-reverse  mt-20">
+                {% for modal in modals %}
+                  <div class="">
+                    <a href="{{ modal.btnHref }}" class="btn btn-primary w-full w-sm-auto mb-20 ml-sm-20" role="button">{{ modal.btnText }}</a>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
           </div>
         </div>
       </div>
