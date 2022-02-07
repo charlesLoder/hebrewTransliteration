@@ -198,6 +198,15 @@ function setSchemaLocalStorage(schema) {
   props.forEach((p) => localStorage.setItem(p, schema[p]));
 }
 
+async function fileToJSON(file) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.onload = (event) => resolve(JSON.parse(event.target.result));
+    fileReader.onerror = (error) => reject(error);
+    fileReader.readAsText(file);
+  });
+}
+
 const schemaProps = Object.keys(new Schema(sblAcademic));
 
 /**
@@ -341,7 +350,7 @@ document.onkeydown = checkKey;
 actionBtn.addEventListener("click", () => {
   try {
     const schema = getSchemaModalVals(schemaProps);
-    output.value = transliterate(input.value || input.placeholder, schema);
+    output.value = transliterate(input.value || input.placeholder, getSchemaModalVals(schemaProps));
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {
@@ -351,15 +360,17 @@ actionBtn.addEventListener("click", () => {
 });
 
 schemaSelect.addEventListener("change", (e) => {
-  if (e.target.value === "sblGeneral") {
-    const general = new Schema(sblGeneral);
-    schemaProps.forEach((p) => populateSchemaModal(general, p));
-    return;
-  }
-  if (e.target.value === "sblAcademic") {
-    const sbl = new Schema({});
-    schemaProps.forEach((p) => populateSchemaModal(sbl, p));
-    return;
+  switch (e.target.value) {
+    case "sblGeneral":
+      schemaProps.forEach((p) => populateSchemaModal(new Schema(sblGeneral), p));
+      output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      break;
+    case "sblAcademic":
+      schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
+      output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      break;
+    default:
+      break;
   }
 });
 
@@ -375,21 +386,14 @@ additionalFeatureBtn.addEventListener("click", () =>
   addAdditonalFeature(document.querySelector("#ADDITIONAL_FEATURES"))
 );
 
-async function fileToJSON(file) {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.onload = (event) => resolve(JSON.parse(event.target.result));
-    fileReader.onerror = (error) => reject(error);
-    fileReader.readAsText(file);
-  });
-}
-
 schemaInput.addEventListener("change", async (event) => {
   const file = event.target.files[0];
   if (file) {
     const customSchema = await fileToJSON(file);
     Object.keys(customSchema).forEach((p) => populateSchemaModal(customSchema, p));
+    output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
   }
 });
 
 loadSchema(schemaProps);
+output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
