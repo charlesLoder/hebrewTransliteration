@@ -1,6 +1,7 @@
 import { transliterate, Schema } from "hebrew-transliteration";
 import sblGeneral from "../_data/sbl-simple.json";
 import sblAcademic from "../_data/sbl-academic.json";
+import brillAcademic from "../_data/brill-academic.json";
 
 /**
  * appends a div with the class ADDITIONAL_FEATURE to the parent
@@ -367,6 +368,10 @@ schemaSelect.addEventListener("change", (e) => {
       break;
     case "sblAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
+      output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      break;
+    case "brillAcademic":
+      schemaProps.forEach((p) => populateSchemaModal(new Schema(brillAcademic), p));
       output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
       break;
     default:
