@@ -25,7 +25,7 @@ module.exports = function (eleventyConfig) {
   });
 
   // adds a copy of the assets folder to _site
-  // eleventyConfig.addPassthroughCopy("src/assets/main.css");
+  eleventyConfig.addPassthroughCopy("src/assets/favicon.svg");
   // triggers a rebuild when anything in here changes
   eleventyConfig.addWatchTarget("src/assets/main.css");
   eleventyConfig.addFilter("cssmin", function (code) {
