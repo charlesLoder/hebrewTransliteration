@@ -1,14 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="499.99999999999994" height="499.99999999999994">
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="500" height="500" viewBox="0 0 500 500" xml:space="preserve">
     <style>
-        rect {
+        #box {
+			stroke: none;
+			stroke-width: 0;
+			stroke-dasharray: none;
+			stroke-linecap: butt;
+			stroke-dashoffset: 0;
+			stroke-linejoin: miter;
+			stroke-miterlimit: 4;
+			fill-rule: nonzero;
+			opacity: 1;
             fill: #2c90ff;
         }
         text {
+			stroke: none;
+			stroke-width: 1;
+			stroke-dasharray: none;
+			stroke-linecap: butt;
+			stroke-dashoffset: 0;
+			stroke-linejoin: miter;
+			stroke-miterlimit: 4;
+			fill-rule: nonzero;
+			opacity: 1;
+			white-space: pre;
             fill: #ecf0f1;
         }
 
         @media (prefers-color-scheme: dark) {
-            rect {
+            #box {
                 fill: #d1d2d2;
             }
             text {
@@ -16,10 +37,19 @@
             }
         }
     </style>
- <g>
-  <title>Favicon</title>
-  <rect  stroke-width="0" x="0" y="0" width="500" height="500" id="svg_4"  rx="50"/>
-  <text transform="matrix(14.0217 0 0 13.94 -583.524 -822.558)" stroke="#000" xml:space="preserve" text-anchor="start" font-family="'Rubik', Helvetica, sans-serif" font-size="20" id="svg_1" y="84.96229" x="43.80372" stroke-width="0">HT</text>
- </g>
-
+<desc>Created with Fabric.js 4.6.0</desc>
+<defs>
+</defs>
+<g transform="matrix(-1 0 0 -1 250 250)" id="brxR7NkMl_wcS7HwodRpP"  >
+	<path id="box"
+		vector-effect="non-scaling-stroke"
+		transform=" translate(-250, -250)"
+		d="M 0 500 L 0 0 L 500 0 L 500 500 z"
+		stroke-linecap="round"/>
+</g>
+<g transform="matrix(1 0 0 1 250 250)" style="" id="IUS52cenepXZwDqKFxcd2"  >
+	<text xml:space="preserve" font-family="'Rubik', Helvetica, sans-serif" font-size="279" font-style="normal" font-weight="normal" line-height="1.16">
+		<tspan x="-185.95" y="87.65" >HT</tspan>
+	</text>
+</g>
 </svg>
