@@ -22,7 +22,7 @@
             <!-- Nav Link Btns start -->
             <div class="mr-5 hidden-sm-and-down">
               {% for item in config.navbarMenu %}
-                <a href="{{ item.url }}" class="btn">{{ item.text }}</a>
+                <a href="{{ item.url | url }}" class="btn">{{ item.text }}</a>
               {% endfor %}
             </div>
             <!-- Nav Link Btns end -->
