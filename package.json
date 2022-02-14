@@ -1,12 +1,14 @@
 {
   "scripts": {
     "start": "eleventy --serve",
+    "start:dev": "netlify dev",
     "build": "ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production",
     "update": "ncu"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.0",
     "html-minifier": "^4.0.0",
+    "netlify-cli": "^9.5.0",
     "npm-check-updates": "^12.2.1"
   },
   "dependencies": {
