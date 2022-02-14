@@ -7,7 +7,9 @@
           <h1 class="card-title font-size-24">
             {{ title }}
           </h1>
-          <p id="mainText">{{ mainText }}</p>
+          {% if mainText %}
+            <p id="mainText">{{ mainText }}</p>
+          {% endif %}
           <div class="txt-area-wrapper d-flex flex-column">
             {% set inClasses = ["form-control", (inTxt.classes | join(' '))] | join(' ') %}
             <textarea class="{{ inClasses }}" placeholder="{{ inTxt.placeholder }}" dir="{{ inTxt.dir }}" id="input"></textarea>
