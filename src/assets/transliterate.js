@@ -1,7 +1,42 @@
-import { transliterate, Schema } from "hebrew-transliteration";
+import { transliterate as hebTransliterate, Schema } from "hebrew-transliteration";
 import sblGeneral from "../_data/sbl-simple.json";
 import sblAcademic from "../_data/sbl-academic.json";
 import brillAcademic from "../_data/brill-academic.json";
+
+function supportsRegexLookAheadLookBehind() {
+  try {
+    return (
+      "hibyehihi"
+        .replace(new RegExp("(?<=hi)hi", "g"), "hello")
+        .replace(new RegExp("hi(?!bye)", "g"), "hey") === "hibyeheyhello"
+    );
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * a wrapper function that checks if regex is supported
+ *
+ * @param {string} text
+ * @param {Schema} schema
+ * @returns a transliterated string
+ */
+async function transliterate(text, schema) {
+  if (!supportsRegexLookAheadLookBehind()) {
+    console.log("using api...");
+    const resp = await fetch("/api/transliterate", {
+      method: "POST",
+      body: JSON.stringify({
+        text: text,
+        schema: schema,
+      }),
+    });
+    const json = await resp.json();
+    return json.transliteration;
+  }
+  return hebTransliterate(text, schema);
+}
 
 /**
  * appends a div with the class ADDITIONAL_FEATURE to the parent
@@ -348,10 +383,13 @@ document.onkeydown = checkKey;
 /**
  * Event listeners
  */
-actionBtn.addEventListener("click", () => {
+actionBtn.addEventListener("click", async () => {
   try {
     const schema = getSchemaModalVals(schemaProps);
-    output.value = transliterate(input.value || input.placeholder, getSchemaModalVals(schemaProps));
+    output.value = await transliterate(
+      input.value || input.placeholder,
+      getSchemaModalVals(schemaProps)
+    );
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {
@@ -360,19 +398,19 @@ actionBtn.addEventListener("click", () => {
   }
 });
 
-schemaSelect.addEventListener("change", (e) => {
+schemaSelect.addEventListener("change", async (e) => {
   switch (e.target.value) {
     case "sblGeneral":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblGeneral), p));
-      output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
       break;
     case "sblAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
-      output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
       break;
     case "brillAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(brillAcademic), p));
-      output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
       break;
     default:
       break;
@@ -396,9 +434,18 @@ schemaInput.addEventListener("change", async (event) => {
   if (file) {
     const customSchema = await fileToJSON(file);
     Object.keys(customSchema).forEach((p) => populateSchemaModal(customSchema, p));
-    output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+    output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
   }
 });
 
 loadSchema(schemaProps);
-output.placeholder = transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+
+const main = async () => {
+  try {
+    output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+main();
