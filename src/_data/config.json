@@ -1,0 +1,16 @@
+{
+  "title": "Hebrew Transliteration",
+  "lang": "en",
+  "base": "src/_layouts/base.njk",
+  "keywords": "hebrew, transliteration, SBL",
+  "navbarMenu": [
+    {
+      "text": "Transliterate",
+      "url": "/"
+    },
+    {
+      "text": "Remove",
+      "url": "/remove"
+    }
+  ]
+}

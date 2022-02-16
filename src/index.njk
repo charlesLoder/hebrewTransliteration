@@ -1,0 +1,32 @@
+---js
+{
+  title: "Transliterate",
+  description: "Transliterate Hebrew text with a customizable schema",
+  layout: "functions.njk",
+  mainText: "",
+  actionBtn: "transliterate",
+  inTxt: {
+    dir: "rtl",
+    placeholder: "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים",
+    classes: ["heb-text-area", "font-size-24"]
+  },
+  outTxt: {
+    dir: "ltr",
+    placeholder: "",
+    classes: ["transliteration-text-area", "font-size-20", "text-extra-letter-spacing"]
+  },
+  jsFile: "/assets/transliterate.js",
+  modals: [{
+    src: "schema-modal.njk",
+    id: "schema-modal",
+    btnHref: "#schema-modal",
+    btnText: "Settings"
+  },
+  {
+    src: "tips-modal.njk",
+    id: "tips-modal",
+    btnHref: "#tips-modal",
+    btnText: "Tips"
+  }],
+}
+---

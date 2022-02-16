@@ -1,0 +1,32 @@
+{% extends "modal.njk" %}
+{% block cards %}
+  <div class="modal-card d-block">
+    <h5 class="modal-title">Remove options</h5>
+    <form id="step-1-form">
+      <div
+        class="form-group">
+        <!-- removeVowels checkbox -->
+        <div class="col-sm custom-checkbox form-group">
+          <input type="checkbox" name="removeVowels" id="removeVowels" value="">
+          <label for="removeVowels">Remove Vowels</label>
+        </div>
+        <!-- removeShinDot checkbox -->
+        <div class="col-sm custom-checkbox form-group">
+          <input type="checkbox" name="removeShinDot" id="removeShinDot" value="">
+          <label for="removeShinDot">Remove Shin Dot</label>
+        </div>
+        <!-- removeSinDot checkbox -->
+        <div class="col-sm custom-checkbox form-group">
+          <input type="checkbox" name="removeSinDot" id="removeSinDot" value="">
+          <label for="removeSinDot">Remove Sin Dot</label>
+        </div>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+{% block controls %}
+  <div class="dropdown-divider my-15"></div>
+  <div class="text-right">
+    <a href="#" class="btn btn-success ml-auto text-dark" role="button">Done</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+---js
+{
+  title: "Remove",
+  description: "Remove taamim and niqqud from Hebrew text",
+  mainText: "Remove taamim and niqqud from Hebrew text.",
+  layout: "functions.njk",
+  actionBtn: "remove",
+  inTxt: {
+    dir: "rtl",
+    placeholder: "שָׂרַ֣י אִשְׁתְּךָ֔",
+    classes: ["heb-text-area", "font-size-24"]
+  },
+  outTxt: {
+    dir: "rtl",
+    placeholder: "שָׂרַי אִשְׁתְּךָ",
+    classes: ["heb-text-area", "font-size-24"]
+  },
+  jsFile: "/assets/remove.js",
+  modals: [{
+    src: "remove-modal.njk",
+    id: "remove-modal",
+    btnHref: "#remove-modal",
+    btnText: "Options"
+  }],
+}
+---

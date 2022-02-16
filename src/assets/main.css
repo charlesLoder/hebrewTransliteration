@@ -1,0 +1,33 @@
+:root {
+  /* dm primary buttons */
+  --dm-button-primary-bg-color: #7476db;
+  --dm-button-primary-border-color: #7476db;
+  --dm-button-primary-bg-color-hover: #857cfc;
+  --dm-button-primary-border-color-hover: #857cfc;
+  --dm-button-primary-text-color: #ffffffed;
+  /* dm success buttons */
+  --dm-button-success-bg-color: #51d195;
+  --dm-button-success-border-color: #51d195;
+  /* dm other purple elements */
+  --dm-input-border-color-focus: #7476db;
+  --dm-progress-bar-bg-color: #7476db;
+  --dm-checkbox-bg-color-checked: #7476db;
+  --dm-checkbox-border-color-checked: #7476db;
+  /* etc */
+  --modal-content-width: 50rem;
+  --tooltip-width: 15rem;
+}
+
+textarea {
+  resize: none;
+}
+
+/* try to improve w/ font face */
+.heb-text-area {
+  font-family: "SBL Hebrew", "Times New Roman", "serif";
+}
+
+.transliteration-text-area {
+  font-family: "Charis SIL", "Times New Roman", "serif";
+  font-style: italic;
+}

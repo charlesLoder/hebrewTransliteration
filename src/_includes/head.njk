@@ -1,0 +1,17 @@
+<head>
+  <title>{{ config.title }}</title>
+  <meta charset="UTF-8"/>
+  <meta name="keywords" content="{{ config.keywords }}"/>
+  {% if description %}
+    <meta name="description" content="{{ description }}"/>
+  {% endif %}
+  <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"/>
+  <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet"/> {% set css %}
+  {% include "src/assets/main.css" %}
+  {% endset %}
+  <style>{{css | cssmin | safe}}</style>
+  <link rel="icon" href="{{ '/assets/favicon.svg' | url }}">
+    <script defer="true" src="https://kit.fontawesome.com/c289f601d7.js" crossorigin="anonymous"></script>
+  </head>
+</head>

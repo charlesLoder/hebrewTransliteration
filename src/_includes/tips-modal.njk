@@ -1,0 +1,52 @@
+{% extends "modal.njk" %}
+{% block cards %}
+  <div class="modal-card d-block">
+    <h5 class="modal-title">Tips</h5>
+    <!-- Customize Panel start -->
+    <details class="collapse-panel w-400 mw-full">
+      <summary class="collapse-header">
+        Customize transliteration
+      </summary>
+      <div class="collapse-content">
+        Customize your transliteration by choosing a default transliteration schema and adjusting it accordingly.
+        <br>
+          Try it
+          <a href="#schema-modal">here.</a>
+        </div>
+      </details>
+      <!-- Customize Panel end -->
+      <!-- Niqqud Panel start -->
+      <details class="collapse-panel w-400 mw-full mt-20">
+        <summary class="collapse-header">
+          Niqqud
+        </summary>
+        <div class="collapse-content">
+          Use a text that has niqqud (i.e. vowels) for best results. If there is no niqqud, then only the consonants will be
+          transliterated.
+        </div>
+      </details>
+      <!-- Niqqud Panel end -->
+      <!-- Qamets Qatan Panel start -->
+      <details class="collapse-panel w-400 mw-full mt-20">
+        <summary class="collapse-header">
+          Qamets Qatan
+        </summary>
+        <div class="collapse-content">
+          <p>This tool can convert and transliterate Qamets characters as
+            <a href="https://www.compart.com/en/unicode/U+05C7">Qamets Qatan</a>
+            characters, but exceptions may occur. It is best at detecting them in Biblical texts.</p>
+          <p>If correct Qamets Qatan transliteration is essential, consider using the
+            <i>Miqra according to the Masorah</i>
+            text as found on
+            <a href="https://www.sefaria.org/">Sefaria</a>.</p>
+        </div>
+      </details>
+      <!-- Qamets Qatan Panel end -->
+    </div>
+  {% endblock %}
+  {% block controls %}
+    <div class="dropdown-divider my-15"></div>
+    <div class="text-right">
+      <a href="#" class="btn btn-success ml-auto text-dark" role="button">Done</a>
+    </div>
+  {% endblock %}

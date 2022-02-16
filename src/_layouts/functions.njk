@@ -1,0 +1,36 @@
+{% extends config.base %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col d-flex justify-content-center">
+        <div class="card w-full w-md-three-quarter shadow-lg">
+          <h1 class="card-title font-size-24">
+            {{ title }}
+          </h1>
+          {% if mainText %}
+            <p id="mainText">{{ mainText }}</p>
+          {% endif %}
+          <div class="txt-area-wrapper d-flex flex-column">
+            {% set inClasses = ["form-control", (inTxt.classes | join(' '))] | join(' ') %}
+            <textarea class="{{ inClasses }}" placeholder="{{ inTxt.placeholder }}" dir="{{ inTxt.dir }}" id="input"></textarea>
+            <button class="btn btn-primary mx-auto my-20" id="action-btn">{{ actionBtn }}</button>
+            {% set outClasses = ["form-control", (outTxt.classes | join(' '))] | join(' ') %}
+            <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
+            {% if modals.length %}
+              <div class="d-flex flex-column flex-sm-row-reverse  mt-20">
+                {% for modal in modals %}
+                  <div class="">
+                    <a href="{{ modal.btnHref }}" class="btn btn-primary w-full w-sm-auto mb-20 mb-sm-0 ml-sm-20" role="button">{{ modal.btnText }}</a>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if jsFile %}
+    <script defer="true" src="{{ jsFile }}"></script>
+  {% endif %}
+{% endblock %}
