@@ -8,22 +8,31 @@
       <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
     </div>
     <form id="schema-form">
-      <p>Choose a transliteration schema from the list below or upload one. Schemas can be used "as is" or customized by going
-        to the next window.</p>
-      <div class="form-group">
-        <label for="schema-select">Choose a schema:</label>
-        <select class="form-control" id="select-schema" name="schema-select">
-          <option value="sblAcademic" selected="selected">SBL Academic</option>
-          <option value="sblGeneral">SBL General Purpose</option>
-          <option value="brillAcademic">Brill Academic</option>
-        </select>
-        <h6>or upload your own</h6>
-        <!-- File input -->
-        <div class="custom-file">
-          <input type="file" id="schema-input" accept=".json">
-          <label for="schema-input">Upload a schema</label>
+      <div
+        class="form-group d-flex flex-column">
+        <!-- Schema select start -->
+        <div class="schema-select-wrapper">
+          <label for="schema-select">Either choose a transliteration schema from the list below:</label>
+          <select class="form-control" id="select-schema" name="schema-select">
+            <option value="sblAcademic" selected="selected">SBL Academic</option>
+            <option value="sblGeneral">SBL General Purpose</option>
+            <option value="brillAcademic">Brill Academic</option>
+          </select>
         </div>
+        <!-- Schema select end -->
+        <!-- File input start -->
+        <div class="file-input-wrapper mt-10">
+          <div>
+            Or upload your own:
+          </div>
+          <div class="custom-file">
+            <input type="file" id="schema-input" accept=".json" class="w-full">
+            <label for="schema-input" class="w-full">...</label>
+          </div>
+        </div>
+        <!-- File input end -->
       </div>
+      <button href="#" class="btn btn-success w-full" role="button">Use this schema!</button>
     </form>
   </div>
   <!-- SCHEMA end -->
@@ -879,14 +888,10 @@
   <div class="dropdown-divider my-15"></div>
   <div
     class="btn-container d-flex justify-content-between">
-    <!-- Use Schema -->
-    <div class="text-right mr-auto wizard-btn d-block" id="schema-btn">
-      <a href="#" class="btn btn-success ml-auto text-dark" role="button">Use this schema!</a>
-    </div>
     <!-- Previous -->
     <button class="btn btn-primary mr-auto wizard-btn d-none" id="prev-btn">Previous</button>
     <!-- Next -->
-    <button class="btn btn-primary ml-auto wizard-btn d-block" id="next-btn">Next</button>
+    <button class="btn btn-primary ml-auto wizard-btn d-block" id="next-btn">Customize</button>
     <!-- Done -->
     <div class="text-right wizard-btn d-none" id="final-btn">
       <a href="#" class="btn btn-success ml-auto text-dark" role="button">Done</a>

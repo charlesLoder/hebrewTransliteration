@@ -258,7 +258,6 @@ const actionBtn = document.querySelector("#action-btn");
 const steps = document.querySelector("#modal-cards").children;
 const nextBtn = document.querySelector("#next-btn");
 const prevBtn = document.querySelector("#prev-btn");
-const schemaBtn = document.querySelector("#schema-btn");
 const finalBtn = document.querySelector("#final-btn");
 const additionalFeatureBtn = document.querySelector("#additional-feature-btn");
 const schemaSelect = document.querySelector("#select-schema");
@@ -323,11 +322,14 @@ function nextModalWindow(wizard) {
   if (!wizard.next()) return;
 
   if (!wizard.previous()) {
-    wizard.turnOff(schemaBtn);
     wizard.turnOn(prevBtn);
   }
 
   wizard.increaseStep();
+
+  if (wizard.index) {
+    nextBtn.innerText = "Next";
+  }
 
   if (!wizard.next()) {
     wizard.turnOff(nextBtn);
@@ -345,15 +347,17 @@ function prevModalWindow(wizard) {
 
   wizard.decreaseStep();
 
+  if (!wizard.index) {
+    nextBtn.innerText = "Customize";
+  }
+
   if (!wizard.previous()) {
-    wizard.turnOn(schemaBtn);
     wizard.turnOn(prevBtn);
   }
 }
 
 function resetModalWindow(wizard) {
   wizard.reset();
-  wizard.turnOn(schemaBtn);
   wizard.turnOn(nextBtn);
   wizard.turnOff(finalBtn);
   wizard.turnOff(prevBtn);
