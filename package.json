@@ -7,14 +7,14 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.0",
-    "@netlify/functions": "^0.11.0",
+    "@netlify/functions": "^1.0.0",
     "html-minifier": "^4.0.0",
-    "netlify-cli": "^9.5.0",
-    "npm-check-updates": "^12.2.1"
+    "netlify-cli": "^9.6.2",
+    "npm-check-updates": "^12.3.0"
   },
   "dependencies": {
     "@jamshop/eleventy-plugin-esbuild": "^1.0.2",
     "clean-css": "^5.2.4",
-    "hebrew-transliteration": "^2.0.1"
+    "hebrew-transliteration": "^2.0.2"
   }
 }
