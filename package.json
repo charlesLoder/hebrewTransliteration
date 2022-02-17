@@ -1,20 +1,29 @@
 {
+  "name": "hebrewransliteration",
+  "description": "A web app for transliterating Hebrew",
+  "author": "charlesLoder",
+  "license": "MIT",
+  "keywords": [
+    "hebrew",
+    "transliteration",
+    "SBL"
+  ],
   "scripts": {
     "start": "eleventy --serve",
     "start:dev": "netlify dev",
     "build": "ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production",
     "update": "ncu"
   },
+  "dependencies": {
+    "hebrew-transliteration": "^2.0.2"
+  },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.0",
+    "@jamshop/eleventy-plugin-esbuild": "^1.0.2",
     "@netlify/functions": "^1.0.0",
+    "clean-css": "^5.2.4",
     "html-minifier": "^4.0.0",
     "netlify-cli": "^9.6.2",
     "npm-check-updates": "^12.3.0"
-  },
-  "dependencies": {
-    "@jamshop/eleventy-plugin-esbuild": "^1.0.2",
-    "clean-css": "^5.2.4",
-    "hebrew-transliteration": "^2.0.2"
   }
 }
