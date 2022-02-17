@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-.DS_Store
-node_modules
-public
-=======
 _site/
 dist/
 .DS_Store
 node_modules/
 .netlify
->>>>>>> version-2.0
