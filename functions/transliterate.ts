@@ -9,7 +9,6 @@ const handler: Handler = async (event: HandlerEvent, context) => {
       });
     }
     const body: { text: string; schema: Schema } = JSON.parse(event.body);
-    // do some checking here first
     const transliteration = transliterate(body.text, body.schema);
     const response = { transliteration: transliteration };
     return {
