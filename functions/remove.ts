@@ -1,5 +1,11 @@
 import { Handler, HandlerEvent } from "@netlify/functions";
-import { transliterate, Schema } from "hebrew-transliteration";
+import { remove } from "hebrew-transliteration";
+
+type RemoveOptions = {
+  removeVowels: boolean;
+  removeShinDot: boolean;
+  removeSinDot: boolean;
+};
 
 const handler: Handler = async (event: HandlerEvent, context) => {
   try {
@@ -8,9 +14,9 @@ const handler: Handler = async (event: HandlerEvent, context) => {
         message: `${event.httpMethod} Not Allowed`,
       });
     }
-    const body: { text: string; schema: Schema } = JSON.parse(event.body);
-    const transliteration = transliterate(body.text, body.schema);
-    const response = { transliteration: transliteration };
+    const body: { text: string; options: RemoveOptions } = JSON.parse(event.body);
+    const removed = remove(body.text, body.options);
+    const response = { text: removed };
     return {
       statusCode: 200,
       headers: {
