@@ -20,7 +20,7 @@ function supportsRegexLookAheadLookBehind() {
  *
  * @param {string} text
  * @param {Schema} schema
- * @returns a transliterated string
+ * @returns {Promise<string>} a transliterated string
  */
 async function transliterate(text, schema) {
   if (!supportsRegexLookAheadLookBehind()) {
