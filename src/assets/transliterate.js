@@ -20,22 +20,35 @@ function supportsRegexLookAheadLookBehind() {
  *
  * @param {string} text
  * @param {Schema} schema
- * @returns a transliterated string
+ * @returns {Promise<string>} a transliterated string
  */
 async function transliterate(text, schema) {
-  if (!supportsRegexLookAheadLookBehind()) {
-    console.log("using api...");
-    const resp = await fetch("/api/transliterate", {
+  try {
+    if (!supportsRegexLookAheadLookBehind()) {
+      console.log("using api...");
+      const resp = await fetch("/api/transliterate", {
+        method: "POST",
+        body: JSON.stringify({
+          text: text,
+          schema: schema,
+        }),
+      });
+      if (!resp.ok) throw await resp.json();
+      const json = await resp.json();
+      return json.transliteration;
+    }
+    return hebTransliterate(text, schema);
+  } catch (error) {
+    fetch("/api/error", {
       method: "POST",
       body: JSON.stringify({
-        text: text,
-        schema: schema,
+        text,
+        error: error.message || error,
+        browser: navigator.userAgent,
       }),
     });
-    const json = await resp.json();
-    return json.transliteration;
+    throw error;
   }
-  return hebTransliterate(text, schema);
 }
 
 /**
@@ -243,8 +256,6 @@ async function fileToJSON(file) {
   });
 }
 
-const schemaProps = Object.keys(new Schema(sblAcademic));
-
 /**
  * HTML Elements
  */
@@ -390,15 +401,12 @@ document.onkeydown = checkKey;
 actionBtn.addEventListener("click", async () => {
   try {
     const schema = getSchemaModalVals(schemaProps);
-    output.value = await transliterate(
-      input.value || input.placeholder,
-      getSchemaModalVals(schemaProps)
-    );
+    output.value = await transliterate(input.value || input.placeholder, schema);
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {
+    output.value = "Hmmm...it seems something went wrong";
     console.error(error);
-    output.value = error.message ?? "Hmmm...it seems something went wrong";
   }
 });
 
@@ -442,14 +450,17 @@ schemaInput.addEventListener("change", async (event) => {
   }
 });
 
-loadSchema(schemaProps);
-
-const main = async () => {
+/**
+ * runs when script is loaded — loads props and inserts placeholder text
+ */
+const main = async (schemaProps) => {
   try {
+    loadSchema(schemaProps);
     output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
   } catch (error) {
     console.error(error);
   }
 };
 
-main();
+const schemaProps = Object.keys(new Schema(sblAcademic));
+main(schemaProps);
