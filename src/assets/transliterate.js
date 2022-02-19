@@ -388,10 +388,7 @@ document.onkeydown = checkKey;
 actionBtn.addEventListener("click", async () => {
   try {
     const schema = getSchemaModalVals(schemaProps);
-    output.value = await transliterate(
-      input.value || input.placeholder,
-      getSchemaModalVals(schemaProps)
-    );
+    output.value = await transliterate(input.value || input.placeholder, schema);
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {
