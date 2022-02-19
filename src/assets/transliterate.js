@@ -243,8 +243,6 @@ async function fileToJSON(file) {
   });
 }
 
-const schemaProps = Object.keys(new Schema(sblAcademic));
-
 /**
  * HTML Elements
  */
@@ -442,14 +440,17 @@ schemaInput.addEventListener("change", async (event) => {
   }
 });
 
-loadSchema(schemaProps);
-
-const main = async () => {
+/**
+ * runs when script is loaded — loads props and inserts placeholder text
+ */
+const main = async (schemaProps) => {
   try {
+    loadSchema(schemaProps);
     output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
   } catch (error) {
     console.error(error);
   }
 };
 
-main();
+const schemaProps = Object.keys(new Schema(sblAcademic));
+main(schemaProps);
