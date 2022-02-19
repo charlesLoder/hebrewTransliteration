@@ -23,19 +23,32 @@ function supportsRegexLookAheadLookBehind() {
  * @returns {Promise<string>} a transliterated string
  */
 async function transliterate(text, schema) {
-  if (!supportsRegexLookAheadLookBehind()) {
-    console.log("using api...");
-    const resp = await fetch("/api/transliterate", {
+  try {
+    if (!supportsRegexLookAheadLookBehind()) {
+      console.log("using api...");
+      const resp = await fetch("/api/transliterate", {
+        method: "POST",
+        body: JSON.stringify({
+          text: text,
+          schema: schema,
+        }),
+      });
+      if (!resp.ok) throw await resp.json();
+      const json = await resp.json();
+      return json.transliteration;
+    }
+    return hebTransliterate(text, schema);
+  } catch (error) {
+    fetch("/api/error", {
       method: "POST",
       body: JSON.stringify({
-        text: text,
-        schema: schema,
+        text,
+        error: error.message || error,
+        browser: navigator.userAgent,
       }),
     });
-    const json = await resp.json();
-    return json.transliteration;
+    throw error;
   }
-  return hebTransliterate(text, schema);
 }
 
 /**
