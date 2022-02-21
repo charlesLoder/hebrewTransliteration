@@ -31,3 +31,7 @@ textarea {
   font-family: "Charis SIL", "Times New Roman", "serif";
   font-style: italic;
 }
+
+.social-wrapper {
+  white-space: nowrap;
+}
