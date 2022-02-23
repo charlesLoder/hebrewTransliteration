@@ -2,6 +2,7 @@
 <html lang="{{ config.lang }}">
   {% include "head.njk" %}
   <body data-set-preferred-mode-onload="true">
+    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     {% for modal in modals %}
       <!-- Modal start -->
       {% include modal.src %}
@@ -19,7 +20,6 @@
       <!-- Content wrapper end -->
     </div>
     <!-- Page wrapper end -->
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     <script>
       const toggle = document.querySelector('#dm-toggle');
       toggle.addEventListener('click', () => halfmoon.toggleDarkMode())
