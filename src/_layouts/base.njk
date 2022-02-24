@@ -2,7 +2,11 @@
 <html lang="{{ config.lang }}">
   {% include "head.njk" %}
   <body data-set-preferred-mode-onload="true">
-    <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    {% set js %}
+    {% include "node_modules/halfmoon/js/halfmoon.min.js" %}
+    {% endset %}
+    <!-- Halfmoon min js -->
+    <script>{{ js | safe }}</script>
     {% for modal in modals %}
       <!-- Modal start -->
       {% include modal.src %}
