@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.0",
+    "@fortawesome/fontawesome-free": "^6.0.0",
     "@jamshop/eleventy-plugin-esbuild": "^1.0.2",
     "@netlify/functions": "^1.0.0",
     "@types/google-spreadsheet": "^3.1.5",

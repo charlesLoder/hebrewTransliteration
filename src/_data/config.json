@@ -12,5 +12,27 @@
       "text": "Remove",
       "url": "/remove"
     }
+  ],
+  "socialIcons": [
+    {
+      "faIcon": "fab fa-twitter fa-2x",
+      "url": "https://twitter.com/charles_loder"
+    },
+    {
+      "faIcon": "fa-brands fa-dev fa-2x",
+      "url": "https://dev.to/charlesloder"
+    },
+    {
+      "faIcon": "fa-brands fa-github fa-2x",
+      "url": "https://github.com/charlesLoder"
+    },
+    {
+      "faIcon": "fas fa-graduation-cap fa-2x",
+      "url": "https://independentresearcher.academia.edu/CharlesLoder"
+    },
+    {
+      "faIcon": "fa-brands fa-linkedin fa-2x",
+      "url": "https://www.linkedin.com/in/charles-loder/"
+    }
   ]
 }
