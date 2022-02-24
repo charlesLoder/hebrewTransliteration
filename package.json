@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "google-spreadsheet": "^3.2.0",
+    "halfmoon": "^1.1.1",
     "hebrew-transliteration": "^2.0.2"
   },
   "devDependencies": {
