@@ -3,7 +3,7 @@
   <div class="container">
     <div class="row">
       <div class="col d-flex justify-content-center">
-        <div class="card w-full w-md-three-quarter shadow-lg">
+        <main class="card w-full w-md-three-quarter shadow-lg">
           <h1 class="card-title font-size-24">
             {{ title }}
           </h1>
@@ -33,14 +33,14 @@
               <div class="d-flex flex-row align-items-center mt-10 mt-md-0">
                 <span class="d-none d-md-block">Follow me on</span>
                 {% for icon in config.socialIcons %}
-                  <a href="{{ icon.url | url }}" class="social-link ml-5" target="_blank" rel="noopener noreferrer">
+                  <a href="{{ icon.url | url }}" aria-label="{{ icon.text }}" class="social-link ml-5" target="_blank" rel="noopener noreferrer">
                     <i class="{{ icon.faIcon }}"></i>
                   </a>
                 {% endfor %}
               </div>
             </footer>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   </div>

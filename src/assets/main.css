@@ -1,19 +1,19 @@
 :root {
   /* dm primary buttons */
-  --dm-button-primary-bg-color: #7476db;
-  --dm-button-primary-border-color: #7476db;
+  --dm-button-primary-bg-color: #7370af;
+  --dm-button-primary-border-color: #7370af;
   --dm-button-primary-bg-color-hover: #857cfc;
   --dm-button-primary-border-color-hover: #857cfc;
-  --dm-button-primary-text-color: #ffffffed;
+  --dm-button-primary-text-color: #ffffff;
   /* dm success buttons */
   --dm-button-success-bg-color: #51d195;
   --dm-button-success-border-color: #51d195;
   /* dm other purple elements */
-  --dm-input-border-color-focus: #7476db;
-  --dm-progress-bar-bg-color: #7476db;
-  --dm-checkbox-bg-color-checked: #7476db;
-  --dm-checkbox-border-color-checked: #7476db;
-  --dm-link-text-color: #7476db;
+  --dm-input-border-color-focus: #7370af;
+  --dm-progress-bar-bg-color: #7370af;
+  --dm-checkbox-bg-color-checked: #7370af;
+  --dm-checkbox-border-color-checked: #7370af;
+  --dm-link-text-color: #7370af;
   /* etc */
   --modal-content-max-width: 50rem;
   --tooltip-width: 15rem;
