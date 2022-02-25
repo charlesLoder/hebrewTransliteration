@@ -33,7 +33,7 @@
               <div class="d-flex flex-row align-items-center mt-10 mt-md-0">
                 <span class="d-none d-md-block">Follow me on</span>
                 {% for icon in config.socialIcons %}
-                  <a href="{{ icon.url | url }}" class="social-link ml-5" target="_blank" rel="noopener noreferrer">
+                  <a href="{{ icon.url | url }}" aria-label="{{ icon.text }}" class="social-link ml-5" target="_blank" rel="noopener noreferrer">
                     <i class="{{ icon.faIcon }}"></i>
                   </a>
                 {% endfor %}

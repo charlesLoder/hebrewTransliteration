@@ -16,23 +16,28 @@
   "socialIcons": [
     {
       "faIcon": "fab fa-twitter fa-2x",
-      "url": "https://twitter.com/charles_loder"
+      "url": "https://twitter.com/charles_loder",
+      "text": "Twitter"
     },
     {
       "faIcon": "fa-brands fa-dev fa-2x",
-      "url": "https://dev.to/charlesloder"
+      "url": "https://dev.to/charlesloder",
+      "text": "Dev.to"
     },
     {
       "faIcon": "fa-brands fa-github fa-2x",
-      "url": "https://github.com/charlesLoder"
+      "url": "https://github.com/charlesLoder",
+      "text": "Github"
     },
     {
       "faIcon": "fas fa-graduation-cap fa-2x",
-      "url": "https://independentresearcher.academia.edu/CharlesLoder"
+      "url": "https://independentresearcher.academia.edu/CharlesLoder",
+      "text": "Academia.edu"
     },
     {
       "faIcon": "fa-brands fa-linkedin fa-2x",
-      "url": "https://www.linkedin.com/in/charles-loder/"
+      "url": "https://www.linkedin.com/in/charles-loder/",
+      "text": "LinkedIn"
     }
   ]
 }
