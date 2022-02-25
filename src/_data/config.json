@@ -15,7 +15,7 @@
   ],
   "socialIcons": [
     {
-      "faIcon": "fab fa-twitter fa-2x",
+      "faIcon": "fa-brands fa-twitter fa-2x",
       "url": "https://twitter.com/charles_loder",
       "text": "Twitter"
     },
@@ -30,7 +30,7 @@
       "text": "Github"
     },
     {
-      "faIcon": "fas fa-graduation-cap fa-2x",
+      "faIcon": "fa-solid fa-graduation-cap fa-2x",
       "url": "https://independentresearcher.academia.edu/CharlesLoder",
       "text": "Academia.edu"
     },
