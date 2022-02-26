@@ -25,7 +25,7 @@ async function apiCheck(text, options) {
     const json = await resp.json();
     return json.text;
   }
-  return remove(text, schema);
+  return remove(text, options);
 }
 
 // controls
