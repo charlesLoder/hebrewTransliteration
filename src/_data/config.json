@@ -11,6 +11,10 @@
     {
       "text": "Remove",
       "url": "/remove"
+    },
+    {
+      "text": "About",
+      "url": "/about"
     }
   ],
   "socialIcons": [
