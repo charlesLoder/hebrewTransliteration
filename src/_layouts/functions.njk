@@ -1,48 +1,23 @@
-{% extends config.base %}
+{% extends "./card.njk" %}
 {% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col d-flex justify-content-center">
-        <main class="card w-full w-md-three-quarter shadow-lg">
-          <h1 class="card-title font-size-24">
-            {{ title }}
-          </h1>
-          {% if mainText %}
-            <p id="mainText">{{ mainText }}</p>
-          {% endif %}
-          <div class="txt-area-wrapper d-flex flex-column">
-            {% set inClasses = ["form-control", (inTxt.classes | join(' '))] | join(' ') %}
-            <textarea class="{{ inClasses }}" placeholder="{{ inTxt.placeholder }}" dir="{{ inTxt.dir }}" id="input"></textarea>
-            <button class="btn btn-primary mx-auto my-20" id="action-btn">{{ actionBtn }}</button>
-            {% set outClasses = ["form-control", (outTxt.classes | join(' '))] | join(' ') %}
-            <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
-            {% if modals.length %}
-              <div class="d-flex flex-column flex-sm-row-reverse  mt-20">
-                {% for modal in modals %}
-                  <div class="">
-                    <a href="{{ modal.btnHref }}" class="btn btn-primary w-full w-sm-auto mb-20 mb-sm-0 ml-sm-20" role="button">{{ modal.btnText }}</a>
-                  </div>
-                {% endfor %}
-              </div>
-            {% endif %}
-            <div class="dropdown-divider my-15"></div>
-            <footer class="d-flex flex-column flex-md-row align-items-center justify-content-between mt-10">
-              <div>
-                &copy;&nbsp;2022 Charles&nbsp;Loder
-              </div>
-              <div class="d-flex flex-row align-items-center mt-10 mt-md-0">
-                <span class="d-none d-md-block">Follow me on</span>
-                {% for icon in config.socialIcons %}
-                  <a href="{{ icon.url | url }}" aria-label="{{ icon.text }}" class="social-link ml-5" target="_blank" rel="noopener noreferrer">
-                    <i class="{{ icon.faIcon }}"></i>
-                  </a>
-                {% endfor %}
-              </div>
-            </footer>
+  {% if mainText %}
+    <p id="mainText">{{ mainText }}</p>
+  {% endif %}
+  <div class="txt-area-wrapper d-flex flex-column">
+    {% set inClasses = ["form-control", (inTxt.classes | join(' '))] | join(' ') %}
+    <textarea class="{{ inClasses }}" placeholder="{{ inTxt.placeholder }}" dir="{{ inTxt.dir }}" id="input"></textarea>
+    <button class="btn btn-primary mx-auto my-20" id="action-btn">{{ actionBtn }}</button>
+    {% set outClasses = ["form-control", (outTxt.classes | join(' '))] | join(' ') %}
+    <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
+    {% if modals.length %}
+      <div class="d-flex flex-column flex-sm-row-reverse  mt-20">
+        {% for modal in modals %}
+          <div class="">
+            <a href="{{ modal.btnHref }}" class="btn btn-primary w-full w-sm-auto mb-20 mb-sm-0 ml-sm-20" role="button">{{ modal.btnText }}</a>
           </div>
-        </main>
+        {% endfor %}
       </div>
-    </div>
+    {% endif %}
   </div>
   {% if jsFile %}
     <script defer="true" src="{{ jsFile }}"></script>
