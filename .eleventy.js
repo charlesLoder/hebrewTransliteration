@@ -7,7 +7,7 @@ module.exports = function (eleventyConfig) {
     entryPoints: {
       transliterate: "src/assets/transliterate.js",
       remove: "src/assets/remove.js",
-      fontawesome: "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
+      friconix: "src/assets/friconix.js",
     },
     output: "dist/assets",
   });
