@@ -19,27 +19,27 @@
   ],
   "socialIcons": [
     {
-      "faIcon": "fa-brands fa-twitter fa-2x",
+      "faIcon": "fi-snsux2-twitter-solid",
       "url": "https://twitter.com/charles_loder",
       "text": "Twitter"
     },
     {
-      "faIcon": "fa-brands fa-dev fa-2x",
+      "faIcon": "fi-snsux2-dev-to",
       "url": "https://dev.to/charlesloder",
       "text": "Dev.to"
     },
     {
-      "faIcon": "fa-brands fa-github fa-2x",
+      "faIcon": "fi-snsux2-github-alt",
       "url": "https://github.com/charlesLoder",
       "text": "Github"
     },
     {
-      "faIcon": "fa-solid fa-graduation-cap fa-2x",
+      "faIcon": "fi-snsuh2-graduation-cap-solid",
       "url": "https://independentresearcher.academia.edu/CharlesLoder",
       "text": "Academia.edu"
     },
     {
-      "faIcon": "fa-brands fa-linkedin fa-2x",
+      "faIcon": "fi-snsux2-linkedin",
       "url": "https://www.linkedin.com/in/charles-loder/",
       "text": "LinkedIn"
     }
