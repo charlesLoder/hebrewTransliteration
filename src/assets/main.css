@@ -14,6 +14,7 @@
   --dm-checkbox-bg-color-checked: #7370af;
   --dm-checkbox-border-color-checked: #7370af;
   --dm-link-text-color: #7370af;
+  --dm-link-text-color-hover: #857cfc;
   /* etc */
   --modal-content-max-width: 50rem;
   --tooltip-width: 15rem;
