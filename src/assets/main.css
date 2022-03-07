@@ -24,7 +24,6 @@ textarea {
   resize: none;
 }
 
-/* try to improve w/ font face */
 .heb-text-area {
   font-family: "SBL Hebrew", "Times New Roman", "serif";
 }
@@ -32,8 +31,4 @@ textarea {
 .transliteration-text-area {
   font-family: "Charis SIL", "Times New Roman", "serif";
   font-style: italic;
-}
-
-.social-wrapper {
-  white-space: nowrap;
 }
