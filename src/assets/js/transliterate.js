@@ -1,7 +1,7 @@
 import { transliterate as hebTransliterate, Schema } from "hebrew-transliteration";
-import sblGeneral from "../_data/sbl-simple.json";
-import sblAcademic from "../_data/sbl-academic.json";
-import brillAcademic from "../_data/brill-academic.json";
+import sblGeneral from "../../_data/sbl-simple.json";
+import sblAcademic from "../../_data/sbl-academic.json";
+import brillAcademic from "../../_data/brill-academic.json";
 
 function supportsRegexLookAheadLookBehind() {
   try {
