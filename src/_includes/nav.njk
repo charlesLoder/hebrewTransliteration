@@ -1,11 +1,11 @@
-<div class="nav-bar-wrapper bg-light-lm bg-dark-dm py-10 py-sm-0 border-bottom">
+<div class="nav-bar-wrapper bg-white-lm bg-dark-light-dm py-10 border-bottom">
   <div class="container">
     <div class="row">
       <div
         class="col d-flex justify-content-center">
         <!-- Navbar Start -->
         <nav
-          class="navbar px-md-0 mx-sm-20 w-full w-md-three-quarter bg-light-lm bg-dark-dm border-0">
+          class="navbar px-md-0 mx-sm-20 w-full w-md-three-quarter bg-white-lm bg-dark-light-dm border-0">
           <!-- Navbar brand start -->
           <div class="navbar-brand">
             <a class="text-light-dm text-dark-lm" href="#">{{ config.title }}</a>
@@ -15,14 +15,14 @@
           <div
             class="navbar-content ml-auto">
             <!-- Darkmode Btn start -->
-            <button class="btn btn-action mr-5" type="button" id="dm-toggle" aria-label="Toggle dark mode">
+            <button class="btn border btn-action mr-5" type="button" id="dm-toggle" aria-label="Toggle dark mode">
               <i class="fi-xnsuxl-bulb-solid"></i>
             </button>
             <!-- Darkmode Btn end -->
             <!-- Nav Link Btns start -->
             <div class="mr-5 hidden-sm-and-down">
               {% for item in config.navbarMenu %}
-                <a href="{{ item.url | url }}" class="btn">{{ item.text }}</a>
+                <a href="{{ item.url | url }}" class="btn border">{{ item.text }}</a>
               {% endfor %}
             </div>
             <!-- Nav Link Btns end -->
