@@ -2,13 +2,23 @@
   <title>{{ config.title }}</title>
   <meta charset="UTF-8"/>
   <meta name="keywords" content="{{ config.keywords }}"/>
+  <meta property="og:title" content="{{ config.title }}"/>
   {% if description %}
     <meta name="description" content="{{ description }}"/>
+    <meta name="og:description" content="{{ description }}"/>
+  {% endif %}
+  {% if config.social.og %}
+    <meta name="og:image" content="https://hebrewtransliteration.app/{{ config.social.og.image }}"/>
+  {% endif %}
+  <!-- Twitter meta -->
+  {% if config.social.twitter %}
+    <meta name="twitter:card" content="{{ config.social.twitter.card }}"/>
+    <meta name="twitter:creator" content="{{ config.social.twitter.creator }}"/>
   {% endif %}
   <meta http-equiv="x-ua-compatible" content="ie=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"/>
   <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet"/> {% set css %}
-  {% include "src/assets/main.css" %}
+  {% include "src/assets/css/main.css" %}
   {% endset %}
   <style>{{css | cssmin | safe}}</style>
   <link rel="icon" href="{{ '/assets/favicon.svg' | url }}"/>

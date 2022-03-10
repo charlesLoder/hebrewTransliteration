@@ -1,0 +1,63 @@
+:root {
+  /* vars */
+  --ht-purple: #7370af;
+  --ht-purple-hover: #857cfc;
+  --ht-success: #51d195;
+
+  /* background image */
+  --lm-base-body-bg-image: linear-gradient(#f7f7f7, #ced6e0);
+  --dm-base-body-bg-image: linear-gradient(#191c20, #111417);
+
+  /* primary buttons */
+  --dm-button-primary-bg-color: var(--ht-purple);
+  --dm-button-primary-border-color: var(--ht-purple);
+  --dm-button-primary-bg-color-hover: var(--ht-purple-hover);
+  --dm-button-primary-border-color-hover: var(--ht-purple-hover);
+  --dm-button-primary-text-color: #ffffff;
+  --lm-button-primary-bg-color: var(--ht-purple);
+  --lm-button-primary-border-color: var(--ht-purple);
+  --lm-button-primary-bg-color-hover: var(--ht-purple-hover);
+  --lm-button-primary-border-color-hover: var(--ht-purple-hover);
+
+  /*  success buttons */
+  --dm-button-success-bg-color: var(--ht-success);
+  --dm-button-success-border-color: var(--ht-success);
+
+  /* other purple elements */
+  --dm-input-border-color-focus: var(--ht-purple);
+  --lm-input-border-color-focus: var(--ht-purple);
+
+  --dm-progress-bar-bg-color: var(--ht-purple);
+  --lm-progress-bar-bg-color: var(--ht-purple-hover);
+
+  --dm-checkbox-bg-color-checked: var(--ht-purple);
+  --dm-checkbox-border-color-checked: var(--ht-purple);
+  --lm-checkbox-bg-color-checked: var(--ht-purple);
+  --lm-checkbox-border-color-checked: var(--ht-purple);
+
+  --dm-link-text-color: var(--ht-purple);
+  --dm-link-text-color-hover: var(--ht-purple-hover);
+  --lm-link-text-color: var(--ht-purple);
+  --lm-link-text-color-hover: var(--ht-purple-hover);
+
+  /* widths */
+  --modal-content-max-width: 50rem;
+  --tooltip-width: 15rem;
+}
+
+.dark-mode .content-wrapper {
+  background-image: var(--dm-base-body-bg-image);
+}
+
+textarea {
+  resize: none;
+}
+
+.heb-text-area {
+  font-family: "SBL Hebrew", "Times New Roman", "serif";
+}
+
+.transliteration-text-area {
+  font-family: "Charis SIL", "Times New Roman", "serif";
+  font-style: italic;
+}

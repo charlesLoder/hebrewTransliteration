@@ -5,9 +5,9 @@ const CleanCSS = require("clean-css");
 module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(pluginESbuild, {
     entryPoints: {
-      transliterate: "src/assets/transliterate.js",
-      remove: "src/assets/remove.js",
-      friconix: "src/assets/friconix.js",
+      transliterate: "src/assets/js/transliterate.js",
+      remove: "src/assets/js/remove.js",
+      friconix: "src/assets/js/friconix.js",
     },
     output: "dist/assets",
   });
@@ -25,10 +25,11 @@ module.exports = function (eleventyConfig) {
     return content;
   });
 
-  // adds a copy of the assets folder to _site
-  eleventyConfig.addPassthroughCopy("src/assets/favicon.svg");
+  // adds a copy to dist
+  eleventyConfig.addPassthroughCopy("src/assets/img/favicon.svg");
+  eleventyConfig.addPassthroughCopy("src/assets/img/hebrew-transliteration-card.png");
   // triggers a rebuild when anything in here changes
-  eleventyConfig.addWatchTarget("src/assets/main.css");
+  eleventyConfig.addWatchTarget("src/assets/css/main.css");
   eleventyConfig.addFilter("cssmin", function (code) {
     return new CleanCSS({}).minify(code).styles;
   });
