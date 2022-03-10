@@ -47,7 +47,7 @@
   "social": {
     "og": {
       "descriptions": "",
-      "image": "/assets/img/large-card.png"
+      "image": "assets/img/large-card.png"
     },
     "twitter": {
       "card": "summary_large_image",
