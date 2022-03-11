@@ -1,5 +1,14 @@
 <head>
   <title>{{ config.title }}</title>
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ processEnv.gaTagId }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", "{{ processEnv.gaTagId }}");
+  </script>
   <meta charset="UTF-8"/>
   <meta name="keywords" content="{{ config.keywords }}"/>
   <meta property="og:title" content="{{ config.title }}"/>
