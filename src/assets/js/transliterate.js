@@ -414,15 +414,21 @@ schemaSelect.addEventListener("change", async (e) => {
   switch (e.target.value) {
     case "sblGeneral":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblGeneral), p));
-      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = !output.value
+        ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+        : "";
       break;
     case "sblAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
-      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = !output.value
+        ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+        : "";
       break;
     case "brillAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(brillAcademic), p));
-      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = !output.value
+        ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+        : "";
       break;
     default:
       break;
@@ -446,7 +452,9 @@ schemaInput.addEventListener("change", async (event) => {
   if (file) {
     const customSchema = await fileToJSON(file);
     Object.keys(customSchema).forEach((p) => populateSchemaModal(customSchema, p));
-    output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+    output.placeholder = !output.value
+      ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+      : "";
   }
 });
 
