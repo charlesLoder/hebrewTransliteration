@@ -10,6 +10,9 @@ module.exports = function (eleventyConfig) {
       friconix: "src/assets/js/friconix.js",
     },
     output: "dist/assets",
+    esbuild: {
+      format: "esm",
+    },
   });
 
   eleventyConfig.addTransform("htmlmin", function (content, outputPath) {
