@@ -263,6 +263,23 @@ function setSchemaLocalStorage(schema) {
 }
 
 /**
+ * gets the value for the output placeholder
+ * @param {string} inputVal the Hebrew placeholder text to be transliterated
+ * @param {Schema} schema
+ * @param {string} schemaName the key for the output placeholder text
+ */
+async function getPlaceHolder(inputVal, schema, schemaName = "") {
+  if (!localStorage.getItem("hebrewPlaceholderText") || !localStorage.getItem(schemaName)) {
+    const transliteration = await transliterate(inputVal, schema);
+    localStorage.setItem("hebrewPlaceholderText", inputVal);
+    localStorage.setItem(schemaName, transliteration);
+    return transliteration;
+  }
+
+  return localStorage.getItem(schemaName);
+}
+
+/**
  * parses a json file
  * @param {File} file
  * @returns {Promise<Schema>}
@@ -453,19 +470,19 @@ schemaSelect.addEventListener("change", async (e) => {
     case "sblGeneral":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblGeneral), p));
       output.placeholder = !output.value
-        ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "sblGeneral")
         : "";
       break;
     case "sblAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
       output.placeholder = !output.value
-        ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "sblAcademic")
         : "";
       break;
     case "brillAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(brillAcademic), p));
       output.placeholder = !output.value
-        ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "brillAcademic")
         : "";
       break;
     default:
@@ -506,7 +523,9 @@ schemaInput.addEventListener("change", async (event) => {
 const main = async (schemaProps) => {
   try {
     loadSchema(schemaProps);
-    output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+    output.placeholder = !output.value
+      ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), schemaSelect.value)
+      : "";
   } catch (error) {
     console.error(error);
   }
