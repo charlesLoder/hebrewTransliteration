@@ -3,6 +3,12 @@ import sblGeneral from "../../_data/sbl-simple.json";
 import sblAcademic from "../../_data/sbl-academic.json";
 import brillAcademic from "../../_data/brill-academic.json";
 
+//@ts-check
+
+/**
+ * check if regex lookahead and lookbehind supported
+ * @returns {boolean}
+ */
 function supportsRegexLookAheadLookBehind() {
   try {
     return (
@@ -189,6 +195,11 @@ function getSchemaModalVals(schemaProps) {
   }, {});
 }
 
+/**
+ * downloads a schema as a json file
+ * @param {Schema} schema
+ * @returns {void}
+ */
 function downloadSchema(schema) {
   const a = document.createElement("a");
   a.href = URL.createObjectURL(
@@ -215,7 +226,7 @@ function checkLocalStorage(props) {
 /**
  * generates a schema from local storage
  * @param {string[]} props
- * @returns schema
+ * @returns {Schema}
  */
 function schemaFromLocalStorage(props) {
   return props.reduce((schema, prop) => {
@@ -228,7 +239,7 @@ function schemaFromLocalStorage(props) {
  * populates the schema modal using either local storage or standard SBL
  *
  * @param {string[]} props schema properties
- * @returns
+ * @returns {void}
  */
 function loadSchema(props) {
   if (checkLocalStorage(props)) {
@@ -242,11 +253,37 @@ function loadSchema(props) {
   props.forEach((p) => populateSchemaModal(academic, p));
 }
 
+/**
+ * sets a schema to local storage
+ * @param {Schema} schema
+ */
 function setSchemaLocalStorage(schema) {
   const props = Object.keys(schema);
   props.forEach((p) => localStorage.setItem(p, schema[p]));
 }
 
+/**
+ * gets the value for the output placeholder
+ * @param {string} inputVal the Hebrew placeholder text to be transliterated
+ * @param {Schema} schema
+ * @param {string} schemaName the key for the output placeholder text
+ */
+async function getPlaceHolder(inputVal, schema, schemaName = "") {
+  if (!localStorage.getItem("hebrewPlaceholderText") || !localStorage.getItem(schemaName)) {
+    const transliteration = await transliterate(inputVal, schema);
+    localStorage.setItem("hebrewPlaceholderText", inputVal);
+    localStorage.setItem(schemaName, transliteration);
+    return transliteration;
+  }
+
+  return localStorage.getItem(schemaName);
+}
+
+/**
+ * parses a json file
+ * @param {File} file
+ * @returns {Promise<Schema>}
+ */
 async function fileToJSON(file) {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
@@ -329,6 +366,11 @@ class Wizard {
 
 const wizard = new Wizard(steps, "d-block", "d-none");
 
+/**
+ *
+ * @param {Wizard} wizard
+ * @returns {void}
+ */
 function nextModalWindow(wizard) {
   if (!wizard.next()) return;
 
@@ -348,6 +390,11 @@ function nextModalWindow(wizard) {
   }
 }
 
+/**
+ *
+ * @param {Wizard} wizard
+ * @returns {void}
+ */
 function prevModalWindow(wizard) {
   if (!wizard.previous()) return;
 
@@ -367,6 +414,11 @@ function prevModalWindow(wizard) {
   }
 }
 
+/**
+ *
+ * @param {Wizard} wizard
+ * @return {void}
+ */
 function resetModalWindow(wizard) {
   wizard.reset();
   wizard.turnOn(nextBtn);
@@ -410,19 +462,28 @@ actionBtn.addEventListener("click", async () => {
   }
 });
 
+/**
+ * when user selects a predefined schema,
+ */
 schemaSelect.addEventListener("change", async (e) => {
   switch (e.target.value) {
     case "sblGeneral":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblGeneral), p));
-      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "sblGeneral")
+        : "";
       break;
     case "sblAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
-      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "sblAcademic")
+        : "";
       break;
     case "brillAcademic":
       schemaProps.forEach((p) => populateSchemaModal(new Schema(brillAcademic), p));
-      output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "brillAcademic")
+        : "";
       break;
     default:
       break;
@@ -441,22 +502,30 @@ additionalFeatureBtn.addEventListener("click", () =>
   addAdditonalFeature(document.querySelector("#ADDITIONAL_FEATURES"))
 );
 
+/**
+ * when user uploads a custom schema, populate schema modal and update output placeholder
+ */
 schemaInput.addEventListener("change", async (event) => {
   const file = event.target.files[0];
   if (file) {
     const customSchema = await fileToJSON(file);
     Object.keys(customSchema).forEach((p) => populateSchemaModal(customSchema, p));
-    output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+    output.placeholder = !output.value
+      ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+      : "";
   }
 });
 
 /**
  * runs when script is loaded — loads props and inserts placeholder text
+ * @param {string[]} schemaProps
  */
 const main = async (schemaProps) => {
   try {
     loadSchema(schemaProps);
-    output.placeholder = await transliterate(input.placeholder, getSchemaModalVals(schemaProps));
+    output.placeholder = !output.value
+      ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), schemaSelect.value)
+      : "";
   } catch (error) {
     console.error(error);
   }
