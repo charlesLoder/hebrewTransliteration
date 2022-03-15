@@ -523,6 +523,9 @@ schemaInput.addEventListener("change", async (event) => {
 const main = async (schemaProps) => {
   try {
     loadSchema(schemaProps);
+    if (!supportsRegexLookAheadLookBehind()) {
+      document.querySelector("#browser-alert").hidden = false;
+    }
     output.placeholder = !output.value
       ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), schemaSelect.value)
       : "";

@@ -49,3 +49,7 @@ actionBtn.addEventListener("click", async () => {
     output.value = error.message ?? "Hmmm...it seems something went wrong";
   }
 });
+
+if (!supportsRegexLookAheadLookBehind()) {
+  document.querySelector("#browser-alert").hidden = false;
+}
