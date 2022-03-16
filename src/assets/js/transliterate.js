@@ -269,7 +269,11 @@ function setSchemaLocalStorage(schema) {
  * @param {string} schemaName the key for the output placeholder text
  */
 async function getPlaceHolder(inputVal, schema, schemaName = "") {
-  if (!localStorage.getItem("hebrewPlaceholderText") || !localStorage.getItem(schemaName)) {
+  if (
+    !localStorage.getItem("hebrewPlaceholderText") ||
+    localStorage.getItem("hebrewPlaceholderText") !== input.placeholder ||
+    !localStorage.getItem(schemaName)
+  ) {
     const transliteration = await transliterate(inputVal, schema);
     localStorage.setItem("hebrewPlaceholderText", inputVal);
     localStorage.setItem(schemaName, transliteration);
