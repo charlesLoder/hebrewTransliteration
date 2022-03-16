@@ -24,8 +24,15 @@
               {% endfor %}
             </div>
           </footer>
-          <div class="font-size-12 font-italic mt-5 text-center text-md-right">icons by
-            <a class="hyperlink text-reset" href="https://friconix.com/" target="_blank" rel="noopener noreferrer">friconix</a>
+          <div class="d-flex flex-column flex-md-row mt-5 align-items-center justify-content-between">
+            <div class="font-size-12 text-center text-md-left">
+              <a class="hyperlink text-reset" href="{{ processEnv.htHomepage }}" target="_blank" rel="noopener noreferrer">
+                {{ processEnv.htName }}: {{ processEnv.htVersion }}
+              </a>
+            </div>
+            <div class="font-size-12 font-italic text-center text-md-right">icons by
+              <a class="hyperlink text-reset" href="https://friconix.com/" target="_blank" rel="noopener noreferrer">friconix</a>
+            </div>
           </div>
         </main>
       </div>
