@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Hebrew Transliteration</title>
+      <meta http-equiv="refresh" content="3; url = https://hebrewtransliteration.app" />
+   </head>
+   <style>
+      :root{
+         --ht-purple: #7370af;
+         --ht-purple-hover: #857cfc;
+      }
+
+      body {
+         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      }
+
+      a {
+         cursor: pointer;
+         text-decoration: none;
+         color: inherit;
+      }
+
+      .page-wrapper {
+         margin: 0 2rem;
+      }
+
+      .linear-wipe {
+         background: linear-gradient(to right, var(--ht-purple), var(--ht-purple-hover));
+         background-size: 300%;
+         -webkit-background-clip: text;
+         background-clip: text;
+         -webkit-text-fill-color: transparent;
+         animation: gradient 3s ease-in-out infinite;
+         -moz-animation: gradient 3s ease-in-out infinite;
+         -webkit-animation: gradient 3s ease-in-out infinite;
+      }
+
+      @keyframes gradient {
+         0% { background-position: 0px 50%; }
+         50% { background-position: 100% 50%; }
+         100% { background-position: 0px 50%; }
+      }
+
+      .purple {
+         color: var(--ht-purple)
+      }
+
+      h1 {
+         font-size: 7rem;
+      }
+
+      p {
+         font-size: 4rem;
+      }
+
+      @media (prefers-color-scheme: dark) {
+         body {
+            background:  rgb(37, 40, 44);
+            color: rgba(225, 225, 225, .8);
+         }
+         .purple {
+            color: var(--ht-purple-hover);
+         }
+      }
+   </style>
+   <body>
+      <div class="page-wrapper">
+      <h1>You will be <span class="linear-wipe">redirected</span> momentarily to</h1>
+      <p class="purple"><a href="https://hebrewtransliteration.app">hebrewtransliteration.app</a></p>
+   </div>
+   </body>
+</html>
