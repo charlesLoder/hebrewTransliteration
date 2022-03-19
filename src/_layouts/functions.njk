@@ -10,6 +10,9 @@
       </div>
       {% set inClasses = ["form-control", (inTxt.classes | join(' '))] | join(' ') %}
       <textarea class="{{ inClasses }}" placeholder="{{ inTxt.placeholder }}" dir="{{ inTxt.dir }}" id="input"></textarea>
+      <div class="mt-10 font-size-12 font-italic" role="alert" id="last-visit" hidden>
+        using transliteration schema from last visit, click Settings to change
+      </div>
       <button class="btn btn-primary mx-auto my-20" id="action-btn">{{ actionBtn }}</button>
       {% set outClasses = ["form-control", (outTxt.classes | join(' '))] | join(' ') %}
       <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
