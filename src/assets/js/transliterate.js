@@ -31,7 +31,6 @@ function supportsRegexLookAheadLookBehind() {
 async function transliterate(text, schema) {
   try {
     if (!supportsRegexLookAheadLookBehind()) {
-      console.log("using api...");
       const resp = await fetch("/api/transliterate", {
         method: "POST",
         body: JSON.stringify({
@@ -243,12 +242,11 @@ function schemaFromLocalStorage(props) {
  */
 function loadSchema(props) {
   if (checkLocalStorage(props)) {
-    console.log("using props in local storage");
+    document.querySelector("#last-visit").hidden = false;
     props.forEach((p) => populateSchemaModal(schemaFromLocalStorage(props), p));
     schemaSelect.value = localStorage.getItem("schemaSelect");
     return;
   }
-  console.log("no local storage, using SBL");
   const academic = new Schema(sblAcademic);
   props.forEach((p) => populateSchemaModal(academic, p));
 }
