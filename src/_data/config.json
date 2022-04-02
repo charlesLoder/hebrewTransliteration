@@ -53,5 +53,23 @@
       "card": "summary_large_image",
       "creator": "@charles_loder"
     }
-  }
+  },
+  "schemas": [
+    {
+      "text": "SBL Academic",
+      "value": "sblAcademic"
+    },
+    {
+      "text": "SBL General Purpose",
+      "value": "sblGeneral"
+    },
+    {
+      "text": "Brill Academic",
+      "value": "brillAcademic"
+    },
+    {
+      "text": "Michigan-Claremont",
+      "value": "michiganClaremont"
+    }
+  ]
 }
