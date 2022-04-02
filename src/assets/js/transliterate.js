@@ -315,10 +315,13 @@ const schemaSelect = document.querySelector("#select-schema");
 const downloadSchemaBtn = document.querySelector("#download-schema");
 const schemaInput = document.querySelector("#schema-input");
 
-/**
- * Form Wizard
- */
 class Wizard {
+  /**
+   *
+   * @param {HTMLCollection} HTMLCollection
+   * @param {string} onClass - css class to control if panel is visible
+   * @param {string} offClass - css class to control if panel is not visible
+   */
   constructor(HTMLCollection, onClass, offClass) {
     this.steps = HTMLCollection;
     this.index = 0;
