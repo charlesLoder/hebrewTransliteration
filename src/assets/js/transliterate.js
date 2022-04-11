@@ -2,6 +2,8 @@ import { transliterate as hebTransliterate, Schema } from "hebrew-transliteratio
 import sblGeneral from "../../_data/sbl-simple.json";
 import sblAcademic from "../../_data/sbl-academic.json";
 import brillAcademic from "../../_data/brill-academic.json";
+import brillSimple from "../../_data/brill-simplified.json";
+import michiganClaremont from "../../_data/michigan-claremont.json";
 
 //@ts-check
 
@@ -314,10 +316,13 @@ const schemaSelect = document.querySelector("#select-schema");
 const downloadSchemaBtn = document.querySelector("#download-schema");
 const schemaInput = document.querySelector("#schema-input");
 
-/**
- * Form Wizard
- */
 class Wizard {
+  /**
+   *
+   * @param {HTMLCollection} HTMLCollection
+   * @param {string} onClass - css class to control if panel is visible
+   * @param {string} offClass - css class to control if panel is not visible
+   */
   constructor(HTMLCollection, onClass, offClass) {
     this.steps = HTMLCollection;
     this.index = 0;
@@ -485,6 +490,22 @@ schemaSelect.addEventListener("change", async (e) => {
       schemaProps.forEach((p) => populateSchemaModal(new Schema(brillAcademic), p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "brillAcademic")
+        : "";
+      break;
+    case "brillSimple":
+      schemaProps.forEach((p) => populateSchemaModal(new Schema(brillSimple), p));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "brillSimple")
+        : "";
+      break;
+    case "michiganClaremont":
+      schemaProps.forEach((p) => populateSchemaModal(new Schema(michiganClaremont), p));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(
+            input.placeholder,
+            getSchemaModalVals(schemaProps),
+            "michiganClaremont"
+          )
         : "";
       break;
     default:
