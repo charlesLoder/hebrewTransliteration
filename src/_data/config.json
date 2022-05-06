@@ -60,6 +60,10 @@
       "value": "sblAcademic"
     },
     {
+      "text": "SBL Academic with Spirantization",
+      "value": "sblAcademicSpirantization"
+    },
+    {
       "text": "SBL General Purpose",
       "value": "sblGeneral"
     },

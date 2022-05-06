@@ -1,11 +1,10 @@
 import { transliterate as hebTransliterate, Schema } from "hebrew-transliteration";
 import sblGeneral from "../../_data/sbl-simple.json";
 import sblAcademic from "../../_data/sbl-academic.json";
+import sblAcademicSpirantization from "../../_data/sbl-academic-spirantization.json";
 import brillAcademic from "../../_data/brill-academic.json";
 import brillSimple from "../../_data/brill-simplified.json";
 import michiganClaremont from "../../_data/michigan-claremont.json";
-
-//@ts-check
 
 /**
  * check if regex lookahead and lookbehind supported
@@ -484,6 +483,16 @@ schemaSelect.addEventListener("change", async (e) => {
       schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "sblAcademic")
+        : "";
+      break;
+    case "sblAcademicSpirantization":
+      schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademicSpirantization), p));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(
+            input.placeholder,
+            getSchemaModalVals(schemaProps),
+            "sblAcademicSpirantization"
+          )
         : "";
       break;
     case "brillAcademic":
