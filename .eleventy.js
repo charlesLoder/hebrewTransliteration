@@ -8,6 +8,7 @@ module.exports = function (eleventyConfig) {
       transliterate: "src/assets/js/transliterate.js",
       remove: "src/assets/js/remove.js",
       friconix: "src/assets/js/friconix.js",
+      about: "src/assets/js/about.js",
     },
     output: "dist/assets",
     esbuild: {
