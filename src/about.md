@@ -27,3 +27,13 @@ Though the advent of Unicode has allowed many scripts to live in the digital wor
 is still useful. To learn more about transliteraiton, checkout this blog post
 <a href="https://taatik.org/blog/what-is-transliteration/" target="_blank" rel="noopener noreferrer">
 here.</a>
+
+##### Other uses
+
+Besides the main page, the JavaScript package can be embedded in web pages to provide an interactive
+experience. When you click on the Hebrew text —
+<span class="heb-text-area" style="cursor: pointer;">שָׁלֹום</span>— it is transliterated. This opens
+up opportunities for eBooks and web pages to include transliteration without manually having to
+create them
+
+<script src="/assets/about.js"></script>
