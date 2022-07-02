@@ -15,13 +15,13 @@ const handler: Handler = async (event: HandlerEvent, context) => {
       });
     }
 
-    const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
+    const doc = new GoogleSpreadsheet(process.env.SHEET_ID || "");
     await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY,
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || "",
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/gm, "\n") || "",
     });
     await doc.loadInfo();
-    const sheet = doc.sheetsByTitle[process.env.SHEET_TITLE];
+    const sheet = doc.sheetsByTitle[process.env.SHEET_TITLE || ""];
 
     if (!event.body) throw new Error("No event body");
 
