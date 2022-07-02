@@ -23,6 +23,8 @@ const handler: Handler = async (event: HandlerEvent, context) => {
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle[process.env.SHEET_TITLE];
 
+    if (!event.body) throw new Error("No event body");
+
     const body: { text: string; error: string; browser: string } = JSON.parse(event.body);
     const resp = await sheet.addRow({
       Date: new Date().toLocaleDateString("en-CA").toString(),

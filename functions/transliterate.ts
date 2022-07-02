@@ -8,6 +8,8 @@ const handler: Handler = async (event: HandlerEvent, context) => {
         message: `${event.httpMethod} Not Allowed`,
       });
     }
+    if (!event.body) throw new Error("No event body");
+
     const body: { text: string; schema: Schema } = JSON.parse(event.body);
     const transliteration = transliterate(body.text, body.schema);
     const response = { transliteration: transliteration };
