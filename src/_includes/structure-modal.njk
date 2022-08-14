@@ -1,0 +1,86 @@
+{% extends "modal.njk" %}
+{% block cards %}
+  <!-- CARD 1 -->
+  <div class="modal-card d-block">
+    <h5 class="modal-title">Structure options</h5>
+    <p>Enter the character to come after each disjunctive accent. Use
+      <code>\n</code>
+      for a new line
+      <code>\t</code>
+      for a tab
+    </p>
+    <form id="step-1-form">
+      <div class="form-group">
+        <div class="container-sm">
+          <div
+            class="row">
+            <!-- COLUMN 1 -->
+            <div
+              class="col-sm">
+              <!-- Sof pasuq -->
+              <div class='mb-5'>
+                <label for="05C3">Sof pasuq</label>
+                <input type="text" class="form-control w-three-quarter" name="05C3" id="05C3"/>
+              </div>
+              <!-- Athnah -->
+              <div class='mb-5'>
+                <label for="0591">Athnah</label>
+                <input type="text" class="form-control w-three-quarter" name="0591" id="0591"/>
+              </div>
+              <!-- Tiphchah -->
+              <div class='mb-5'>
+                <label for="0596">Tiphchah</label>
+                <input type="text" class="form-control w-three-quarter" name="0596" id="0596"/>
+              </div>
+            </div>
+            <!-- COLUMN 1 END -->
+            <!-- COLUMN 2 -->
+            <div
+              class="col-sm">
+              <!-- Zaqef Qatan -->
+              <div class='mb-5'>
+                <label for="0594">Zaqef Qatan</label>
+                <input type="text" class="form-control w-three-quarter" name="0594" id="0594"/>
+              </div>
+              <!-- Segolta -->
+              <div class='mb-5'>
+                <label for="0592">Segolta</label>
+                <input type="text" class="form-control w-three-quarter" name="0592" id="0592"/>
+              </div>
+              <!-- Tebir -->
+              <div class='mb-5'>
+                <label for="059B">Tebir</label>
+                <input type="text" class="form-control w-three-quarter" name="059B" id="059B"/>
+              </div>
+            </div>
+            <!-- COLUMN 2 END -->
+            <!-- COLUMN 3 -->
+            <div
+              class="col-sm">
+              <!-- Pashta -->
+              <div class='mb-5'>
+                <label for="0599">Pashta</label>
+                <input type="text" class="form-control w-three-quarter" name="0599" id="0599"/>
+              </div>
+              <!-- Zarqa -->
+              <div class='mb-5'>
+                <label for="0598">Zarqa</label>
+                <input type="text" class="form-control w-three-quarter" name="0598" id="0598"/>
+              </div>
+              <!-- Rebia -->
+              <div class='mb-5'>
+                <label for="0597">Rebia</label>
+                <input type="text" class="form-control w-three-quarter" name="0597" id="0597"/>
+              </div>
+            </div>
+            <!--COLUMN3 END-->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- CARD 1 END -->
+{% endblock %}
+{% block controls %}
+  {% include "basic-modal-control.njk" %}
+{% endblock %}
