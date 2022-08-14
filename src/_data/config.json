@@ -2,7 +2,7 @@
   "title": "Hebrew Transliteration",
   "lang": "en",
   "base": "src/_layouts/base.njk",
-  "keywords": "hebrew, transliteration, SBL",
+  "keywords": "hebrew, transliteration, SBL, romanization, taamim",
   "navbarMenu": [
     {
       "text": "Transliterate",
