@@ -1,41 +1,29 @@
-import { remove } from "hebrew-transliteration";
+import { Wizard } from "./wizard";
+import { Wrapper } from "./wrapper";
 
-function supportsRegexLookAheadLookBehind() {
-  try {
-    return (
-      "hibyehihi"
-        .replace(new RegExp("(?<=hi)hi", "g"), "hello")
-        .replace(new RegExp("hi(?!bye)", "g"), "hey") === "hibyeheyhello"
-    );
-  } catch (error) {
-    return false;
-  }
-}
+const wrapper = new Wrapper();
 
-async function apiCheck(text, options) {
-  if (!supportsRegexLookAheadLookBehind()) {
-    console.log("using api...");
-    const resp = await fetch("/api/remove", {
-      method: "POST",
-      body: JSON.stringify({
-        text: text,
-        options: options,
-      }),
-    });
-    const json = await resp.json();
-    return json.text;
-  }
-  return remove(text, options);
-}
+// Wizard setup
+const steps = document.querySelector("#modal-cards").children;
+const nextBtn = document.querySelector("#next-btn");
+const prevBtn = document.querySelector("#prev-btn");
+const finalBtn = document.querySelector("#final-btn");
+const wizard = new Wizard(
+  steps,
+  "d-block",
+  "d-none",
+  { btn: prevBtn, text: "Previous" },
+  { btn: nextBtn, text: "Next" },
+  { btn: finalBtn, text: "Done" }
+);
+wizard.init();
 
 // controls
 const input = document.querySelector("#input");
 const output = document.querySelector("#output");
 const actionBtn = document.querySelector("#action-btn");
 
-/**
- * Event listeners
- */
+// event listeners
 actionBtn.addEventListener("click", async () => {
   try {
     const options = {
@@ -43,13 +31,13 @@ actionBtn.addEventListener("click", async () => {
       removeShinDot: document.querySelector("#removeShinDot").checked,
       removeSinDot: document.querySelector("#removeSinDot").checked,
     };
-    output.value = await apiCheck(input.value || input.placeholder, options);
+    output.value = await wrapper.remove(input.value || input.placeholder, options);
   } catch (error) {
     console.log(error);
     output.value = error.message ?? "Hmmm...it seems something went wrong";
   }
 });
 
-if (!supportsRegexLookAheadLookBehind()) {
+if (!wrapper.supportsRegex) {
   document.querySelector("#browser-alert").hidden = false;
 }

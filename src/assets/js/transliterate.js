@@ -1,61 +1,12 @@
-import { transliterate as hebTransliterate, Schema } from "hebrew-transliteration";
+import { Wrapper } from "./wrapper";
+import { Schema } from "hebrew-transliteration";
+import { Wizard } from "./wizard.js";
 import sblGeneral from "../../_data/sbl-simple.json";
 import sblAcademic from "../../_data/sbl-academic.json";
 import sblAcademicSpirantization from "../../_data/sbl-academic-spirantization.json";
 import brillAcademic from "../../_data/brill-academic.json";
 import brillSimple from "../../_data/brill-simplified.json";
 import michiganClaremont from "../../_data/michigan-claremont.json";
-
-/**
- * check if regex lookahead and lookbehind supported
- * @returns {boolean}
- */
-function supportsRegexLookAheadLookBehind() {
-  try {
-    return (
-      "hibyehihi"
-        .replace(new RegExp("(?<=hi)hi", "g"), "hello")
-        .replace(new RegExp("hi(?!bye)", "g"), "hey") === "hibyeheyhello"
-    );
-  } catch (error) {
-    return false;
-  }
-}
-
-/**
- * a wrapper function that checks if regex is supported
- *
- * @param {string} text
- * @param {Schema} schema
- * @returns {Promise<string>} a transliterated string
- */
-async function transliterate(text, schema) {
-  try {
-    if (!supportsRegexLookAheadLookBehind()) {
-      const resp = await fetch("/api/transliterate", {
-        method: "POST",
-        body: JSON.stringify({
-          text: text,
-          schema: schema,
-        }),
-      });
-      if (!resp.ok) throw await resp.json();
-      const json = await resp.json();
-      return json.transliteration;
-    }
-    return hebTransliterate(text, schema);
-  } catch (error) {
-    fetch("/api/error", {
-      method: "POST",
-      body: JSON.stringify({
-        text,
-        error: error.message || error,
-        browser: navigator.userAgent,
-      }),
-    });
-    throw error;
-  }
-}
 
 /**
  * appends a div with the class ADDITIONAL_FEATURE to the parent
@@ -74,13 +25,13 @@ function addAdditonalFeature(parent, hebrew = "", transliteration = "", feature 
       </div>
     </div>
     <!-- TRANSLITERATION -->
-    <div class="col-3 mr-5">
+    <div class="col-5 mr-5">
       <label for="TRANSLITERATION">Transliteration</label>
       <div class="d-flex align-items-center"><input type="text" class="form-control TRANSLITERATION" name="TRANSLITERATION">
       </div>
     </div>
     <!-- FEATURE -->
-    <div class="col-6">
+    <div class="col-4">
       <label for="FEATURE">Feature</label>
       <select name="FEATURE" class="form-control FEATURE">
         <option value="">...</option>
@@ -273,7 +224,7 @@ async function getPlaceHolder(inputVal, schema, schemaName = "") {
     localStorage.getItem("hebrewPlaceholderText") !== input.placeholder ||
     !localStorage.getItem(schemaName)
   ) {
-    const transliteration = await transliterate(inputVal, schema);
+    const transliteration = await wrapper.transliterate(inputVal, schema);
     localStorage.setItem("hebrewPlaceholderText", inputVal);
     localStorage.setItem(schemaName, transliteration);
     return transliteration;
@@ -296,10 +247,6 @@ async function fileToJSON(file) {
   });
 }
 
-/**
- * HTML Elements
- */
-
 // transliteration controls
 const input = document.querySelector("#input");
 const output = document.querySelector("#output");
@@ -315,122 +262,17 @@ const schemaSelect = document.querySelector("#select-schema");
 const downloadSchemaBtn = document.querySelector("#download-schema");
 const schemaInput = document.querySelector("#schema-input");
 
-class Wizard {
-  /**
-   *
-   * @param {HTMLCollection} HTMLCollection
-   * @param {string} onClass - css class to control if panel is visible
-   * @param {string} offClass - css class to control if panel is not visible
-   */
-  constructor(HTMLCollection, onClass, offClass) {
-    this.steps = HTMLCollection;
-    this.index = 0;
-    this.onClass = onClass;
-    this.offClass = offClass;
-  }
-  previous() {
-    return this.steps[this.index - 1] ?? null;
-  }
-  current() {
-    return this.steps[this.index];
-  }
-  next() {
-    return this.steps[this.index + 1] ?? null;
-  }
-  turnOn(step) {
-    step.classList.toggle(this.offClass);
-    step.classList.toggle(this.onClass);
-  }
-  turnOff(step) {
-    step.classList.toggle(this.onClass);
-    step.classList.toggle(this.offClass);
-  }
-  increaseStep() {
-    if (this.next()) {
-      this.turnOff(this.current());
-      this.turnOn(this.next());
-      this.index = this.index + 1;
-      return true;
-    }
-    return false;
-  }
-  decreaseStep() {
-    if (this.previous()) {
-      this.turnOff(this.current());
-      this.turnOn(this.previous());
-      this.index = this.index - 1;
-      return true;
-    }
-    return false;
-  }
-  reset() {
-    this.turnOff(this.current());
-    this.index = 0;
-    this.turnOn(this.steps[this.index]);
-  }
-}
+const wizard = new Wizard(
+  steps,
+  "d-block",
+  "d-none",
+  { btn: prevBtn, text: "Previous" },
+  { btn: nextBtn, text: "Next", initText: "Customize" },
+  { btn: finalBtn, text: "Done" }
+);
+wizard.init();
 
-const wizard = new Wizard(steps, "d-block", "d-none");
-
-/**
- *
- * @param {Wizard} wizard
- * @returns {void}
- */
-function nextModalWindow(wizard) {
-  if (!wizard.next()) return;
-
-  if (!wizard.previous()) {
-    wizard.turnOn(prevBtn);
-  }
-
-  wizard.increaseStep();
-
-  if (wizard.index) {
-    nextBtn.innerText = "Next";
-  }
-
-  if (!wizard.next()) {
-    wizard.turnOff(nextBtn);
-    wizard.turnOn(finalBtn);
-  }
-}
-
-/**
- *
- * @param {Wizard} wizard
- * @returns {void}
- */
-function prevModalWindow(wizard) {
-  if (!wizard.previous()) return;
-
-  if (!wizard.next()) {
-    wizard.turnOff(finalBtn);
-    wizard.turnOn(nextBtn);
-  }
-
-  wizard.decreaseStep();
-
-  if (!wizard.index) {
-    nextBtn.innerText = "Customize";
-  }
-
-  if (!wizard.previous()) {
-    wizard.turnOn(prevBtn);
-  }
-}
-
-/**
- *
- * @param {Wizard} wizard
- * @return {void}
- */
-function resetModalWindow(wizard) {
-  wizard.reset();
-  wizard.turnOn(nextBtn);
-  wizard.turnOff(finalBtn);
-  wizard.turnOff(prevBtn);
-}
+const wrapper = new Wrapper();
 
 /**
  * step through form wizard with arrows
@@ -445,10 +287,10 @@ function checkKey(e) {
   e = e || window.event;
 
   // left arrow
-  if (e.keyCode == "37") prevModalWindow(wizard);
+  if (e.keyCode == "37") wizard.prevWindow();
 
   // right arrow
-  if (e.keyCode == "39") nextModalWindow(wizard);
+  if (e.keyCode == "39") wizard.nextWindow();
 }
 
 document.onkeydown = checkKey;
@@ -459,7 +301,7 @@ document.onkeydown = checkKey;
 actionBtn.addEventListener("click", async () => {
   try {
     const schema = getSchemaModalVals(schemaProps);
-    output.value = await transliterate(input.value || input.placeholder, schema);
+    output.value = await wrapper.transliterate(input.value || input.placeholder, schema);
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {
@@ -522,12 +364,6 @@ schemaSelect.addEventListener("change", async (e) => {
   }
 });
 
-nextBtn.addEventListener("click", () => nextModalWindow(wizard));
-
-prevBtn.addEventListener("click", () => prevModalWindow(wizard));
-
-finalBtn.addEventListener("click", () => resetModalWindow(wizard));
-
 downloadSchemaBtn.addEventListener("click", () => downloadSchema(getSchemaModalVals(schemaProps)));
 
 additionalFeatureBtn.addEventListener("click", () =>
@@ -543,7 +379,7 @@ schemaInput.addEventListener("change", async (event) => {
     const customSchema = await fileToJSON(file);
     Object.keys(customSchema).forEach((p) => populateSchemaModal(customSchema, p));
     output.placeholder = !output.value
-      ? await transliterate(input.placeholder, getSchemaModalVals(schemaProps))
+      ? await wrapper.transliterate(input.placeholder, getSchemaModalVals(schemaProps))
       : "";
   }
 });
@@ -555,7 +391,7 @@ schemaInput.addEventListener("change", async (event) => {
 const main = async (schemaProps) => {
   try {
     loadSchema(schemaProps);
-    if (!supportsRegexLookAheadLookBehind()) {
+    if (!wrapper.supportsRegex) {
       document.querySelector("#browser-alert").hidden = false;
     }
     output.placeholder = !output.value
