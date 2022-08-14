@@ -13,6 +13,10 @@
       "url": "/remove"
     },
     {
+      "text": "Structure",
+      "url": "/structure"
+    },
+    {
       "text": "About",
       "url": "/about"
     }
