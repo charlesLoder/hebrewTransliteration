@@ -9,11 +9,8 @@ import { GoogleSpreadsheet } from "google-spreadsheet";
  */
 const handler: Handler = async (event: HandlerEvent, context) => {
   try {
-    if (event.httpMethod !== "POST") {
-      throw await Promise.reject({
-        message: `${event.httpMethod} Not Allowed`,
-      });
-    }
+    if (event.httpMethod !== "POST") throw new Error(`${event.httpMethod} Not Allowed`);
+    if (!event.body) throw new Error("No event body");
 
     const doc = new GoogleSpreadsheet(process.env.SHEET_ID || "");
     await doc.useServiceAccountAuth({
@@ -22,8 +19,6 @@ const handler: Handler = async (event: HandlerEvent, context) => {
     });
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle[process.env.SHEET_TITLE || ""];
-
-    if (!event.body) throw new Error("No event body");
 
     const body: { text: string; error: string; browser: string } = JSON.parse(event.body);
     const resp = await sheet.addRow({
