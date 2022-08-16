@@ -6,11 +6,12 @@ const wrapper = new Wrapper();
 /**
  * loads options from localStorage
  *
- * @param {{key: string; val: string}[]} options
+ * @param {{key: string; value: string}[]} options
  */
 const loadOptions = (options) => {
+  const athnach = "0591";
   options.forEach((o) => {
-    const v = localStorage.getItem(o.key);
+    const v = localStorage.getItem(o.key) ?? (o.key === athnach ? "\\n" : null);
     const input = document.querySelector(`[id='${o.key}']`);
     if (v && input) {
       input.value = v;
