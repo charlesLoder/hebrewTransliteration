@@ -106,7 +106,7 @@ function addAdditonalFeature(parent, hebrew = "", transliteration = "", feature 
  * @param {string | boolean} val
  */
 function updateInput(input, val) {
-  const type = input.type;
+  const type = input?.type || undefined;
   switch (type) {
     case "checkbox":
       input.checked = val;
@@ -153,14 +153,14 @@ function populateSchemaModal(schema, prop) {
  * @returns {string | boolean} the input's value
  */
 function getInputVal(input) {
-  const type = input.type;
+  const type = input?.type || undefined;
   switch (type) {
     case "checkbox":
       return input.checked;
     case "text":
       return input.value;
     default:
-      return "";
+      return undefined;
   }
 }
 
