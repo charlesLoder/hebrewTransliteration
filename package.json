@@ -16,18 +16,18 @@
   },
   "dependencies": {
     "google-spreadsheet": "^3.3.0",
-    "hebrew-transliteration": "^2.0.8"
+    "hebrew-transliteration": "^2.1.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",
     "@jamshop/eleventy-plugin-esbuild": "^1.0.2",
     "@netlify/functions": "^1.2.0",
     "@types/google-spreadsheet": "^3.3.0",
-    "@types/node": "^18.7.13",
+    "@types/node": "^18.7.18",
     "clean-css": "^5.3.1",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "html-minifier": "^4.0.0",
-    "netlify-cli": "^11.5.0",
-    "npm-check-updates": "^16.0.6"
+    "netlify-cli": "^11.8.0",
+    "npm-check-updates": "^16.1.3"
   }
 }
