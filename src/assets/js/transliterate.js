@@ -212,6 +212,14 @@ function setSchemaLocalStorage(schema) {
   props.forEach((p) => localStorage.setItem(p, schema[p]));
 }
 
+function checkLocalStoragePlaceholder(schemaName) {
+  return (
+    !localStorage.getItem("hebrewPlaceholderText") ||
+    localStorage.getItem("hebrewPlaceholderText") !== input.placeholder ||
+    !localStorage.getItem(schemaName)
+  );
+}
+
 /**
  * gets the value for the output placeholder
  * @param {string} inputVal the Hebrew placeholder text to be transliterated
@@ -219,11 +227,7 @@ function setSchemaLocalStorage(schema) {
  * @param {string} schemaName the key for the output placeholder text
  */
 async function getPlaceHolder(inputVal, schema, schemaName = "") {
-  if (
-    !localStorage.getItem("hebrewPlaceholderText") ||
-    localStorage.getItem("hebrewPlaceholderText") !== input.placeholder ||
-    !localStorage.getItem(schemaName)
-  ) {
+  if (checkLocalStoragePlaceholder(schemaName)) {
     const transliteration = await wrapper.transliterate(inputVal, schema);
     localStorage.setItem("hebrewPlaceholderText", inputVal);
     localStorage.setItem(schemaName, transliteration);
