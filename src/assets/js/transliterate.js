@@ -305,7 +305,8 @@ actionBtn.addEventListener("click", async () => {
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {
-    output.value = "Hmmm...it seems something went wrong";
+    output.value =
+      "Hmmm...it seems something went wrong. Check the Tips button for best practices.";
     console.error(error);
   }
 });
