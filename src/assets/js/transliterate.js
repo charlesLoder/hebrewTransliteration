@@ -407,5 +407,21 @@ const main = async (schemaProps) => {
   }
 };
 
+/**
+ * if we have to use Netlify functions and the user already has something in localstorage
+ * then we call out to the function to wake it up before they transliterate something.
+ * If they do not have something in localStorage, then no need to wake up.
+ * The call for the placeholder will handle that.
+ * Seesionstorage sets if the function is already awake
+ */
+if (
+  !wrapper.supportsRegex &&
+  Boolean(localStorage.getItem("hebrewPlaceholderText")) &&
+  !sessionStorage.getItem("wakeup")
+) {
+  fetch("/api/transliterate");
+  sessionStorage.setItem("wakeup", true);
+}
+
 const schemaProps = Object.keys(new Schema(sblAcademic));
 main(schemaProps);
