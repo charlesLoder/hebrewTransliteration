@@ -1,5 +1,10 @@
 <head>
-  <title>{{ config.title }} - {{ title }}</title>
+  <title>
+    {{ config.title }}
+    {% if title %}
+      - {{ title }}
+    {% endif %}
+  </title>
   <script async src="https://www.googletagmanager.com/gtag/js?id={{ processEnv.gaTagId }}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -33,4 +38,4 @@
   <style>{{css | cssmin | safe}}</style>
   <link rel="icon" href="{{ '/assets/img/favicon.svg' | url }}"/>
   <script defer="true" src="{{ '/assets/friconix.js' | url }}"></script>
-</head>
+</head></head>
