@@ -1,17 +1,18 @@
-import { Wrapper } from "./wrapper";
 import { Wizard } from "./wizard";
 
-const wrapper = new Wrapper();
+const defaultOpts = {
+  "0591": "\\n",
+  "05C3": "\\n",
+};
 
 /**
  * loads options from localStorage
  *
  * @param {{key: string; value: string}[]} options
  */
-const loadOptions = (options) => {
-  const athnach = "0591";
+const loadOptions = (options, defaultOpts) => {
   options.forEach((o) => {
-    const v = localStorage.getItem(o.key) ?? (o.key === athnach ? "\\n" : null);
+    const v = localStorage.getItem(o.key) ?? defaultOpts[o.key] ?? null;
     const input = document.querySelector(`[id='${o.key}']`);
     if (v && input) {
       input.value = v;
@@ -99,4 +100,4 @@ actionBtn.addEventListener("click", async () => {
 });
 
 // on load
-loadOptions(getInputVals("form"));
+loadOptions(getInputVals("form"), defaultOpts);
