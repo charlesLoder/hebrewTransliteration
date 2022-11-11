@@ -8,6 +8,7 @@ module.exports = function (eleventyConfig) {
       entryPoints: {
         transliterate: "src/assets/js/transliterate.js",
         remove: "src/assets/js/remove.js",
+        structure: "src/assets/js/structure.js",
         friconix: "src/assets/js/friconix.js",
         about: "src/assets/js/about.js",
       },
