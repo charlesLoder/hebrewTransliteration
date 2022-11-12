@@ -59,9 +59,27 @@ const handler: Handler = async (event: HandlerEvent, context) => {
       taamim: e.value.map((u) => `\\u{${u}}`).join(""),
     }));
 
-    const result = text.words
-      .map(addWhiteSpace(regexes))
-      .reduce((s, w) => s + `${w.text}${w.whiteSpaceAfter}`, "");
+    const result = text.words.map(addWhiteSpace(regexes)).reduce((s, w, i, arr) => {
+      const next = arr[i + 1];
+      if (next) {
+        /**
+         * if there is a pitucha or stuma marker,
+         * then take whatever character appeared after the sof pasqud
+         * and assign it to the marker.
+         *
+         * This is not a great way of doing it since we are modifying the data
+         *
+         * But it works for now
+         */
+        const nextPituchaOrStuma = /[פ|ס]/.test(next.text);
+        if (nextPituchaOrStuma) {
+          next.whiteSpaceAfter = w.whiteSpaceAfter;
+          return s + `${w.text} `;
+        }
+        return s + `${w.text}${w.whiteSpaceAfter}`;
+      }
+      return s + `${w.text}${w.whiteSpaceAfter}`;
+    }, "");
 
     const response = { text: result };
 
