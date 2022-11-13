@@ -71,7 +71,7 @@ const handler: Handler = async (event: HandlerEvent, context) => {
          *
          * But it works for now
          */
-        const nextPituchaOrStuma = /[פ|ס]/.test(next.text);
+        const nextPituchaOrStuma = /^[פ|ס]$/.test(next.text);
         if (nextPituchaOrStuma) {
           next.whiteSpaceAfter = w.whiteSpaceAfter;
           return s + `${w.text} `;
