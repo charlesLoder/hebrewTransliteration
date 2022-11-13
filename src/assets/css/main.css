@@ -35,7 +35,7 @@
   --lm-checkbox-bg-color-checked: var(--ht-purple);
   --lm-checkbox-border-color-checked: var(--ht-purple);
 
-  --dm-link-text-color: var(--ht-purple);
+  --dm-link-text-color: var(--ht-purple-hover);
   --dm-link-text-color-hover: var(--ht-purple-hover);
   --lm-link-text-color: var(--ht-purple);
   --lm-link-text-color-hover: var(--ht-purple-hover);
@@ -50,7 +50,7 @@
 }
 
 textarea {
-  resize: none;
+  resize: vertical;
 }
 
 .heb-text-area {

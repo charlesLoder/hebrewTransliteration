@@ -1,0 +1,26 @@
+---js
+{
+  title: "Structure",
+  description: "",
+  layout: "functions.njk",
+  mainText: "Structure verses based on taamim (i.e. cantillation or accents) for Biblical prose texts. Learn more on the About page",
+  actionBtn: "Structure",
+  inTxt: {
+    dir: "rtl",
+    placeholder: "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ׃",
+    classes: ["heb-text-area", "font-size-24"]
+  },
+  outTxt: {
+    dir: "rtl",
+    placeholder: "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים\nאֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ׃",
+    classes: ["heb-text-area", "font-size-24"]
+  },
+  modals: [{
+    src: "structure-modal.njk",
+    id: "structure-modal",
+    btnHref: "#structure-modal",
+    btnText: "Settings"
+  }],
+  jsFile: "/assets/structure.js",
+}
+---
