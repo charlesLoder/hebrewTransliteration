@@ -43,10 +43,10 @@ create them.
 ##### The Structure Page
 
 The <a href='{{ "/structure" | url }}'>Structure</a> page is designed to help break up verses into
-readable chunks based on the taamim (i.e. cantillation or accents). It was developed with the help
-of [Doug Smith](https://mbts.academia.edu/DougSmith).
+readable chunks based on the taamim (i.e. cantillation or accents).
 
-This is a work-in-progress. The current version only supports a limited number of taamim for prose
-texts.
+It was designed by [Doug Smith](https://mbts.academia.edu/DougSmith) and developed with his input.
+
+The current version only supports a limited number of taamim for prose texts.
 
 <script src="/assets/about.js"></script>
