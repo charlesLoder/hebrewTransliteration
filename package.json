@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "google-spreadsheet": "^3.3.0",
-    "hebrew-transliteration": "^2.2.4"
+    "hebrew-transliteration": "^2.3.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.2",
@@ -25,9 +25,9 @@
     "@types/node": "^18.11.9",
     "clean-css": "^5.3.1",
     "dotenv": "^16.0.3",
-    "esbuild": "^0.15.13",
+    "esbuild": "^0.15.14",
     "html-minifier": "^4.0.0",
-    "netlify-cli": "^12.1.1",
-    "npm-check-updates": "^16.3.18"
+    "netlify-cli": "^12.2.4",
+    "npm-check-updates": "^16.4.1"
   }
 }
