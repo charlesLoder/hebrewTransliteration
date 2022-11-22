@@ -256,25 +256,40 @@ const input = document.querySelector("#input");
 const output = document.querySelector("#output");
 const actionBtn = document.querySelector("#action-btn");
 
-// modal controls
-const steps = document.querySelector("#modal-cards").children;
-const nextBtn = document.querySelector("#next-btn");
-const prevBtn = document.querySelector("#prev-btn");
-const finalBtn = document.querySelector("#final-btn");
+// modal for schema
+const schemaSteps = document.querySelector("#schema-modal #modal-cards").children;
+const schemaNextBtn = document.querySelector("#schema-modal #next-btn");
+const schemaPrevBtn = document.querySelector("#schema-modal #prev-btn");
+const schemaFinalBtn = document.querySelector("#schema-modal #final-btn");
+const wizard = new Wizard(
+  schemaSteps,
+  "d-block",
+  "d-none",
+  { btn: schemaPrevBtn, text: "Previous" },
+  { btn: schemaNextBtn, text: "Next", initText: "Customize" },
+  { btn: schemaFinalBtn, text: "Done" }
+);
+wizard.init();
+
 const additionalFeatureBtn = document.querySelector("#additional-feature-btn");
 const schemaSelect = document.querySelector("#select-schema");
 const downloadSchemaBtn = document.querySelector("#download-schema");
 const schemaInput = document.querySelector("#schema-input");
 
-const wizard = new Wizard(
-  steps,
+// modal for tips
+const tipsSteps = document.querySelector("#tips-modal #modal-cards").children;
+const tipsNextBtn = document.querySelector("#tips-modal #next-btn");
+const tipsPrevBtn = document.querySelector("#tips-modal #prev-btn");
+const tipsFinalBtn = document.querySelector("#tips-modal #final-btn");
+const tipsWizard = new Wizard(
+  tipsSteps,
   "d-block",
   "d-none",
-  { btn: prevBtn, text: "Previous" },
-  { btn: nextBtn, text: "Next", initText: "Customize" },
-  { btn: finalBtn, text: "Done" }
+  { btn: tipsPrevBtn, text: "Previous" },
+  { btn: tipsNextBtn, text: "Next" },
+  { btn: tipsFinalBtn, text: "Done" }
 );
-wizard.init();
+tipsWizard.init();
 
 const wrapper = new Wrapper();
 
