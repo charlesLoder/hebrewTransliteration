@@ -68,8 +68,8 @@ export class Wrapper {
    * gets text from Netlify function
    *
    * @param {string} text
-   * @param {{removeVowels: boolean, removeShinDot: boolean, removeSinDot: boolean}} options
-   * @returns {Promise<string>} a transliterated string
+   * @param {{[x: string]: boolean}} options
+   * @returns {Promise<string>} a string with options removed
    */
   async fetchRemove(text, options) {
     try {
@@ -109,7 +109,7 @@ export class Wrapper {
    * a wrapper around the `remove()` function
    *
    * @param {string} text
-   * @param {{removeVowels: boolean, removeShinDot: boolean, removeSinDot: boolean}} options
+   * @param {{[x: string]: boolean}} options
    */
   async remove(text, options) {
     try {
