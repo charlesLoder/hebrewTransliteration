@@ -45,7 +45,7 @@
   <!-- SCHEMA end -->
   <!-- CONSONANTS (1) start -->
   <div class="modal-card d-none" id="consonants-1-modal">
-    <h5 class="modal-title">Consonants (1)</h5>
+    <h5 class="modal-title">Consonants (1 of 3)</h5>
     <!-- Progress bars -->
     <div class="progress mb-10">
       <div
@@ -175,7 +175,7 @@
   <!-- CONSONANTS (1) end -->
   <!-- CONSONANTS (2) start -->
   <div class="modal-card d-none" id="consonants-2-modal">
-    <h5 class="modal-title">Consonants (2)</h5>
+    <h5 class="modal-title">Consonants (2 of 3)</h5>
     <!-- Progress bars -->
     <div class="progress mb-10">
       <div
@@ -292,7 +292,7 @@
   <!-- CONSONANTS (2) end -->
   <!-- CONSONANTS (3) start -->
   <div class="modal-card d-none" id="consonants-3-modal">
-    <h5 class="modal-title">Consonants (3)</h5>
+    <h5 class="modal-title">Consonants (3 of 3)</h5>
     <!-- Progress bars -->
     <div class="progress mb-10">
       <div
@@ -412,7 +412,7 @@
   <!-- CONSONANTS (3) end -->
   <!-- VOWELS (1) start -->
   <div class="modal-card d-none" id="vowels-1-modal">
-    <h5 class="modal-title">Vowels (1)</h5>
+    <h5 class="modal-title">Vowels (1 of 2)</h5>
     <!-- Progress bars -->
     <div class="progress mb-10">
       <div
@@ -534,7 +534,7 @@
   <!-- VOWELS (1) end -->
   <!-- VOWELS (2) -->
   <div class="modal-card d-none" id="vowels-2-modal">
-    <h5 class="modal-title">Vowels (2)</h5>
+    <h5 class="modal-title">Vowels (2 of 2)</h5>
     <!-- Progress bars -->
     <div class="progress mb-10">
       <div
@@ -941,18 +941,7 @@
 {% endblock %}
 {% block controls %}
   <!-- Schema button footer start -->
-  <div class="dropdown-divider my-15"></div>
-  <div
-    class="btn-container d-flex justify-content-between">
-    <!-- Previous -->
-    <button class="btn btn-primary mr-auto wizard-btn d-none" id="prev-btn">Previous</button>
-    <!-- Next -->
-    <button class="btn btn-primary ml-auto wizard-btn d-block" id="next-btn">Customize</button>
-    <!-- Done -->
-    <div class="text-right wizard-btn d-none" id="final-btn">
-      <a href="#" class="btn btn-success ml-auto text-dark" role="button">Done</a>
-    </div>
-  </div>
+  {% include "basic-modal-control.njk" %}
   <p>You can save a schema by downloading it for later.</p>
   <button class="btn btn-primary w-full" id="download-schema">Download schema</button>
   <!-- Schema button footer end -->
