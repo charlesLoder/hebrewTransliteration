@@ -1,28 +1,48 @@
 {% extends "modal.njk" %}
 {% block cards %}
-  <div class="modal-card d-block">
-    <h5 class="modal-title">Remove options</h5>
-    <form id="step-1-form">
-      <div
-        class="form-group">
-        <!-- removeVowels checkbox -->
-        <div class="col-sm custom-checkbox form-group">
-          <input type="checkbox" name="removeVowels" id="removeVowels" value="">
-          <label for="removeVowels">Remove Vowels</label>
-        </div>
-        <!-- removeShinDot checkbox -->
-        <div class="col-sm custom-checkbox form-group">
-          <input type="checkbox" name="removeShinDot" id="removeShinDot" value="">
-          <label for="removeShinDot">Remove Shin Dot</label>
-        </div>
-        <!-- removeSinDot checkbox -->
-        <div class="col-sm custom-checkbox form-group">
-          <input type="checkbox" name="removeSinDot" id="removeSinDot" value="">
-          <label for="removeSinDot">Remove Sin Dot</label>
-        </div>
+  {% for option in removeOptions %}
+    <!-- CARD {{ loop.index }} START -->
+    <div
+      class="modal-card {% if loop.index === 1 %} d-block {% else %} d-none {% endif %}">
+      <!-- PROGRESS BAR START -->
+      <div class="progress mb-15">
+        <div class="progress-bar" style="width: {{ option.progress }}%" role="progressbar" aria-labelledby="customization" aria-valuenow="{{ option.progress }}" aria-valuemin="{{ option.progress }}" aria-valuemax="100"></div>
       </div>
-    </form>
-  </div>
+      <!-- PROGRESS BAR END -->
+      <h5 class="modal-title">{{ option.title }}</h5>
+      <div
+        class="col-sm custom-checkbox form-group">
+        <!-- SELECT ALL START -->
+        <input type="checkbox" name="select-all-{{ loop.index }}" id="select-all-{{ loop.index }}" value=""/>
+        <label for="select-all-{{ loop.index }}">Select all</label>
+        <!-- SELECT ALL END -->
+        <div class="dropdown-divider my-15"></div>
+        <!-- FORM START -->
+        <form id="step-{{ loop.index }}-form">
+          <div class="form-group">
+            <div class="container-sm">
+              <div class="row">
+                {% for row in option.rows %}
+                  <div class="col-sm">
+                    {% for value in row %}
+                      <!-- {{ value }} start -->
+                      <div class="col-sm custom-checkbox form-group">
+                        <input class="option" type="checkbox" name="{{ value }}" id="{{ value }}" value=""/>
+                        <label for="{{ value }}">{{ value | replace("_", " ") | capitalize }}</label>
+                      </div>
+                      <!-- {{ value }} END -->
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </form>
+        <!-- FORM END -->
+      </div>
+    </div>
+    <!-- CARD {{ loop.index }} END -->
+  {% endfor %}
 {% endblock %}
 {% block controls %}
   {% include "basic-modal-control.njk" %}
