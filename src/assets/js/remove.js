@@ -165,9 +165,4 @@ if (!wrapper.supportsRegex) {
   /** @type {HTMLDivElement} */ (document.querySelector("#browser-alert")).hidden = false;
 }
 
-const lsOptions = getLocalStorageOptions();
-if (!lsOptions) {
-  setOptions(defaultOpions);
-} else {
-  setOptions(lsOptions);
-}
+setOptions(getLocalStorageOptions() || defaultOpions);
