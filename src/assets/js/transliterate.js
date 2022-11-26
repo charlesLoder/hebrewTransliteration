@@ -261,6 +261,10 @@ const schemaSteps = document.querySelector("#schema-modal #modal-cards").childre
 const schemaNextBtn = document.querySelector("#schema-modal #next-btn");
 const schemaPrevBtn = document.querySelector("#schema-modal #prev-btn");
 const schemaFinalBtn = document.querySelector("#schema-modal #final-btn");
+const additionalFeatureBtn = document.querySelector("#additional-feature-btn");
+const schemaSelect = document.querySelector("#select-schema");
+const downloadSchemaBtn = document.querySelector("#download-schema");
+const schemaInput = document.querySelector("#schema-input");
 const wizard = new Wizard(
   schemaSteps,
   "d-block",
@@ -270,11 +274,6 @@ const wizard = new Wizard(
   { btn: schemaFinalBtn, text: "Done" }
 );
 wizard.init();
-
-const additionalFeatureBtn = document.querySelector("#additional-feature-btn");
-const schemaSelect = document.querySelector("#select-schema");
-const downloadSchemaBtn = document.querySelector("#download-schema");
-const schemaInput = document.querySelector("#schema-input");
 
 // modal for tips
 const tipsSteps = document.querySelector("#tips-modal #modal-cards").children;
