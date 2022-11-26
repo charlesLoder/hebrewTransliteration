@@ -24,7 +24,7 @@ needs.
 ##### Transliteration
 
 Though the advent of Unicode has allowed many scripts to live in the digital world, transliteration
-is still useful. To learn more about transliteraiton, checkout this blog post
+is still useful. To learn more about transliteration, checkout this blog post
 <a href="https://taatik.org/blog/what-is-transliteration/" target="_blank" rel="noopener noreferrer">
 here.</a>
 
