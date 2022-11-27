@@ -1,4 +1,5 @@
 {
+  "site_name": "Hebrew Transliteration App",
   "title": "Hebrew Transliteration",
   "lang": "en",
   "base": "src/_layouts/base.njk",
