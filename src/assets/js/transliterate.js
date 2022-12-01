@@ -7,6 +7,7 @@ import sblAcademicSpirantization from "../../_data/sbl-academic-spirantization.j
 import brillAcademic from "../../_data/brill-academic.json";
 import brillSimple from "../../_data/brill-simplified.json";
 import michiganClaremont from "../../_data/michigan-claremont.json";
+import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
 
 /**
  * appends a div with the class ADDITIONAL_FEATURE to the parent
@@ -319,7 +320,9 @@ document.onkeydown = checkKey;
 actionBtn.addEventListener("click", async () => {
   try {
     const schema = getSchemaModalVals(schemaProps);
+    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOn();
     output.value = await wrapper.transliterate(input.value || input.placeholder, schema);
+    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOff();
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {
@@ -413,6 +416,7 @@ const main = async (schemaProps) => {
     if (!wrapper.supportsRegex) {
       document.querySelector("#browser-alert").hidden = false;
     }
+
     output.placeholder = !output.value
       ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), schemaSelect.value)
       : "";

@@ -1,6 +1,7 @@
 //@ts-check
 import { Wizard } from "./wizard";
 import { Wrapper } from "./wrapper";
+import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
 
 const defaultOpions = {
   ETNAHTA: true,
@@ -142,8 +143,9 @@ function setLocalStorageOptions(vals) {
 actionBtn.addEventListener("click", async () => {
   try {
     const options = getOptions();
-    console.log(options);
+    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOn();
     output.value = await wrapper.remove(input.value || input.placeholder, options);
+    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOff();
     setLocalStorageOptions(options);
   } catch (error) {
     console.log(error);

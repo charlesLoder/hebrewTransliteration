@@ -1,4 +1,5 @@
 import { Wizard } from "./wizard";
+import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
 
 const defaultOpts = {
   "0591": "\\n",
@@ -91,7 +92,9 @@ const actionBtn = document.querySelector("#action-btn");
 actionBtn.addEventListener("click", async () => {
   try {
     const options = getInputVals("form");
+    toggleSpinnerOn();
     output.value = await structure(input.value || input.placeholder, options);
+    toggleSpinnerOff();
     setOptions(options);
   } catch (error) {
     output.value = "Hmmm...it seems something went wrong";
