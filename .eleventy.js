@@ -33,8 +33,7 @@ module.exports = function (eleventyConfig) {
   });
 
   // adds a copy to dist
-  eleventyConfig.addPassthroughCopy("src/assets/img/favicon.svg");
-  eleventyConfig.addPassthroughCopy("src/assets/img/hebrew-transliteration-card.png");
+  eleventyConfig.addPassthroughCopy("src/assets/img/*");
   // triggers a rebuild when anything in here changes
   eleventyConfig.addWatchTarget("src/assets/css/main.css");
   eleventyConfig.addWatchTarget("src/assets/js/");
