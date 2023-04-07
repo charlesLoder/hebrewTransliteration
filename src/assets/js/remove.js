@@ -1,8 +1,10 @@
 //@ts-check
 import { Wizard } from "./wizard";
 import { Wrapper } from "./wrapper";
-import { feedbackWizard } from "./feedback";
+import { feedbackFormInit } from "./feedback";
 import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
+
+feedbackFormInit();
 
 const defaultOpions = {
   ETNAHTA: true,
@@ -59,8 +61,6 @@ const wizard = new Wizard(
   { btn: finalBtn, text: "Done" }
 );
 wizard.init();
-
-feedbackWizard.init();
 
 /**
  * step through form wizard with arrows

@@ -1,7 +1,7 @@
 import { Wrapper } from "./wrapper";
 import { Schema } from "hebrew-transliteration";
 import { Wizard } from "./wizard.js";
-import { feedbackWizard } from "./feedback";
+import { feedbackFormInit } from "./feedback";
 import sblGeneral from "../../_data/sbl-simple.json";
 import sblAcademic from "../../_data/sbl-academic.json";
 import sblAcademicSpirantization from "../../_data/sbl-academic-spirantization.json";
@@ -9,6 +9,8 @@ import brillAcademic from "../../_data/brill-academic.json";
 import brillSimple from "../../_data/brill-simplified.json";
 import michiganClaremont from "../../_data/michigan-claremont.json";
 import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
+
+feedbackFormInit();
 
 /**
  * appends a div with the class ADDITIONAL_FEATURE to the parent
@@ -292,7 +294,7 @@ const tipsWizard = new Wizard(
 );
 tipsWizard.init();
 
-feedbackWizard.init();
+// feedbackWizard.init();
 
 const wrapper = new Wrapper();
 
