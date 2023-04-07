@@ -26,15 +26,22 @@
       </button>
       {% set outClasses = ["form-control", (outTxt.classes | join(' '))] | join(' ') %}
       <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
-      {% if modals.length %}
-        <div class="d-flex flex-column flex-sm-row-reverse  mt-20">
-          {% for modal in modals %}
-            <div class="">
-              <a href="{{ modal.btnHref }}" class="btn btn-primary w-full w-sm-auto mb-20 mb-sm-0 ml-sm-20" role="button">{{ modal.btnText }}</a>
-            </div>
-          {% endfor %}
+      <div
+        id="controls-container"
+        class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-center mt-20">
+        <div id="left-controls" class="w-full w-sm-auto">
+          <a href="#feedback-modal" class="btn btn-primary w-full" role="button">Feedback</a>
         </div>
-      {% endif %}
+        {% if modals.length %}
+          <div id="right-controls" class="d-flex flex-column flex-sm-row-reverse justify-content-between w-full w-sm-auto">
+            {% for modal in modals %}
+              <div class="ml-sm-5 ml-md-0">
+                <a href="{{ modal.btnHref }}" class="btn btn-primary w-full w-md-auto mb-20 mb-sm-0 ml-md-20" role="button">{{ modal.btnText }}</a>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
     </div>
     {% if jsFile %}
       <script defer="true" type="modlue" src="{{ jsFile }}"></script>
