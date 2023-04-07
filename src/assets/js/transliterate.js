@@ -1,6 +1,7 @@
 import { Wrapper } from "./wrapper";
 import { Schema } from "hebrew-transliteration";
 import { Wizard } from "./wizard.js";
+import { feedbackWizard } from "./feedback";
 import sblGeneral from "../../_data/sbl-simple.json";
 import sblAcademic from "../../_data/sbl-academic.json";
 import sblAcademicSpirantization from "../../_data/sbl-academic-spirantization.json";
@@ -291,19 +292,6 @@ const tipsWizard = new Wizard(
 );
 tipsWizard.init();
 
-// modal for feedback
-const feedbackSteps = document.querySelector("#feedback-modal #modal-cards").children;
-const feedbackNextBtn = document.querySelector("#feedback-modal #next-btn");
-const feedbackPrevBtn = document.querySelector("#feedback-modal #prev-btn");
-const feedbackFinalBtn = document.querySelector("#feedback-modal #final-btn");
-const feedbackWizard = new Wizard(
-  feedbackSteps,
-  "d-block",
-  "d-none",
-  { btn: feedbackPrevBtn, text: "Previous" },
-  { btn: feedbackNextBtn, text: "Next" },
-  { btn: feedbackFinalBtn, text: "Done" }
-);
 feedbackWizard.init();
 
 const wrapper = new Wrapper();
