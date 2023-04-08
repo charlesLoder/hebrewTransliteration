@@ -18,7 +18,7 @@ const handler: Handler = async (event: HandlerEvent, context) => {
       private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/gm, "\n") || "",
     });
     await doc.loadInfo();
-    const sheet = doc.sheetsByTitle[process.env.SHEET_TITLE || ""];
+    const sheet = doc.sheetsByTitle[process.env.SHEET_ERROR_TITLE || ""];
 
     const body: { text: string; error: string; browser: string } = JSON.parse(event.body);
     const resp = await sheet.addRow({
