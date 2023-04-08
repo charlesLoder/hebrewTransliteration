@@ -3,6 +3,7 @@
   {% include "head.njk" %}
   <body data-set-preferred-mode-onload="true">
     <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
+    {% include "feedback.njk" %}
     {% for modal in modals %}
       <!-- Modal start -->
       {% include modal.src %}

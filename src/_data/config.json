@@ -84,5 +84,8 @@
       "text": "Michigan-Claremont",
       "value": "michiganClaremont"
     }
-  ]
+  ],
+  "feedback": {
+    "placeholder": "Please include as much information as possible, including: Hebrew text, expected outcome, receieved outcome,or the error received"
+  }
 }

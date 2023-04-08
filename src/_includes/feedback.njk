@@ -1,0 +1,38 @@
+{% extends "modal.njk" %}
+{% set modal = {id: "feedback-modal"} %}
+{% block cards %}
+  <!-- FEEDBACK FORM START -->
+  <div id="feedback" class="modal-card">
+    <form name="feedback" method="POST" data-netlify="true">
+      <fieldset>
+        <label class="mb-0" for="email">Email</label>
+        <p class="font-size-12 my-0 font-italic">only if you would like a response</p>
+        <input name="email" type="email" class="form-control"/>
+      </fieldset>
+      <fieldset class="mt-10">
+        <label for="issue">Issue type<span class="text-danger">*</span>
+        </label>
+        <select class="form-control" id="issue" name="issue" required>
+          <option value="" selected="selected" disabled="disabled">Select an issue type</option>
+          <option value="incorrect">Incorrect output</option>
+          <option value="error">Received an error</option>
+          <option value="generic">Generic feedback</option>
+          <option value="other">Other</option>
+        </select>
+      </fieldset>
+      <fieldset class="mt-10">
+        <label for="response">Feedback<span class="text-danger">*</span>
+        </label>
+        <textarea name="response" class="form-control" placeholder="{{ config.feedback.placeholder }}" required></textarea>
+      </fieldset>
+      <div class="dropdown-divider my-15"></div>
+      <div
+        class="btn-container d-flex justify-content-between">
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary ml-auto" id="submit-btn">Submit</button>
+      </div>
+    </form>
+  </div>
+  <!-- FEEDBACK FORM END -->
+{% endblock %}
+{% block controls %}{% endblock %}

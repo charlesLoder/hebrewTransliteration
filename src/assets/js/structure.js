@@ -1,5 +1,8 @@
 import { Wizard } from "./wizard";
+import { feedbackFormInit } from "./feedback";
 import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
+
+feedbackFormInit();
 
 const defaultOpts = {
   "0591": "\\n",

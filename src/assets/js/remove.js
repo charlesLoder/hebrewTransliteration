@@ -1,7 +1,10 @@
 //@ts-check
 import { Wizard } from "./wizard";
 import { Wrapper } from "./wrapper";
+import { feedbackFormInit } from "./feedback";
 import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
+
+feedbackFormInit();
 
 const defaultOpions = {
   ETNAHTA: true,

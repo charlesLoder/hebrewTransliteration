@@ -21,14 +21,14 @@ npm install
 npm run start:dev
 ```
 
-The Netlify `error.ts` function is designed to post to a Google sheet. If you want to set that up,
-create a `.env` file:
+The Netlify `error.ts` and `feedback.ts` functions are designed to post to a Google sheet. If you
+want to set that up, create a `.env` file:
 
 ```bash
-GA_TAG_ID=
+GA_TAG_ID= # for analytics
 SHEET_ID=
-SHEET_TITLE=
-API_KEY=
+SHEET_ERROR_TITLE=
+SHEET_FEEDBACK_TITLE=
 SCOPE=
 GOOGLE_SERVICE_ACCOUNT_EMAIL=
 GOOGLE_PRIVATE_KEY=

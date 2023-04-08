@@ -18,14 +18,14 @@ const handler: Handler = async (event: HandlerEvent, context) => {
       private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/gm, "\n") || "",
     });
     await doc.loadInfo();
-    const sheet = doc.sheetsByTitle[process.env.SHEET_ERROR_TITLE || ""];
+    const sheet = doc.sheetsByTitle[process.env.SHEET_FEEDBACK_TITLE || ""];
 
-    const body: { text: string; error: string; browser: string } = JSON.parse(event.body);
+    const body: { issue: string; response: string; email?: string } = JSON.parse(event.body);
     const resp = await sheet.addRow({
       Date: new Date().toLocaleDateString("en-CA").toString(),
-      Input: body.text,
-      Error: body.error,
-      Browser: body.browser,
+      Issue: body.issue,
+      Feedback: body.response,
+      Email: body.email || "",
     });
 
     return {
