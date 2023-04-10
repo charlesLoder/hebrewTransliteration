@@ -294,8 +294,6 @@ const tipsWizard = new Wizard(
 );
 tipsWizard.init();
 
-// feedbackWizard.init();
-
 const wrapper = new Wrapper();
 
 /**
