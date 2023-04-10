@@ -8,7 +8,7 @@ import sblAcademicSpirantization from "../../_data/sbl-academic-spirantization.j
 import brillAcademic from "../../_data/brill-academic.json";
 import brillSimple from "../../_data/brill-simplified.json";
 import michiganClaremont from "../../_data/michigan-claremont.json";
-import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
+import { Spinner } from "./spinner";
 
 feedbackFormInit();
 
@@ -295,6 +295,10 @@ const tipsWizard = new Wizard(
 tipsWizard.init();
 
 const wrapper = new Wrapper();
+const loadingSpinner = new Spinner(
+  document.querySelector("#spinner"),
+  document.querySelector("#btn-txt")
+);
 
 /**
  * step through form wizard with arrows
@@ -323,9 +327,9 @@ document.onkeydown = checkKey;
 actionBtn.addEventListener("click", async () => {
   try {
     const schema = getSchemaModalVals(schemaProps);
-    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOn();
+    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOn();
     output.value = await wrapper.transliterate(input.value || input.placeholder, schema);
-    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOff();
+    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOff();
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
   } catch (error) {

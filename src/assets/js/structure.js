@@ -1,6 +1,6 @@
 import { Wizard } from "./wizard";
 import { feedbackFormInit } from "./feedback";
-import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
+import { Spinner } from "./spinner";
 
 feedbackFormInit();
 
@@ -71,6 +71,11 @@ const structure = async (text, options) => {
   }
 };
 
+const loadingSpinner = new Spinner(
+  /** @type {Element} */ (document.querySelector("#spinner")),
+  /** @type {Element} */ (document.querySelector("#btn-txt"))
+);
+
 // Wizard setup
 const steps = document.querySelector("#modal-cards").children;
 const nextBtn = document.querySelector("#next-btn");
@@ -95,9 +100,9 @@ const actionBtn = document.querySelector("#action-btn");
 actionBtn.addEventListener("click", async () => {
   try {
     const options = getInputVals("form");
-    toggleSpinnerOn();
+    loadingSpinner.toggleSpinnerOn();
     output.value = await structure(input.value || input.placeholder, options);
-    toggleSpinnerOff();
+    loadingSpinner.toggleSpinnerOff();
     setOptions(options);
   } catch (error) {
     output.value = "Hmmm...it seems something went wrong";

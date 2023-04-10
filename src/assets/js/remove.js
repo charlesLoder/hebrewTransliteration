@@ -2,7 +2,7 @@
 import { Wizard } from "./wizard";
 import { Wrapper } from "./wrapper";
 import { feedbackFormInit } from "./feedback";
-import { toggleSpinnerOff, toggleSpinnerOn } from "./spinner";
+import { Spinner } from "./spinner";
 
 feedbackFormInit();
 
@@ -45,6 +45,10 @@ const defaultOpions = {
 };
 
 const wrapper = new Wrapper();
+const loadingSpinner = new Spinner(
+  /** @type {Element} */ (document.querySelector("#spinner")),
+  /** @type {Element} */ (document.querySelector("#btn-txt"))
+);
 
 // Wizard setup
 const steps = /** @type {HTMLDivElement} */ (document.querySelector("#remove-modal #modal-cards"))
@@ -146,9 +150,9 @@ function setLocalStorageOptions(vals) {
 actionBtn.addEventListener("click", async () => {
   try {
     const options = getOptions();
-    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOn();
+    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOn();
     output.value = await wrapper.remove(input.value || input.placeholder, options);
-    if (!wrapper.supportsRegexLookAheadLookBehind()) toggleSpinnerOff();
+    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOff();
     setLocalStorageOptions(options);
   } catch (error) {
     console.log(error);
