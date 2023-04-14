@@ -1,6 +1,7 @@
 const htmlmin = require("html-minifier");
 const esbuild = require("esbuild");
 const CleanCSS = require("clean-css");
+const { EleventyEdgePlugin } = require("@11ty/eleventy");
 
 module.exports = function (eleventyConfig) {
   eleventyConfig.on("afterBuild", () => {
@@ -31,6 +32,8 @@ module.exports = function (eleventyConfig) {
 
     return content;
   });
+
+  eleventyConfig.addPlugin(EleventyEdgePlugin);
 
   // adds a copy to dist
   eleventyConfig.addPassthroughCopy("src/assets/img/*");

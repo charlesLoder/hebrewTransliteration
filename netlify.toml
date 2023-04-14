@@ -12,3 +12,7 @@
     from = "/api/*"
     to = "/.netlify/functions/:splat"
     status = 200
+
+[[edge_functions]]
+    function = "eleventy-edge"
+    path = "/*"
