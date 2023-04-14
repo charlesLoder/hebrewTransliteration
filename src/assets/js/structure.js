@@ -99,7 +99,7 @@ const actionBtn = document.querySelector("#action-btn");
 // event listeners
 actionBtn.addEventListener("click", async () => {
   try {
-    const options = getInputVals("form");
+    const options = getInputVals("#structure-form");
     loadingSpinner.toggleSpinnerOn();
     output.value = await structure(input.value || input.placeholder, options);
     loadingSpinner.toggleSpinnerOff();
@@ -111,4 +111,4 @@ actionBtn.addEventListener("click", async () => {
 });
 
 // on load
-loadOptions(getInputVals("form"), defaultOpts);
+loadOptions(getInputVals("#structure-form"), defaultOpts);
