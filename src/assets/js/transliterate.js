@@ -2,12 +2,15 @@ import { Wrapper } from "./wrapper";
 import { Schema } from "hebrew-transliteration";
 import { Wizard } from "./wizard.js";
 import { feedbackFormInit } from "./feedback";
-import sblGeneral from "../../_data/sbl-simple.json";
 import sblAcademic from "../../_data/sbl-academic.json";
-import sblAcademicSpirantization from "../../_data/sbl-academic-spirantization.json";
-import brillAcademic from "../../_data/brill-academic.json";
-import brillSimple from "../../_data/brill-simplified.json";
-import michiganClaremont from "../../_data/michigan-claremont.json";
+import {
+  sblSimple,
+  sblAcademicSpirantization,
+  brillAcademic,
+  brillSimple,
+  michiganClaremont,
+  romaniote,
+} from "hebrew-transliteration/schemas";
 import { Spinner } from "./spinner";
 
 feedbackFormInit();
@@ -344,14 +347,14 @@ actionBtn.addEventListener("click", async () => {
  */
 schemaSelect.addEventListener("change", async (e) => {
   switch (e.target.value) {
-    case "sblGeneral":
-      schemaProps.forEach((p) => populateSchemaModal(new Schema(sblGeneral), p));
+    case "sblSimple":
+      schemaProps.forEach((p) => populateSchemaModal(sblSimple, p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "sblGeneral")
         : "";
       break;
     case "sblAcademic":
-      schemaProps.forEach((p) => populateSchemaModal(new Schema(sblAcademic), p));
+      schemaProps.forEach((p) => populateSchemaModal(sblAcademic, p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "sblAcademic")
         : "";
@@ -367,25 +370,31 @@ schemaSelect.addEventListener("change", async (e) => {
         : "";
       break;
     case "brillAcademic":
-      schemaProps.forEach((p) => populateSchemaModal(new Schema(brillAcademic), p));
+      schemaProps.forEach((p) => populateSchemaModal(brillAcademic, p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "brillAcademic")
         : "";
       break;
     case "brillSimple":
-      schemaProps.forEach((p) => populateSchemaModal(new Schema(brillSimple), p));
+      schemaProps.forEach((p) => populateSchemaModal(brillSimple, p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "brillSimple")
         : "";
       break;
     case "michiganClaremont":
-      schemaProps.forEach((p) => populateSchemaModal(new Schema(michiganClaremont), p));
+      schemaProps.forEach((p) => populateSchemaModal(michiganClaremont, p));
       output.placeholder = !output.value
         ? await getPlaceHolder(
             input.placeholder,
             getSchemaModalVals(schemaProps),
             "michiganClaremont"
           )
+        : "";
+      break;
+    case "romaniote":
+      schemaProps.forEach((p) => populateSchemaModal(romaniote, p));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "romaniote")
         : "";
       break;
     default:

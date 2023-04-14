@@ -70,7 +70,7 @@
     },
     {
       "text": "SBL General Purpose",
-      "value": "sblGeneral"
+      "value": "sblSimple"
     },
     {
       "text": "Brill Academic",
@@ -83,6 +83,10 @@
     {
       "text": "Michigan-Claremont",
       "value": "michiganClaremont"
+    },
+    {
+      "text": "Romaniote",
+      "value": "romaniote"
     }
   ],
   "feedback": {
