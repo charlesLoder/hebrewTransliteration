@@ -8,6 +8,11 @@ const handler: Handler = async (event: HandlerEvent, context) => {
 
     const body: { text: string; schema: Schema } = JSON.parse(event.body);
     const transliteration = transliterate(body.text, body.schema);
+
+    // just curious to see what people are using it for
+    console.log(body.text);
+    console.log(transliteration);
+
     const response = { transliteration: transliteration };
     return {
       statusCode: 200,
