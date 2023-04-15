@@ -67,6 +67,16 @@ const structure = async (text, options) => {
     const json = await resp.json();
     return json.text;
   } catch (error) {
+    fetch("/api/error", {
+      method: "POST",
+      body: JSON.stringify({
+        text,
+        error: error?.message || error,
+        path: window.location.pathname,
+        options: JSON.stringify(options),
+        browser: navigator.userAgent,
+      }),
+    });
     console.error(error);
   }
 };
