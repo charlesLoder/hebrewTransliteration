@@ -37,7 +37,7 @@ export class Wrapper {
       method: "POST",
       body: JSON.stringify({
         text,
-        error: error.message || error,
+        error: error?.message || error,
         path: window.location.pathname,
         options: JSON.stringify(options),
         browser: navigator.userAgent,
