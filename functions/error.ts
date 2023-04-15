@@ -20,11 +20,14 @@ const handler: Handler = async (event: HandlerEvent, context) => {
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle[process.env.SHEET_ERROR_TITLE || ""];
 
-    const body: { text: string; error: string; browser: string } = JSON.parse(event.body);
+    const body: { text: string; error: string; path: string; options: string; browser: string } =
+      JSON.parse(event.body);
     const resp = await sheet.addRow({
       Date: new Date().toLocaleDateString("en-CA").toString(),
       Input: body.text,
       Error: body.error,
+      Page: body.path,
+      Options: body.options,
       Browser: body.browser,
     });
 

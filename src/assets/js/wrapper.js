@@ -30,13 +30,16 @@ export class Wrapper {
    *
    * @param {any} error
    * @param {string} text
+   * @param {{[k:string]: any}} options
    */
-  postError(error, text) {
+  postError(error, text, options) {
     fetch("/api/error", {
       method: "POST",
       body: JSON.stringify({
         text,
         error: error.message || error,
+        path: window.location.pathname,
+        options: JSON.stringify(options),
         browser: navigator.userAgent,
       }),
     });
@@ -101,7 +104,7 @@ export class Wrapper {
       }
       return hebTransliterate(text, schema);
     } catch (error) {
-      this.postError(error, text);
+      this.postError(error, text, schema);
       throw error;
     }
   }
@@ -118,7 +121,7 @@ export class Wrapper {
       }
       return remove(text, options);
     } catch (error) {
-      this.postError(error, text);
+      this.postError(error, text, options);
       throw error;
     }
   }
