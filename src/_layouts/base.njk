@@ -2,8 +2,7 @@
 <html lang="{{ config.lang }}">
   {% include "head.njk" %}
   <!-- htmlmin:ignore -->
-  <body
-    {% edge %} class="{{ eleventy.edge.cookies['halfmoon_preferredMode'] }}" {% endedge %}>
+  <body {% edge "liquid" %} class="{{ eleventy.edge.cookies['halfmoon_preferredMode'] }}" {% endedge %} >
     <!-- htmlmin:ignore -->
     <script src="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/js/halfmoon.min.js"></script>
     {% include "feedback.njk" %}
