@@ -27,7 +27,7 @@
     "dotenv": "^16.0.3",
     "esbuild": "^0.17.16",
     "html-minifier": "^4.0.0",
-    "netlify-cli": "^13.2.2",
+    "netlify-cli": "^15.6.0",
     "npm-check-updates": "^16.10.8"
   }
 }
