@@ -10,6 +10,7 @@ import {
   brillSimple,
   michiganClaremont,
   romaniote,
+  jss,
 } from "hebrew-transliteration/schemas";
 import { Spinner } from "./spinner";
 
@@ -395,6 +396,12 @@ schemaSelect.addEventListener("change", async (e) => {
       schemaProps.forEach((p) => populateSchemaModal(romaniote, p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "romaniote")
+        : "";
+      break;
+    case "jss":
+      schemaProps.forEach((p) => populateSchemaModal(jss, p));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "jss")
         : "";
       break;
     default:
