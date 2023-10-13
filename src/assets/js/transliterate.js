@@ -11,6 +11,7 @@ import {
   michiganClaremont,
   romaniote,
   jss,
+  tiberian,
 } from "hebrew-transliteration/schemas";
 import { Spinner } from "./spinner";
 
@@ -402,6 +403,12 @@ schemaSelect.addEventListener("change", async (e) => {
       schemaProps.forEach((p) => populateSchemaModal(jss, p));
       output.placeholder = !output.value
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "jss")
+        : "";
+      break;
+    case "tiberian":
+      schemaProps.forEach((p) => populateSchemaModal(tiberian, p));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "tiberian")
         : "";
       break;
     default:
