@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "google-spreadsheet": "^4.0.2",
-    "hebrew-transliteration": "^2.5.1-tiberian.0"
+    "hebrew-transliteration": "^2.5.1-tiberian.2"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
