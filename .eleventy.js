@@ -16,7 +16,7 @@ module.exports = function (eleventyConfig) {
       outdir: "dist/assets",
       format: "iife",
       bundle: true,
-      minify: true,
+      minify: process.env.NODE_ENV && process.env.NODE_ENV == "production",
     });
   });
 
