@@ -22,7 +22,7 @@ feedbackFormInit();
  *
  * @param {HTMLElement} parent
  * @param {string} hebrew
- * @param {string} transliteration
+ * @param {string | function } transliteration
  * @param {string} feature "cluster" | "syllable" | "word"
  */
 function addAdditonalFeature(parent, hebrew = "", transliteration = "", feature = "") {
@@ -55,7 +55,10 @@ function addAdditonalFeature(parent, hebrew = "", transliteration = "", feature 
   el.classList.add("d-flex", "align-items-center", "mb-10", "ADDITIONAL_FEATURE");
   el.innerHTML = additionalFeature.trim();
   parent.appendChild(el);
+
   el.querySelector(".HEBREW").value = hebrew || "";
+  el.querySelector(".HEBREW").dataset.regex = typeof hebrew !== "string";
+  el.querySelector(".TRANSLITERATION").disabled = typeof transliteration === "function";
   el.querySelector(".TRANSLITERATION").value = transliteration || "";
   el.querySelector(".FEATURE").value = feature || "";
 }
@@ -125,6 +128,18 @@ function getInputVal(input) {
 }
 
 /**
+ * Takes a string representation of a regex and returns a RegExp
+ *
+ * @param {string} inputString a string representaion of a regex
+ */
+function sanitizeRegexString(inputString) {
+  const regex = inputString.split("/");
+  const flags = regex.pop();
+  const pattern = regex.filter(Boolean).join("/");
+  return new RegExp(pattern, flags);
+}
+
+/**
  * finds HTMLElements that correspond to the property and gets their value
  * @param {string[]} schemaProps
  * @returns {Partial<Schema>}
@@ -143,8 +158,10 @@ function getSchemaModalVals(schemaProps) {
         ...document.querySelectorAll(`#${prop} .ADDITIONAL_FEATURE`),
       ].map((el) => {
         return {
-          HEBREW: el.querySelector(".HEBREW").value,
-          TRANSLITERATION: el.querySelector(".TRANSLITERATION").value,
+          HEBREW: JSON.parse(el.querySelector(".HEBREW").dataset.regex)
+            ? sanitizeRegexString(el.querySelector(".HEBREW").value)
+            : el.querySelector(".HEBREW").value,
+          TRANSLITERATION: eval(el.querySelector(".TRANSLITERATION").value),
           FEATURE: el.querySelector(".FEATURE").value,
         };
       });
