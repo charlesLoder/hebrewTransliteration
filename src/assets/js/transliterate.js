@@ -155,6 +155,20 @@ function getSchemaModalVals(schemaProps) {
   }, {});
 }
 
+function clearSchemaModalVals(schemaProps) {
+  schemaProps.forEach((prop) => {
+    if (prop === "STRESS_MARKER") {
+      document.querySelector(`#${prop}  #location`).value = "";
+      updateInput(document.querySelector(`#${prop}  #mark`), false);
+    }
+    if (prop === "ADDITIONAL_FEATURES") {
+      document.querySelector(`#${prop}`).innerHTML = "";
+    }
+    const input = document.querySelector(`#${prop}`);
+    updateInput(input, "");
+  });
+}
+
 /**
  * downloads a schema as a json file
  * @param {Schema} schema
@@ -348,6 +362,7 @@ actionBtn.addEventListener("click", async () => {
  * when user selects a predefined schema,
  */
 schemaSelect.addEventListener("change", async (e) => {
+  clearSchemaModalVals(schemaProps);
   switch (e.target.value) {
     case "sblSimple":
       schemaProps.forEach((p) => populateSchemaModal(sblSimple, p));
