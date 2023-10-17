@@ -13,9 +13,17 @@ const handler: Handler = async (event: HandlerEvent, context) => {
     if (event.httpMethod !== "POST") throw new Error(`${event.httpMethod} Not Allowed`);
     if (!event.body) throw new Error("No event body");
 
+    if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL) {
+      throw new Error("No service account email");
+    }
+
+    if (!process.env.GOOGLE_PRIVATE_KEY) {
+      throw new Error("No service account key");
+    }
+
     const serviceAccountAuth = new JWT({
       email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      key: process.env.GOOGLE_PRIVATE_KEY,
+      key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
       scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
 
