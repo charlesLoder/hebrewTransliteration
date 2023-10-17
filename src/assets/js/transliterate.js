@@ -96,6 +96,7 @@ function populateSchemaModal(schema, prop) {
     if (prop === "STRESS_MARKER" && schema[prop]) {
       document.querySelector(`#${prop}  #location`).value = schema[prop]["location"];
       updateInput(document.querySelector(`#${prop}  #mark`), schema[prop]["mark"]);
+      return;
     }
     if (prop === "ADDITIONAL_FEATURES" && schema[prop] && schema[prop].length) {
       schema[prop].forEach((f) => {
@@ -106,6 +107,7 @@ function populateSchemaModal(schema, prop) {
           f["FEATURE"]
         );
       });
+      return;
     }
     const input = document.querySelector(`#${prop}`);
     updateInput(input, schema[prop]);
