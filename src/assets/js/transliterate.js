@@ -97,7 +97,7 @@ function populateSchemaModal(schema, prop) {
       document.querySelector(`#${prop}  #location`).value = schema[prop]["location"];
       updateInput(document.querySelector(`#${prop}  #mark`), schema[prop]["mark"]);
     }
-    if (prop === "ADDITIONAL_FEATURES" && schema[prop]) {
+    if (prop === "ADDITIONAL_FEATURES" && schema[prop] && schema[prop].length) {
       schema[prop].forEach((f) => {
         addAdditonalFeature(
           document.querySelector(`#${prop}`),
