@@ -57,7 +57,11 @@ function addAdditonalFeature(parent, hebrew = "", transliteration = "", feature 
   parent.appendChild(el);
 
   el.querySelector(".HEBREW").value = hebrew || "";
-  el.querySelector(".HEBREW").dataset.regex = typeof hebrew !== "string";
+  el.querySelector(".HEBREW").dataset.regex = false;
+  if (typeof hebrew !== "string") {
+    el.querySelector(".HEBREW").dataset.regex = true;
+    el.querySelector(".HEBREW").disabled = true;
+  }
   el.querySelector(".TRANSLITERATION").disabled = typeof transliteration === "function";
   el.querySelector(".TRANSLITERATION").value = transliteration || "";
   el.querySelector(".FEATURE").value = feature || "";
