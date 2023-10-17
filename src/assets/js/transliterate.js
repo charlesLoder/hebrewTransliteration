@@ -167,7 +167,9 @@ function getSchemaModalVals(schemaProps) {
           HEBREW: JSON.parse(el.querySelector(".HEBREW").dataset.regex)
             ? sanitizeRegexString(el.querySelector(".HEBREW").value)
             : el.querySelector(".HEBREW").value,
-          TRANSLITERATION: eval(el.querySelector(".TRANSLITERATION").value),
+          TRANSLITERATION: el.querySelector(".TRANSLITERATION").disabled
+            ? eval(el.querySelector(".TRANSLITERATION").value)
+            : el.querySelector(".TRANSLITERATION").value,
           FEATURE: el.querySelector(".FEATURE").value,
         };
       });
