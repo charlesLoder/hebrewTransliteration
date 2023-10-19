@@ -230,6 +230,10 @@ function checkLocalStorage(props) {
  */
 function schemaFromLocalStorage(props) {
   return props.reduce((schema, prop) => {
+    if (prop === "ADDITIONAL_FEATURES") {
+      schema[prop] = JSON.parse(localStorage.getItem(prop));
+      return schema;
+    }
     schema[prop] = localStorage.getItem(prop);
     return schema;
   }, {});
@@ -258,7 +262,13 @@ function loadSchema(props) {
  */
 function setSchemaLocalStorage(schema) {
   const props = Object.keys(schema);
-  props.forEach((p) => localStorage.setItem(p, schema[p]));
+  props.forEach((p) => {
+    if (p === "ADDITIONAL_FEATURES") {
+      localStorage.setItem(p, JSON.stringify(schema[p]));
+      return;
+    }
+    localStorage.setItem(p, schema[p]);
+  });
 }
 
 function checkLocalStoragePlaceholder(schemaName) {
