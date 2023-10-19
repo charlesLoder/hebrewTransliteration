@@ -39,4 +39,14 @@
   <style>{{css | cssmin | safe}}</style>
   <link rel="icon" href="{{ '/assets/img/favicon.svg' | url }}"/>
   <script defer="true" src="{{ '/assets/friconix.js' | url }}"></script>
+
+  {#
+  Defer non-critical css for the toast
+  https://web.dev/articles/defer-non-critical-css
+  #}
+  <link
+    rel="preload"
+    as="style"
+    href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    onload="this.onload=null;this.rel='stylesheet'">
 </head>
