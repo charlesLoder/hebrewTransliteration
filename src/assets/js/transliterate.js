@@ -371,11 +371,27 @@ document.onkeydown = checkKey;
  */
 actionBtn.addEventListener("click", async () => {
   try {
+    // getting the schema could error, so do it before the loading spinner
     const schema = getSchemaModalVals(schemaProps);
-    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOn();
+
+    const supportsRegex = wrapper.supportsRegexLookAheadLookBehind();
+    // if fetching, show spinner
+    if (!supportsRegex) {
+      loadingSpinner.toggleSpinnerOn();
+    }
+
+    // show results
     output.value = await wrapper.transliterate(input.value || input.placeholder, schema);
-    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOff();
+
+    // when done fetching, hide spinner
+    if (!wrapper.supportsRegexLookAheadLookBehind()) {
+      loadingSpinner.toggleSpinnerOff();
+    }
+
+    // set schema to local storage
     setSchemaLocalStorage(schema);
+
+    // set schema select to local storage
     localStorage.setItem("schemaSelect", schemaSelect.value);
 
     // a regex for Hebrew accent characters
