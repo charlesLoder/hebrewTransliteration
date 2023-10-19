@@ -14,6 +14,7 @@ import {
   tiberian,
 } from "hebrew-transliteration/schemas";
 import { Spinner } from "./spinner";
+import Toastify from "toastify-js";
 
 feedbackFormInit();
 
@@ -376,6 +377,28 @@ actionBtn.addEventListener("click", async () => {
     if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOff();
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
+
+    // a regex for Hebrew accent characters
+    const regex = /[\u0591-\u05AE]/;
+
+    // check if input.value does not contain Hebrew accent characters
+
+    if (!regex.test(input.value)) {
+      Toastify({
+        text: "Include cantillation marks to ensure accuracy",
+        gravity: "top",
+        position: "center",
+        className: "toast",
+        duration: 2000,
+        style: {
+          // background: "linear-gradient(to right, #7370af 70%, #af7398)",
+          background: "#7370af",
+          marginTop: "25vh",
+          borderRadius: "4px",
+          padding: "20px",
+        },
+      }).showToast();
+    }
   } catch (error) {
     output.value =
       "Hmmm...it seems something went wrong. Check the Tips button for best practices.";
