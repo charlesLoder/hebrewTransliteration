@@ -394,25 +394,37 @@ actionBtn.addEventListener("click", async () => {
     // set schema select to local storage
     localStorage.setItem("schemaSelect", schemaSelect.value);
 
-    // a regex for Hebrew accent characters
-    const regex = /[\u0591-\u05AE]/;
+    const toastOptions = {
+      gravity: "top",
+      position: "center",
+      className: "toast",
+      duration: 2000,
+      style: {
+        // background: "linear-gradient(to right, #7370af 70%, #af7398)",
+        background: "#7370af",
+        marginTop: "25vh",
+        borderRadius: "4px",
+        padding: "20px",
+      },
+    };
+
+    // a regex of Hebrew Vowel characters
+    const vowels = /[\u05B0-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7]/;
+
+    // check if input.value does not contain Hebrew vowel characters
+    if (!vowels.test(input.value)) {
+      Toastify({
+        text: "Include vowel marks to ensure accuracy",
+        ...toastOptions,
+      }).showToast();
+    }
 
     // check if input.value does not contain Hebrew accent characters
-
-    if (!regex.test(input.value)) {
+    const cantillation = /[\u0591-\u05AE]/;
+    if (!cantillation.test(input.value)) {
       Toastify({
         text: "Include cantillation marks to ensure accuracy",
-        gravity: "top",
-        position: "center",
-        className: "toast",
-        duration: 2000,
-        style: {
-          // background: "linear-gradient(to right, #7370af 70%, #af7398)",
-          background: "#7370af",
-          marginTop: "25vh",
-          borderRadius: "4px",
-          padding: "20px",
-        },
+        ...toastOptions,
       }).showToast();
     }
   } catch (error) {
