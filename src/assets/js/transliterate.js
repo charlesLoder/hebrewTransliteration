@@ -214,12 +214,41 @@ function downloadSchema(schema) {
   document.body.removeChild(a);
 }
 
+function checkExpiry() {
+  const expires = localStorage.getItem("expires");
+  if (!expires) {
+    return false;
+  }
+
+  const now = new Date();
+  const nintetyDaysAgo = now.setDate(now.getDate() - 90);
+
+  return nintetyDaysAgo > expires;
+}
+
+function setExpiry() {
+  // first check if expires is already set and if it is not expired
+  const expires = localStorage.getItem("expires");
+  if (expires && !checkExpiry()) {
+    return;
+  }
+
+  // if it is expired, set a new expiry
+  const now = new Date();
+  const ninetyDaysFromNow = now.setDate(now.getDate() + 90);
+  localStorage.setItem("expires", ninetyDaysFromNow);
+}
+
 /**
  * checks if schema props are stored on local storage
  * @param {string[]} props
  * @returns {boolean}
  */
 function checkLocalStorage(props) {
+  const isExpired = checkExpiry();
+  if (isExpired) {
+    return false;
+  }
   return props.map((p) => localStorage.getItem(p)).filter((e) => e).length ? true : false;
 }
 
@@ -269,6 +298,7 @@ function setSchemaLocalStorage(schema) {
     }
     localStorage.setItem(p, schema[p]);
   });
+  setExpiry();
 }
 
 function checkLocalStoragePlaceholder(schemaName) {
