@@ -214,22 +214,25 @@ function downloadSchema(schema) {
   document.body.removeChild(a);
 }
 
-function checkExpiry() {
-  const expires = localStorage.getItem("expires");
-  if (!expires) {
-    return false;
+function checkIfExpired() {
+  const hasExpiration = localStorage.getItem("expires")
+    ? JSON.parse(localStorage.getItem("expires"))
+    : false;
+
+  if (!hasExpiration) {
+    return true;
   }
 
   const now = new Date();
   const nintetyDaysAgo = now.setDate(now.getDate() - 90);
 
-  return nintetyDaysAgo > expires;
+  return nintetyDaysAgo > hasExpiration;
 }
 
 function setExpiry() {
   // first check if expires is already set and if it is not expired
   const expires = localStorage.getItem("expires");
-  if (expires && !checkExpiry()) {
+  if (expires && !checkIfExpired()) {
     return;
   }
 
@@ -245,7 +248,7 @@ function setExpiry() {
  * @returns {boolean}
  */
 function checkLocalStorage(props) {
-  const isExpired = checkExpiry();
+  const isExpired = checkIfExpired();
   if (isExpired) {
     return false;
   }
