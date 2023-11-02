@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "google-spreadsheet": "^4.0.2",
-    "hebrew-transliteration": "^2.5.1-tiberian.4",
+    "hebrew-transliteration": "^2.5.1-tiberian.6",
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {
