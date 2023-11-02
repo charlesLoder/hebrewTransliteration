@@ -263,7 +263,19 @@ function checkLocalStorage(props) {
 function schemaFromLocalStorage(props) {
   return props.reduce((schema, prop) => {
     if (prop === "ADDITIONAL_FEATURES") {
-      schema[prop] = JSON.parse(localStorage.getItem(prop));
+      const addFeatures = JSON.parse(localStorage.getItem(prop));
+      schema[prop] = addFeatures.map((f) => {
+        const heb = f["HEBREW"];
+        console.log(heb);
+        return {
+          HEBREW:
+            heb.charAt(0) === "/" && heb.charAt(heb.length - 1)
+              ? new RegExp(sanitizeRegexString(heb))
+              : heb,
+          TRANSLITERATION: f["TRANSLITERATION"],
+          FEATURE: f["FEATURE"],
+        };
+      });
       return schema;
     }
     schema[prop] = localStorage.getItem(prop);
@@ -296,7 +308,14 @@ function setSchemaLocalStorage(schema) {
   const props = Object.keys(schema);
   props.forEach((p) => {
     if (p === "ADDITIONAL_FEATURES") {
-      localStorage.setItem(p, JSON.stringify(schema[p]));
+      const addFeatures = schema[p].map((f) => {
+        return {
+          HEBREW: f["HEBREW"].toString(),
+          TRANSLITERATION: f["TRANSLITERATION"].toString(),
+          FEATURE: f["FEATURE"],
+        };
+      });
+      localStorage.setItem(p, JSON.stringify(addFeatures));
       return;
     }
     localStorage.setItem(p, schema[p]);
