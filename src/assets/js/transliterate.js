@@ -274,13 +274,12 @@ function schemaFromLocalStorage(props) {
       const addFeatures = JSON.parse(localStorage.getItem(prop));
       schema[prop] = addFeatures.map((f) => {
         const heb = f["HEBREW"];
-        console.log(heb);
         return {
           HEBREW:
             heb.charAt(0) === "/" && heb.charAt(heb.length - 1)
               ? new RegExp(sanitizeRegexString(heb))
               : heb,
-          TRANSLITERATION: f["TRANSLITERATION"],
+          TRANSLITERATION: eval(f["TRANSLITERATION"]),
           FEATURE: f["FEATURE"],
         };
       });
