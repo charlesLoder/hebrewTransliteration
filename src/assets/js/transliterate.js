@@ -262,6 +262,14 @@ function checkLocalStorage(props) {
  */
 function schemaFromLocalStorage(props) {
   return props.reduce((schema, prop) => {
+    if (prop === "STRESS_MARKER") {
+      const stressMarker = JSON.parse(localStorage.getItem(prop));
+      schema[prop] = {
+        location: stressMarker["location"],
+        mark: stressMarker["mark"],
+      };
+      return schema;
+    }
     if (prop === "ADDITIONAL_FEATURES") {
       const addFeatures = JSON.parse(localStorage.getItem(prop));
       schema[prop] = addFeatures.map((f) => {
@@ -316,6 +324,18 @@ function setSchemaLocalStorage(schema) {
         };
       });
       localStorage.setItem(p, JSON.stringify(addFeatures));
+      return;
+    }
+
+    if (p === "STRESS_MARKER") {
+      const stressMarker = schema[p];
+      localStorage.setItem(
+        p,
+        JSON.stringify({
+          location: stressMarker["location"],
+          mark: stressMarker["mark"],
+        })
+      );
       return;
     }
     localStorage.setItem(p, schema[p]);
