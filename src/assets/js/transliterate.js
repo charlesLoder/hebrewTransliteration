@@ -326,18 +326,41 @@ function checkKey(e) {
 
 document.onkeydown = checkKey;
 
+function sendGAEvent(action, value = null) {
+  gtag('event', action, {
+    'event_category': 'User Engagement',
+    'event_label': 'Transliterate_Button',
+    'value': value
+  });
+}
+
 /**
  * Event listeners
  */
 actionBtn.addEventListener("click", async () => {
+  sendGAEvent('Click');
   try {
     const schema = getSchemaModalVals(schemaProps);
-    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOn();
+
+    // show spinner if waiting on function response
+    if (!wrapper.supportsRegexLookAheadLookBehind()) {
+      loadingSpinner.toggleSpinnerOn();
+    }
+
+    // show the output
     output.value = await wrapper.transliterate(input.value || input.placeholder, schema);
-    if (!wrapper.supportsRegexLookAheadLookBehind()) loadingSpinner.toggleSpinnerOff();
+    sendGAEvent('Click success', 1);
+
+    // remove spinner after output
+    if (!wrapper.supportsRegexLookAheadLookBehind()) {
+      loadingSpinner.toggleSpinnerOff();
+    }
+
+    // set localstorage for the schema
     setSchemaLocalStorage(schema);
     localStorage.setItem("schemaSelect", schemaSelect.value);
 
+    // show messages if input does not contain vowels or cantillation
     const toastOptions = {
       gravity: "top",
       position: "center",
@@ -375,6 +398,7 @@ actionBtn.addEventListener("click", async () => {
     output.value =
       "Hmmm...it seems something went wrong. Check the Tips button for best practices.";
     console.error(error);
+    sendGAEvent('Click error', 0);
   }
 });
 
