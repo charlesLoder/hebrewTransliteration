@@ -33,12 +33,14 @@
   <meta name="generator" content="Eleventy"/>
   <meta http-equiv="x-ua-compatible" content="ie=edge"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"/>
-  <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet"/> {% set css %}
-  {% include "src/assets/css/main.css" %}
+  <link href="https://cdn.jsdelivr.net/npm/halfmoon@1.1.1/css/halfmoon-variables.min.css" rel="stylesheet"/>
+  {% set css %}
+    {% include "src/assets/css/main.css" %}
   {% endset %}
   <style>{{css | cssmin | safe}}</style>
   <link rel="icon" href="{{ '/assets/img/favicon.svg' | url }}"/>
   <script defer="true" src="{{ '/assets/friconix.js' | url }}"></script>
+  <link rel="preload" href="{{ '/assets/img/bmc-button.svg' | url }}" as="image">
 
   {#
   Defer non-critical css for the toast
