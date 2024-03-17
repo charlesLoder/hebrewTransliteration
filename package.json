@@ -15,20 +15,20 @@
     "update": "ncu"
   },
   "dependencies": {
-    "google-auth-library": "^8.9.0",
-    "google-spreadsheet": "^4.0.2",
-    "hebrew-transliteration": "^2.5.0",
+    "google-auth-library": "^9.7.0",
+    "google-spreadsheet": "^4.1.1",
+    "hebrew-transliteration": "^2.6.2",
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",
-    "@netlify/functions": "^2.0.1",
+    "@netlify/functions": "^2.6.0",
     "@types/google-spreadsheet": "^3.3.2",
-    "clean-css": "^5.3.2",
-    "dotenv": "^16.3.1",
-    "esbuild": "^0.19.2",
+    "clean-css": "^5.3.3",
+    "dotenv": "^16.4.5",
+    "esbuild": "^0.20.2",
     "html-minifier": "^4.0.0",
-    "netlify-cli": "^16.1.0",
-    "npm-check-updates": "^16.13.1"
+    "netlify-cli": "^17.19.4",
+    "npm-check-updates": "^16.14.17"
   }
 }
