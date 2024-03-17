@@ -20,14 +20,14 @@
             </button>
             <!-- Darkmode Btn end -->
             <!-- Nav Link Btns start -->
-            <div class="mr-5 hidden-sm-and-down">
+            <div class="mr-5 hidden-md-and-down">
               {% for item in config.navbarMenu %}
                 <a href="{{ item.url | url }}" class="btn border">{{ item.text }}</a>
               {% endfor %}
             </div>
             <!-- Nav Link Btns end -->
             <!-- Dropdown menu start -->
-            <div class="dropdown with-arrow hidden-md-and-up">
+            <div class="dropdown with-arrow hidden-lg-and-up">
               <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">Menu
                 <i class="fa fa-angle-down" aria-hidden="true"></i>
               </button>

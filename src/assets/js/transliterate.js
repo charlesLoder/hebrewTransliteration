@@ -11,6 +11,7 @@ import {
   michiganClaremont,
   romaniote,
   jss,
+  tiberian,
 } from "hebrew-transliteration/schemas";
 import { Spinner } from "./spinner";
 import Toastify from "toastify-js";
@@ -22,7 +23,7 @@ feedbackFormInit();
  *
  * @param {HTMLElement} parent
  * @param {string} hebrew
- * @param {string} transliteration
+ * @param {string | function } transliteration
  * @param {string} feature "cluster" | "syllable" | "word"
  */
 function addAdditonalFeature(parent, hebrew = "", transliteration = "", feature = "") {
@@ -55,7 +56,14 @@ function addAdditonalFeature(parent, hebrew = "", transliteration = "", feature 
   el.classList.add("d-flex", "align-items-center", "mb-10", "ADDITIONAL_FEATURE");
   el.innerHTML = additionalFeature.trim();
   parent.appendChild(el);
+
   el.querySelector(".HEBREW").value = hebrew || "";
+  el.querySelector(".HEBREW").dataset.regex = false;
+  if (typeof hebrew !== "string") {
+    el.querySelector(".HEBREW").dataset.regex = true;
+    el.querySelector(".HEBREW").disabled = true;
+  }
+  el.querySelector(".TRANSLITERATION").disabled = typeof transliteration === "function";
   el.querySelector(".TRANSLITERATION").value = transliteration || "";
   el.querySelector(".FEATURE").value = feature || "";
 }
@@ -89,8 +97,9 @@ function populateSchemaModal(schema, prop) {
     if (prop === "STRESS_MARKER" && schema[prop]) {
       document.querySelector(`#${prop}  #location`).value = schema[prop]["location"];
       updateInput(document.querySelector(`#${prop}  #mark`), schema[prop]["mark"]);
+      return;
     }
-    if (prop === "ADDITIONAL_FEATURES" && schema[prop]) {
+    if (prop === "ADDITIONAL_FEATURES" && schema[prop] && schema[prop].length) {
       schema[prop].forEach((f) => {
         addAdditonalFeature(
           document.querySelector(`#${prop}`),
@@ -99,6 +108,7 @@ function populateSchemaModal(schema, prop) {
           f["FEATURE"]
         );
       });
+      return;
     }
     const input = document.querySelector(`#${prop}`);
     updateInput(input, schema[prop]);
@@ -125,6 +135,18 @@ function getInputVal(input) {
 }
 
 /**
+ * Takes a string representation of a regex and returns a RegExp
+ *
+ * @param {string} inputString a string representaion of a regex
+ */
+function sanitizeRegexString(inputString) {
+  const regex = inputString.split("/");
+  const flags = regex.pop();
+  const pattern = regex.filter(Boolean).join("/");
+  return new RegExp(pattern, flags);
+}
+
+/**
  * finds HTMLElements that correspond to the property and gets their value
  * @param {string[]} schemaProps
  * @returns {Partial<Schema>}
@@ -143,8 +165,12 @@ function getSchemaModalVals(schemaProps) {
         ...document.querySelectorAll(`#${prop} .ADDITIONAL_FEATURE`),
       ].map((el) => {
         return {
-          HEBREW: el.querySelector(".HEBREW").value,
-          TRANSLITERATION: el.querySelector(".TRANSLITERATION").value,
+          HEBREW: JSON.parse(el.querySelector(".HEBREW").dataset.regex)
+            ? sanitizeRegexString(el.querySelector(".HEBREW").value)
+            : el.querySelector(".HEBREW").value,
+          TRANSLITERATION: el.querySelector(".TRANSLITERATION").disabled
+            ? eval(el.querySelector(".TRANSLITERATION").value)
+            : el.querySelector(".TRANSLITERATION").value,
           FEATURE: el.querySelector(".FEATURE").value,
         };
       });
@@ -153,6 +179,20 @@ function getSchemaModalVals(schemaProps) {
     schema[prop] = getInputVal(document.querySelector(`#${prop}`));
     return schema;
   }, {});
+}
+
+function clearSchemaModalVals(schemaProps) {
+  schemaProps.forEach((prop) => {
+    if (prop === "STRESS_MARKER") {
+      document.querySelector(`#${prop}  #location`).value = "";
+      updateInput(document.querySelector(`#${prop}  #mark`), false);
+    }
+    if (prop === "ADDITIONAL_FEATURES") {
+      document.querySelector(`#${prop}`).innerHTML = "";
+    }
+    const input = document.querySelector(`#${prop}`);
+    updateInput(input, "");
+  });
 }
 
 /**
@@ -174,12 +214,44 @@ function downloadSchema(schema) {
   document.body.removeChild(a);
 }
 
+function checkIfExpired() {
+  const hasExpiration = localStorage.getItem("expires")
+    ? JSON.parse(localStorage.getItem("expires"))
+    : false;
+
+  if (!hasExpiration) {
+    return true;
+  }
+
+  const now = new Date();
+  const nintetyDaysAgo = now.setDate(now.getDate() - 90);
+
+  return nintetyDaysAgo > hasExpiration;
+}
+
+function setExpiry() {
+  // first check if expires is already set and if it is not expired
+  const expires = localStorage.getItem("expires");
+  if (expires && !checkIfExpired()) {
+    return;
+  }
+
+  // if it is expired, set a new expiry
+  const now = new Date();
+  const ninetyDaysFromNow = now.setDate(now.getDate() + 90);
+  localStorage.setItem("expires", ninetyDaysFromNow);
+}
+
 /**
  * checks if schema props are stored on local storage
  * @param {string[]} props
  * @returns {boolean}
  */
 function checkLocalStorage(props) {
+  const isExpired = checkIfExpired();
+  if (isExpired) {
+    return false;
+  }
   return props.map((p) => localStorage.getItem(p)).filter((e) => e).length ? true : false;
 }
 
@@ -190,6 +262,29 @@ function checkLocalStorage(props) {
  */
 function schemaFromLocalStorage(props) {
   return props.reduce((schema, prop) => {
+    if (prop === "STRESS_MARKER") {
+      const stressMarker = JSON.parse(localStorage.getItem(prop));
+      schema[prop] = {
+        location: stressMarker["location"],
+        mark: stressMarker["mark"],
+      };
+      return schema;
+    }
+    if (prop === "ADDITIONAL_FEATURES") {
+      const addFeatures = JSON.parse(localStorage.getItem(prop));
+      schema[prop] = addFeatures.map((f) => {
+        const heb = f["HEBREW"];
+        return {
+          HEBREW:
+            heb.charAt(0) === "/" && heb.charAt(heb.length - 1)
+              ? new RegExp(sanitizeRegexString(heb))
+              : heb,
+          TRANSLITERATION: eval(f["TRANSLITERATION"]),
+          FEATURE: f["FEATURE"],
+        };
+      });
+      return schema;
+    }
     schema[prop] = localStorage.getItem(prop);
     return schema;
   }, {});
@@ -218,7 +313,33 @@ function loadSchema(props) {
  */
 function setSchemaLocalStorage(schema) {
   const props = Object.keys(schema);
-  props.forEach((p) => localStorage.setItem(p, schema[p]));
+  props.forEach((p) => {
+    if (p === "ADDITIONAL_FEATURES") {
+      const addFeatures = schema[p].map((f) => {
+        return {
+          HEBREW: f["HEBREW"].toString(),
+          TRANSLITERATION: f["TRANSLITERATION"].toString(),
+          FEATURE: f["FEATURE"],
+        };
+      });
+      localStorage.setItem(p, JSON.stringify(addFeatures));
+      return;
+    }
+
+    if (p === "STRESS_MARKER") {
+      const stressMarker = schema[p];
+      localStorage.setItem(
+        p,
+        JSON.stringify({
+          location: stressMarker["location"],
+          mark: stressMarker["mark"],
+        })
+      );
+      return;
+    }
+    localStorage.setItem(p, schema[p]);
+  });
+  setExpiry();
 }
 
 function checkLocalStoragePlaceholder(schemaName) {
@@ -327,10 +448,10 @@ function checkKey(e) {
 document.onkeydown = checkKey;
 
 function sendGAEvent(action, value = null) {
-  gtag('event', action, {
-    'event_category': 'User Engagement',
-    'event_label': 'Transliterate_Button',
-    'value': value
+  gtag("event", action, {
+    event_category: "User Engagement",
+    event_label: "Transliterate_Button",
+    value: value,
   });
 }
 
@@ -338,8 +459,9 @@ function sendGAEvent(action, value = null) {
  * Event listeners
  */
 actionBtn.addEventListener("click", async () => {
-  sendGAEvent('Click');
+  sendGAEvent("Click");
   try {
+    // getting the schema could error, so do it before the loading spinner
     const schema = getSchemaModalVals(schemaProps);
 
     // show spinner if waiting on function response
@@ -349,7 +471,7 @@ actionBtn.addEventListener("click", async () => {
 
     // show the output
     output.value = await wrapper.transliterate(input.value || input.placeholder, schema);
-    sendGAEvent('Click success', 1);
+    sendGAEvent("Click success", 1);
 
     // remove spinner after output
     if (!wrapper.supportsRegexLookAheadLookBehind()) {
@@ -358,6 +480,8 @@ actionBtn.addEventListener("click", async () => {
 
     // set localstorage for the schema
     setSchemaLocalStorage(schema);
+
+    // set schema select to local storage
     localStorage.setItem("schemaSelect", schemaSelect.value);
 
     // show messages if input does not contain vowels or cantillation
@@ -398,7 +522,7 @@ actionBtn.addEventListener("click", async () => {
     output.value =
       "Hmmm...it seems something went wrong. Check the Tips button for best practices.";
     console.error(error);
-    sendGAEvent('Click error', 0);
+    sendGAEvent("Click error", 0);
   }
 });
 
@@ -406,6 +530,7 @@ actionBtn.addEventListener("click", async () => {
  * when user selects a predefined schema,
  */
 schemaSelect.addEventListener("change", async (e) => {
+  clearSchemaModalVals(schemaProps);
   switch (e.target.value) {
     case "sblSimple":
       schemaProps.forEach((p) => populateSchemaModal(sblSimple, p));
@@ -463,6 +588,12 @@ schemaSelect.addEventListener("change", async (e) => {
         ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "jss")
         : "";
       break;
+    case "tiberian":
+      schemaProps.forEach((p) => populateSchemaModal(tiberian, p));
+      output.placeholder = !output.value
+        ? await getPlaceHolder(input.placeholder, getSchemaModalVals(schemaProps), "tiberian")
+        : "";
+      break;
     default:
       break;
   }
@@ -506,22 +637,6 @@ const main = async (schemaProps) => {
     console.error(error);
   }
 };
-
-/**
- * if we have to use Netlify functions and the user already has something in localstorage
- * then we call out to the function to wake it up before they transliterate something.
- * If they do not have something in localStorage, then no need to wake up.
- * The call for the placeholder will handle that.
- * Seesionstorage sets if the function is already awake
- */
-if (
-  !wrapper.supportsRegex &&
-  Boolean(localStorage.getItem("hebrewPlaceholderText")) &&
-  !sessionStorage.getItem("wakeup")
-) {
-  fetch("/api/transliterate");
-  sessionStorage.setItem("wakeup", true);
-}
 
 const schemaProps = Object.keys(new Schema(sblAcademic));
 main(schemaProps);
