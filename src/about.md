@@ -7,8 +7,8 @@ layout: "page.njk"
 ##### The Author
 
 My name is Charles Loder, and I'm a web developer by trade and a Hebraist by training. I received an
-MA in Jewish Studies from Rutgers University and currently work at Classical Academic Press.
-JavaScript and Hebrew are my favorite languages to learn.
+MA in Jewish Studies from Rutgers University and currently work as a frontend developer. JavaScript
+and Hebrew are my favorite languages to learn.
 
 <div class="dropdown-divider my-15"></div>
 
