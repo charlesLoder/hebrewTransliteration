@@ -1,5 +1,6 @@
 import { Handler, HandlerEvent } from "@netlify/functions";
 import { GoogleSpreadsheet } from "google-spreadsheet";
+import { JWT } from "google-auth-library";
 
 /**
  * send errors from transliterate page to Google sheet
@@ -12,11 +13,13 @@ const handler: Handler = async (event: HandlerEvent, context) => {
     if (event.httpMethod !== "POST") throw new Error(`${event.httpMethod} Not Allowed`);
     if (!event.body) throw new Error("No event body");
 
-    const doc = new GoogleSpreadsheet(process.env.SHEET_ID || "");
-    await doc.useServiceAccountAuth({
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL || "",
-      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/gm, "\n") || "",
+    const serviceAccountAuth = new JWT({
+      email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      key: process.env.GOOGLE_PRIVATE_KEY,
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
     });
+
+    const doc = new GoogleSpreadsheet(process.env.SHEET_ID || "", serviceAccountAuth);
     await doc.loadInfo();
     const sheet = doc.sheetsByTitle[process.env.SHEET_ERROR_TITLE || ""];
 
@@ -37,7 +40,7 @@ const handler: Handler = async (event: HandlerEvent, context) => {
         "access-control-allow-origin": "*",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ message: `Wrote to row ${resp?._rowNumber || 0}` }),
+      body: JSON.stringify({ message: `Wrote to row ${resp.rowNumber || 0}` }),
     };
   } catch (error) {
     console.error(error);
