@@ -61,24 +61,16 @@
   },
   "schemas": [
     {
-      "text": "SBL Academic",
-      "value": "sblAcademic"
-    },
-    {
-      "text": "SBL Academic with Spirantization",
-      "value": "sblAcademicSpirantization"
-    },
-    {
-      "text": "SBL General Purpose",
-      "value": "sblSimple"
-    },
-    {
       "text": "Brill Academic",
       "value": "brillAcademic"
     },
     {
       "text": "Brill Simplified",
       "value": "brillSimple"
+    },
+    {
+      "text": "Journal of Semitic Studies",
+      "value": "jss"
     },
     {
       "text": "Michigan-Claremont",
@@ -89,8 +81,16 @@
       "value": "romaniote"
     },
     {
-      "text": "Journal of Semitic Studies",
-      "value": "jss"
+      "text": "SBL Academic",
+      "value": "sblAcademic"
+    },
+    {
+      "text": "SBL Academic with Spirantization",
+      "value": "sblAcademicSpirantization"
+    },
+    {
+      "text": "SBL General Purpose",
+      "value": "sblSimple"
     },
     {
       "text": "Tiberian",
