@@ -305,6 +305,7 @@ function loadSchema(props) {
   }
   const academic = new Schema(sblAcademic);
   props.forEach((p) => populateSchemaModal(academic, p));
+  schemaSelect.value = "sblAcademic";
 }
 
 /**
