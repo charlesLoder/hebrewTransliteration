@@ -11,6 +11,7 @@
   "scripts": {
     "start": "eleventy --serve",
     "start:dev": "netlify dev",
+    "postinstall": "patch-package",
     "build": "ELEVENTY_PRODUCTION=true eleventy && NODE_ENV=production",
     "update": "ncu"
   },
@@ -29,6 +30,7 @@
     "esbuild": "^0.20.2",
     "html-minifier": "^4.0.0",
     "netlify-cli": "^17.19.4",
-    "npm-check-updates": "^16.14.17"
+    "npm-check-updates": "^16.14.17",
+    "patch-package": "^8.0.0"
   }
 }
