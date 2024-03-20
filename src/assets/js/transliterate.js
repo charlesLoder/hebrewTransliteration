@@ -456,6 +456,28 @@ function sendGAEvent(action, value = null) {
   });
 }
 
+function createToastButton(id) {
+  const div = document.createElement("div");
+  div.classList.add("toast-btn-wrapper", "m-auto");
+  const button = document.createElement("button");
+  button.classList.add("btn", "btn-secondary", "btn-sm");
+  button.textContent = "Don't remind me again";
+  button.id = id;
+  div.appendChild(button);
+  return div;
+}
+
+function createToastElement(message, id) {
+  const div = document.createElement("div");
+  div.classList.add("d-flex", "flex-column");
+  const p = document.createElement("p");
+  p.classList.add("m-0");
+  p.textContent = message;
+  div.appendChild(p);
+  div.appendChild(createToastButton(id));
+  return div;
+}
+
 /**
  * Event listeners
  */
@@ -490,7 +512,8 @@ actionBtn.addEventListener("click", async () => {
       gravity: "top",
       position: "center",
       className: "toast",
-      duration: 2000,
+      // duration: 2000,
+      duration: 20000,
       style: {
         // background: "linear-gradient(to right, #7370af 70%, #af7398)",
         background: "#7370af",
@@ -504,20 +527,43 @@ actionBtn.addEventListener("click", async () => {
     const vowels = /[\u05B0-\u05BD\u05BF\u05C1\u05C2\u05C4\u05C5\u05C7]/;
 
     // check if input.value does not contain Hebrew vowel characters
-    if (!vowels.test(input.value)) {
-      Toastify({
-        text: "Include vowel marks to ensure accuracy",
+    const noVowelsDisabledKey = "noVowelsDisabled";
+    const noVowelsDisabled = localStorage.getItem(noVowelsDisabledKey) === "true";
+    if (!vowels.test(input.value) && !noVowelsDisabled) {
+      const noVowelsBtnId = "no-vowels";
+      const toast = Toastify({
         ...toastOptions,
-      }).showToast();
+        node: createToastElement("Include vowel marks to ensure accuracy", noVowelsBtnId),
+        onClick: function (e) {
+          if (e.target.id === noVowelsBtnId) {
+            localStorage.setItem(noVowelsDisabledKey, true);
+            toast.hideToast();
+          }
+        },
+      });
+      toast.showToast();
     }
 
     // check if input.value does not contain Hebrew accent characters
     const cantillation = /[\u0591-\u05AE]/;
-    if (!cantillation.test(input.value)) {
-      Toastify({
-        text: "Include cantillation marks to ensure accuracy",
+    const noCantillationKey = "noCantillationDisabled";
+    const noCantillationDisabled = localStorage.getItem(noCantillationKey) === "true";
+    if (!cantillation.test(input.value) && !noCantillationDisabled) {
+      const noCantillationBtnId = "no-cantillation";
+      const toast = Toastify({
         ...toastOptions,
-      }).showToast();
+        node: createToastElement(
+          "Include cantillation marks to ensure accuracy",
+          noCantillationBtnId
+        ),
+        onClick: function (event) {
+          if (event.target.id === noCantillationBtnId) {
+            localStorage.setItem(noCantillationKey, true);
+            toast.hideToast();
+          }
+        },
+      });
+      toast.showToast();
     }
   } catch (error) {
     output.value =
