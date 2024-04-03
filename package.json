@@ -18,7 +18,7 @@
   "dependencies": {
     "google-auth-library": "^9.7.0",
     "google-spreadsheet": "^4.1.1",
-    "hebrew-transliteration": "^2.6.2",
+    "hebrew-transliteration": "^2.6.3",
     "toastify-js": "^1.12.0"
   },
   "devDependencies": {
@@ -29,8 +29,8 @@
     "dotenv": "^16.4.5",
     "esbuild": "^0.20.2",
     "html-minifier": "^4.0.0",
-    "netlify-cli": "^17.19.4",
-    "npm-check-updates": "^16.14.17",
+    "netlify-cli": "^17.21.1",
+    "npm-check-updates": "^16.14.18",
     "patch-package": "^8.0.0"
   }
 }
