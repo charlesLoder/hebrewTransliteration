@@ -153,3 +153,11 @@ textarea {
 a.social-link:hover {
   text-decoration: none;
 }
+
+.gap-1 {
+  gap: 0.5rem;
+}
+
+.gap-2 {
+  gap: 1rem;
+}

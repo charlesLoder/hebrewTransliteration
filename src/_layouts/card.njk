@@ -20,9 +20,9 @@
             </div>
             <div class="d-flex flex-column align-items-start mt-5 mt-md-0">
               <p class="d-none d-md-block mb-5 mt-0">Follow me on:</p>
-              <div>
+              <div class="d-flex justify-content-start gap-1">
                 {% for icon in config.socialIcons %}
-                  <a href="{{ icon.url | url }}" aria-label="{{ icon.text }}" class="social-link ml-5" target="_blank" rel="noopener noreferrer">
+                  <a href="{{ icon.url | url }}" aria-label="{{ icon.text }}" class="social-link" target="_blank" rel="noopener noreferrer">
                     <i class="{{ icon.faIcon }}"></i>
                   </a>
                 {% endfor %}
