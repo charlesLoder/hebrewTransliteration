@@ -512,8 +512,7 @@ actionBtn.addEventListener("click", async () => {
       gravity: "top",
       position: "center",
       className: "toast",
-      // duration: 2000,
-      duration: 20000,
+      duration: 2000,
       style: {
         // background: "linear-gradient(to right, #7370af 70%, #af7398)",
         background: "#7370af",
