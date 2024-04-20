@@ -544,7 +544,7 @@ actionBtn.addEventListener("click", async () => {
     }
 
     // check if input.value does not contain Hebrew accent characters
-    const cantillation = /[\u0591-\u05AE]/;
+    const cantillation = /[\u0591-\u05AE\u05BD\u05C3-\u05C5]/;
     const noCantillationKey = "noCantillationDisabled";
     const noCantillationDisabled = localStorage.getItem(noCantillationKey) === "true";
     if (!cantillation.test(input.value) && !noCantillationDisabled) {
