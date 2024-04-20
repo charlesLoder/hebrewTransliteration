@@ -150,6 +150,10 @@ textarea {
   }
 }
 
+a.social-link {
+  color: var(--ht-purple);
+}
+
 a.social-link:hover {
   text-decoration: none;
 }
