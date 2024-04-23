@@ -3,7 +3,7 @@
   "title": "Hebrew Transliteration",
   "lang": "en",
   "base": "src/_layouts/base.njk",
-  "keywords": "hebrew, transliteration, SBL, romanization, taamim",
+  "keywords": "hebrew transliteration, hebrew to english transliteration, hebrew transliteration tool, transliterate hebrew, hebrew romanization converter, online hebrew transliteration, biblical hebrew transliteration, sbl hebrew transliteration",
   "navbarMenu": [
     {
       "text": "Transliterate",
