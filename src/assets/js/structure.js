@@ -1,4 +1,5 @@
 import { Wizard } from "./wizard";
+import { Wrapper } from "./wrapper";
 import { feedbackFormInit } from "./feedback";
 import { Spinner } from "./spinner";
 
@@ -105,16 +106,18 @@ wizard.init();
 const input = document.querySelector("#input");
 const output = document.querySelector("#output");
 const actionBtn = document.querySelector("#action-btn");
+const wrapper = new Wrapper();
 
 // event listeners
 actionBtn.addEventListener("click", async () => {
+  const options = getInputVals("#structure-form");
   try {
-    const options = getInputVals("#structure-form");
     loadingSpinner.toggleSpinnerOn();
     output.value = await structure(input.value || input.placeholder, options);
     loadingSpinner.toggleSpinnerOff();
     setOptions(options);
   } catch (error) {
+    wrapper.postError(error, input.value || input.placeholder, options);
     output.value = "Hmmm...it seems something went wrong";
     console.error(error);
   }
