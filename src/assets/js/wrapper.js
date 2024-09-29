@@ -1,5 +1,5 @@
 //@ts-check
-import { transliterate as hebTransliterate, Schema, remove } from "hebrew-transliteration";
+import { transliterate as hebTransliterate, remove, Schema } from "hebrew-transliteration";
 
 /**
  * a wrapper class to abstract handling functions from hebrew-transliteration
@@ -97,13 +97,19 @@ export class Wrapper {
    * @param {Schema} schema
    * @returns {Promise<string>} a transliterated string
    */
-  async transliterate(text, schema) {
+  async transliterate(text, schema, useFallback = false) {
     try {
-      if (!this.supportsRegex) {
+      if (!this.supportsRegex || useFallback) {
         return await this.fetchTransliteration(text, schema);
       }
       return hebTransliterate(text, schema);
     } catch (error) {
+      // if the error came for using fetchTransliteration, then just error
+      // else, try the fallback
+      if (this.supportsRegex && !useFallback) {
+        return await this.transliterate(text, schema, !useFallback);
+      }
+
       this.postError(error, text, schema);
       throw error;
     }

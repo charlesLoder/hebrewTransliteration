@@ -1,5 +1,5 @@
 import { Handler, HandlerEvent } from "@netlify/functions";
-import { transliterate, Schema } from "hebrew-transliteration";
+import { Schema, transliterate } from "hebrew-transliteration";
 
 const handler: Handler = async (event: HandlerEvent, context) => {
   try {
