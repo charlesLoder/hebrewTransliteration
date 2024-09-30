@@ -43,7 +43,7 @@ const handler: Handler = async (event: HandlerEvent, context) => {
       body: JSON.stringify({ message: `Wrote to row ${resp.rowNumber || 0}` }),
     };
   } catch (error) {
-    console.error(error);
+    console.error(JSON.stringify(error, null, "\n"));
     return {
       statusCode: 400,
       headers: {
