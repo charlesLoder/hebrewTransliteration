@@ -25,7 +25,10 @@
         <span id="btn-txt" class="">{{ actionBtn }}</span>
       </button>
       {% set outClasses = ["form-control", (outTxt.classes | join(' '))] | join(' ') %}
-      <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
+      <div class="output-wrapper">
+        <textarea class="{{ outClasses }}" placeholder="{{ outTxt.placeholder }}" dir="{{ outTxt.dir }}" id="output"></textarea>
+        <copy-button button-text="Copy" class="btn" target="#output"></copy-button>
+      </div>
       <div
         id="controls-container"
         class="d-flex flex-column-reverse flex-sm-row justify-content-between align-items-center mt-20">
@@ -44,6 +47,7 @@
       </div>
     </div>
     {% if jsFile %}
+      <script defer src="/assets/copy_button.js"></script>
       <script defer="true" type="modlue" src="{{ jsFile }}"></script>
     {% endif %}
   {% endblock %}

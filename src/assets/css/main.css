@@ -165,3 +165,16 @@ a.social-link:hover {
 .gap-2 {
   gap: 1rem;
 }
+
+*:has(> copy-button) {
+  position: relative;
+}
+
+copy-button {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: 0.8rem;
+  backdrop-filter: blur(10px);
+  font-weight: bold;
+}
