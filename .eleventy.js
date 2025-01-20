@@ -12,6 +12,7 @@ module.exports = function (eleventyConfig) {
         structure: "src/assets/js/structure.js",
         friconix: "src/assets/js/friconix.js",
         about: "src/assets/js/about.js",
+        copy_button: "src/assets/js/copy_button.js",
       },
       outdir: "dist/assets",
       format: "iife",
