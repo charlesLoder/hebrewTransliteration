@@ -1,21 +1,20 @@
-import { Wrapper } from "./wrapper";
 import { Schema } from "hebrew-transliteration";
-import { Wizard } from "./wizard.js";
-import { feedbackFormInit } from "./feedback";
-import sblAcademic from "../../_data/sbl-academic.json";
 import {
-  sblSimple,
-  sblAcademicSpirantization,
   brillAcademic,
   brillSimple,
+  jss,
   michiganClaremont,
   romaniote,
-  jss,
+  sblAcademicSpirantization,
+  sblSimple,
   tiberian,
 } from "hebrew-transliteration/schemas";
-import { Spinner } from "./spinner";
 import Toastify from "toastify-js";
-
+import sblAcademic from "../../_data/sbl-academic.json";
+import { feedbackFormInit } from "./feedback.js";
+import { Spinner } from "./spinner";
+import { Wizard } from "./wizard.js";
+import { Wrapper } from "./wrapper";
 feedbackFormInit();
 
 /**
