@@ -30,7 +30,7 @@
     "esbuild": "^0.21.4",
     "html-minifier": "^4.0.0",
     "netlify-cli": "^17.25.0",
-    "npm-check-updates": "^16.14.20",
+    "npm-check-updates": "^19.3.2",
     "patch-package": "^8.0.0"
   }
 }
