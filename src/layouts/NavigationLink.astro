@@ -1,12 +1,23 @@
 ---
 import { Button } from "$lib/components/ui/button/index.js";
 
-const { href, label, is_current, classes = "" } = Astro.props;
+const current = Astro.url.pathname;
+
+interface Props {
+  href: string;
+  label: string;
+  classes?: string;
+}
+
+const { href, label, classes = "" } = Astro.props;
+
+const is_current = href.replaceAll("/", "") === current.replaceAll("/", "");
 ---
 
 <Button
   href={href}
   size="sm"
+  data-currentpath={current}
   class={`dark:bg-secondary dark:text-primary dark:hover:bg-background hover:[&_code]:underline hover:[&_code]:underline-offset-2 focus:[&_code]:underline focus:[&_code]:underline-offset-2  ${is_current ? "text-yellow-300 dark:text-yellow-300" : ""} ${classes}`}
 >
   <span>
