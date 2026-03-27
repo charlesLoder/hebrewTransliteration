@@ -17,18 +17,6 @@ export function isGAConfigured(): boolean {
   return typeof getGAId() === "string" && getGAId()!.length > 0;
 }
 
-export function initGA(): void {
-  if (!isGAConfigured()) return;
-
-  const gaId = getGAId()!;
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer.push(args);
-  };
-  window.gtag("js", new Date());
-  window.gtag("config", gaId, { send_page_view: false });
-}
-
 export function trackPageView(pagePath: string, pageTitle: string): void {
   if (!isGAConfigured()) return;
   window.gtag("config", getGAId()!, {

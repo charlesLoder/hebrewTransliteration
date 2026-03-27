@@ -49,9 +49,9 @@ const canonicalUrl = new URL(
       (function () {
         if (!gaId) return;
         window.dataLayer = window.dataLayer || [];
-        function gtag() {
+        window.gtag = function gtag() {
           dataLayer.push(arguments);
-        }
+        };
         gtag("js", new Date());
         gtag("config", gaId);
       })();
