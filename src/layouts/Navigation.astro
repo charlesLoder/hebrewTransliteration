@@ -7,17 +7,11 @@ const links = [
   { label: "Structure", href: "/structure" },
   { label: "About", href: "/about" },
 ];
-
-const current = Astro.url.pathname;
 ---
 
 <!-- Desktop Nav -->
 <nav data-testid="nav" class="hidden md:flex gap-2">
-  {
-    links.map((l) => (
-      <NavigationLink href={l.href} label={l.label} is_current={l.href === current} />
-    ))
-  }
+  {links.map((l) => <NavigationLink href={l.href} label={l.label} />)}
 </nav>
 
 <!-- Mobile Hamburger -->
@@ -39,7 +33,6 @@ const current = Astro.url.pathname;
           <NavigationLink
             href={l.href}
             label={l.label}
-            is_current={l.href === current}
             classes="justify-start dark:bg-background"
           />
         ))
