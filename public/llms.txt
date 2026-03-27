@@ -1,0 +1,27 @@
+# Hebrew Transliteration App
+
+Accurate Hebrew transliteration app for academic, religious, or personal needs.
+
+## About
+
+A web application for transliterating Hebrew text, along with a suite of other tools for dealing with Hebrew texts.
+
+## Primary Tool
+
+**Transliterate** — Transliterates Hebrew text using the open-source `hebrew-transliteration` JavaScript package. Supports multiple transliteration schemas including SBL Academic style, Brill, and fully custom mappings. Users can customize consonant, vowel, and special character mappings, control syllabification, and copy results to clipboard.
+
+## Other Tools
+
+- **Remove** — Strips niqqud (vowel points) and ta'amim (cantillation marks) from Hebrew text.
+- **Structure** — Breaks Hebrew verses into readable segments based on ta'amim (cantillation marks). Designed with help by Doug Smith.
+
+## What Makes It Special
+
+- Customizable character mappings for consonants (including final forms and dagesh variants), vowels, and special features
+- Multiple transliteration schemas (SBL, Brill, custom)
+- Responsive design with dark/light mode support
+- Full keyboard accessibility
+
+## About the Author
+
+Built by Charles Loder.

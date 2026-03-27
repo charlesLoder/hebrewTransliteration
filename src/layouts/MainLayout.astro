@@ -1,0 +1,90 @@
+---
+import { Toaster } from "$lib/components/ui/sonner/index.js";
+import "../styles/global.css";
+import Navigation from "./Navigation.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string[];
+  children?: any;
+}
+
+const SITE_NAME = "Hebrew Transliteration App";
+const { title, description, keywords } = Astro.props;
+const fullTitle = title === SITE_NAME ? SITE_NAME : `${title} - ${SITE_NAME}`;
+const keywordsContent = keywords?.join(", ");
+const imageUrl = "/hebrew-transliteration-app-og.png";
+const canonicalUrl = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://hebrew-transliteration.app",
+).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link id="favicon" rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preload" href="/bmc-button.svg" as="image" />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywordsContent} />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content="Hebrew Transliteration App" />
+    <script is:inline>
+      (function () {
+        const gaId = import.meta.env.PUBLIC_GA_TAG_ID;
+        if (!gaId) return;
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", gaId);
+      })();
+    </script>
+    {
+      import.meta.env.PUBLIC_GA_TAG_ID && (
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_TAG_ID}`}
+        />
+      )
+    }
+  </head>
+  <body>
+    <header class="bg-card text-foreground p-2 md:py-4 md:px-4 shadow-sm">
+      <div class="mx-auto flex justify-between">
+        <p class="md:text-justify text-xl sm:text-2xl font-serif">Hebrew Transliteration App</p>
+        <Navigation />
+      </div>
+    </header>
+    <main class="max-w-5xl mx-auto p-4">
+      <slot />
+    </main>
+    <Toaster client:load position="top-center" />
+  </body>
+</html>
+
+<style>
+  header {
+    &:has(.hamburger input[type="checkbox"]:checked) :global(#mobile-nav) {
+      width: 75vw;
+      z-index: 1;
+    }
+  }
+</style>

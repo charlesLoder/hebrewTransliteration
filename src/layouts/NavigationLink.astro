@@ -1,0 +1,16 @@
+---
+import { Button } from "$lib/components/ui/button/index.js";
+
+const { href, label, is_current, classes = "" } = Astro.props;
+---
+
+<Button
+  href={href}
+  size="sm"
+  class={`dark:bg-secondary dark:text-primary dark:hover:bg-background hover:[&_code]:underline hover:[&_code]:underline-offset-2 focus:[&_code]:underline focus:[&_code]:underline-offset-2  ${is_current ? "text-yellow-300 dark:text-yellow-300" : ""} ${classes}`}
+>
+  <span>
+    <span class="text-sm">/</span>
+    <code class="text-xs inline -mx-0.5">{label.toLowerCase()}</code>
+  </span>
+</Button>

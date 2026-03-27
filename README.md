@@ -1,43 +1,60 @@
-# Hebrew Transliteration
+# Hebrew Transliteration Wrapper
 
-## About
+Interactive web application for converting Hebrew text to transliterated Latin characters using the [hebrew-transliteration](https://www.npmjs.com/package/hebrew-transliteration) npm package.
 
-This is a web app for creating customized Hebrew transliterations.
+## Getting Started
 
-It's built with Eleventy and hosted on Netlify.
+### Prerequisites
 
-This site primarily serves as a user friendly wrapper for the
-[`hebrew-transliteration`](https://github.com/charlesLoder/hebrew-transliteration). If you notice
-something is incorrect with your transliteration, open up an issue in that repo, not this one.
-
-## Install
-
-You will need node installed.
-
-```
-git clone https://github.com/charlesLoder/hebrewTransliteration.git
-cd hebrewTransliteration
-npm install
-npm run start:dev
-```
-
-The Netlify `error.ts` and `feedback.ts` functions are designed to post to a Google sheet. If you
-want to set that up, create a `.env` file:
+Node v24
 
 ```bash
-GA_TAG_ID= # for analytics
-SHEET_ID=
-SHEET_ERROR_TITLE=
-SHEET_FEEDBACK_TITLE=
-SCOPE=
-GOOGLE_SERVICE_ACCOUNT_EMAIL=
-GOOGLE_PRIVATE_KEY=
+node --version
+# v24.x.x
 ```
 
-## Live
+### Installation
 
-Checkout it out live at [hebrewtransliteration.app](https://hebrewtransliteration.app/)!
+```bash
+npm install
+```
+
+If an error arises due to `sharp`, try running:
+
+```bash
+SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Starts the development server at `http://localhost:4321`
+
+### Production Build
+
+```bash
+npm run build
+```
+
+Generates optimized static site in `./dist/`
+
+### Preview
+
+```bash
+npm run preview
+```
+
+Preview the production build locally
+
+## License
+
+MIT
 
 ## Contributing
 
-Feel free to submit issues, open pull requests, create a fork, or contact me directly.
+Issues are welcome.
+
+For issues related to the `hebrew-transliteration` package, see: https://github.com/Retzion/hebrew-transliteration

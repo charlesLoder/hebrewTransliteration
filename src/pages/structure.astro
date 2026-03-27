@@ -1,0 +1,22 @@
+---
+import StructureComponent from "../components/structure/index.svelte";
+import MainLayout from "../layouts/MainLayout.astro";
+import SchemaOrg from "../layouts/SchemaOrg.astro";
+import "../styles/global.css";
+
+const title = "Structure";
+const description =
+  "Break Hebrew verses into readable segments based on ta'amim (cantillation marks/accents).";
+const keywords = [
+  "hebrew structure",
+  "taamim",
+  "cantillation marks",
+  "hebrew phrases",
+  "torah cantillation",
+];
+---
+
+<MainLayout title={title} description={description} keywords={keywords}>
+  <SchemaOrg type="webapplication" />
+  <StructureComponent client:load />
+</MainLayout>
