@@ -1,4 +1,4 @@
-# Hebrew Transliteration Wrapper
+# Hebrew Transliteration
 
 Interactive web application for converting Hebrew text to transliterated Latin characters using the [hebrew-transliteration](https://www.npmjs.com/package/hebrew-transliteration) npm package.
 
