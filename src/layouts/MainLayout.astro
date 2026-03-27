@@ -45,26 +45,20 @@ const canonicalUrl = new URL(
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content="Hebrew Transliteration App" />
-    <script is:inline>
-      (function () {
-        const gaId = import.meta.env.PUBLIC_GA_TAG_ID;
-        if (!gaId) return;
+    <script define:vars={{ gaId: import.meta.env.PUBLIC_GA_TAG_ID }}>
+      if (gaId) {
+        const script = document.createElement("script");
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        script.async = true;
+        document.head.appendChild(script);
         window.dataLayer = window.dataLayer || [];
         function gtag() {
           dataLayer.push(arguments);
         }
         gtag("js", new Date());
         gtag("config", gaId);
-      })();
+      }
     </script>
-    {
-      import.meta.env.PUBLIC_GA_TAG_ID && (
-        <script
-          async
-          src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_TAG_ID}`}
-        />
-      )
-    }
   </head>
   <body>
     <header class="bg-card text-foreground p-2 md:py-4 md:px-4 shadow-sm">
