@@ -45,9 +45,8 @@ const canonicalUrl = new URL(
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content="Hebrew Transliteration App" />
-    <script is:inline>
+    <script define:vars={{ gaId: import.meta.env.PUBLIC_GA_TAG_ID }}>
       (function () {
-        const gaId = import.meta.env.PUBLIC_GA_TAG_ID;
         if (!gaId) return;
         window.dataLayer = window.dataLayer || [];
         function gtag() {
