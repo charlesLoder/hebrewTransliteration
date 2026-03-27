@@ -2,7 +2,7 @@ import type { Handler, HandlerEvent } from "@netlify/functions";
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
-const handler: Handler = async (event: HandlerEvent, _) => {
+const handler: Handler = async (event: HandlerEvent) => {
   try {
     if (event.httpMethod !== "POST") throw new Error(`${event.httpMethod} Not Allowed`);
     if (!event.body) throw new Error("No event body");
