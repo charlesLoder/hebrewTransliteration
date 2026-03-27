@@ -1,0 +1,122 @@
+---
+import { Separator } from "$lib/components/ui/separator/index.js";
+import BrandBlueSky from "node_modules/@tabler/icons-svelte/dist/icons/brand-bluesky.svelte";
+import BrandLinkedIn from "node_modules/@tabler/icons-svelte/dist/icons/brand-linkedin.svelte";
+import BrandX from "node_modules/@tabler/icons-svelte/dist/icons/brand-x.svelte";
+import CircleA from "node_modules/@tabler/icons-svelte/dist/icons/circle-letter-a.svelte";
+import MainLayout from "src/layouts/MainLayout.astro";
+import Card from "../components/shared/Card.svelte";
+import SchemaOrg from "../layouts/SchemaOrg.astro";
+import "../styles/global.css";
+
+const title = "About";
+const description = "Learn more about Hebrew Transliteration App.";
+const keywords = [
+  "hebrew transliteration app",
+  "hebrew-transliteration package",
+  "charles loder",
+  "sbl style",
+  "brill",
+];
+---
+
+<MainLayout title={title} description={description} keywords={keywords}>
+  <SchemaOrg type="about" />
+  <Card aria_busy={false}>
+    <div class="space-y-6">
+      <div>
+        <h1 class="text-lg font-semibold mb-2">Hebrew Transliteration</h1>
+        <p class="text-sm text-muted-foreground">
+          This web app transliterates Hebrew text into any output. It's powered by the open-source
+          <a
+            href="https://www.npmjs.com/package/hebrew-transliteration"
+            class="bg-ring px-1 py-0.5
+          rounded text-foreground"
+            target="_blank"
+            rel="noopener noreferrer"><code>hebrew-transliteration</code></a
+          >
+          JavaScript package and supports multiple transliteration schemas — including SBL academic style,
+          Brill, and fully custom mappings.
+        </p>
+      </div>
+
+      <Separator />
+
+      <div>
+        <h2 class="text-lg font-semibold mb-2">What Is Transliteration?</h2>
+        <p class="text-sm text-muted-foreground">
+          Transliteration converts texts from one script to another, making the text readable to
+          those unfamiliar with the Hebrew script. It's widely used in biblical scholarship,
+          liturgy, linguistics, and language education.
+          <a
+            href="https://taatik.org/blog/what-is-transliteration/"
+            target="_blank"
+            class="underline"
+            rel="noopener noreferrer"
+            >Learn more about transliteration.
+          </a>
+        </p>
+      </div>
+
+      <Separator />
+
+      <div>
+        <h2 class="text-lg font-semibold mb-2">Structure Page</h2>
+        <p class="text-sm text-muted-foreground">
+          The <a href="/structure">Structure</a> page breaks Hebrew verses into readable segments based
+          on the <em>taamim</em> — the cantillation marks that indicate phrasing, stress, and musical
+          recitation. Designed by <a href="https://mbts.academia.edu/DougSmith">Doug Smith</a>, it
+          currently supports prose texts with a core set of taamim.
+        </p>
+      </div>
+
+      <Separator />
+
+      <div>
+        <h2 class="text-lg font-semibold mb-2">About the Author</h2>
+        <p class="text-sm text-muted-foreground">
+          This app and the package that powers it were built by Charles Loder. Check him out on
+          social media at:
+        </p>
+        <div class="flex gap-2 items-center">
+          <a
+            href="https://x.com/charles_loder"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground"
+            aria-label="Twitter / X"
+          >
+            <BrandX size={24} /></a
+          >
+          <a
+            href="https://bsky.app/profile/charlesloder.bsky.social"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground"
+            aria-label="Bluesky"
+          >
+            <BrandBlueSky size={24} /></a
+          >
+          <a
+            href="https://bsky.app/profile/charlesloder.bsky.social"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground"
+            aria-label="LinkedIn"
+          >
+            <BrandLinkedIn size={24} /></a
+          >
+          <a
+            href="https://independentresearcher.academia.edu/CharlesLoder"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-foreground"
+            aria-label="Academia.edu"
+          >
+            <CircleA size={24} /></a
+          >
+        </div>
+      </div>
+    </div>
+  </Card>
+</MainLayout>

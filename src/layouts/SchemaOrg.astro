@@ -1,0 +1,67 @@
+---
+interface Props {
+  type: "webapplication" | "about";
+  url?: string;
+}
+
+const SITE_NAME = "Hebrew Transliteration App";
+const SITE_URL = "https://hebrew-transliteration.app";
+
+const description =
+  "Accurate Hebrew transliteration app for academic, religious, or personal needs, along with a suite of other tools for dealing with Hebrew texts.";
+
+const { type, url = SITE_URL } = Astro.props;
+
+const baseSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  url: SITE_URL,
+  image: `${SITE_URL}/hebrew-transliteration-app-og.png`,
+};
+
+const schema =
+  type === "webapplication"
+    ? {
+        ...baseSchema,
+        "@type": "WebApplication",
+        description,
+        applicationCategory: "EducationApplication",
+        operatingSystem: "Any",
+        browserRequirements: "Requires modern web browser",
+        softwareHelp: {
+          "@type": "CreativeWork",
+          url: `${SITE_URL}/about`,
+        },
+        featureList: [
+          "Hebrew transliteration",
+          "Custom transliteration schemas",
+          "SBL academic style support",
+          "Remove vowel and accent marks",
+          "Structure text for readability",
+        ],
+        provider: {
+          "@type": "Person",
+          name: "Charles Loder",
+          url: "https://www.npmjs.com/~charlesloder",
+        },
+      }
+    : {
+        ...baseSchema,
+        "@type": "AboutPage",
+        mainEntity: {
+          "@type": "SoftwareApplication",
+          name: "Hebrew Transliteration App",
+          description,
+          applicationCategory: "EducationApplication",
+          operatingSystem: "Any",
+          author: {
+            "@type": "Person",
+            name: "Charles Loder",
+            url: "https://www.npmjs.com/~charlesloder",
+          },
+        },
+      };
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -1,0 +1,22 @@
+---
+import Transliterate from "../components/transliterate/index.svelte";
+import MainLayout from "../layouts/MainLayout.astro";
+import SchemaOrg from "../layouts/SchemaOrg.astro";
+import "../styles/global.css";
+
+const title = "Hebrew Transliteration App";
+const description =
+  "Accurate Hebrew transliteration app for academic, religious, or personal needs.";
+const keywords = [
+  "hebrew transliteration",
+  "hebrew to english",
+  "transliterate hebrew",
+  "hebrew romanization converter",
+  "sbl hebrew",
+];
+---
+
+<MainLayout title={title} description={description} keywords={keywords}>
+  <SchemaOrg type="webapplication" />
+  <Transliterate client:load />
+</MainLayout>

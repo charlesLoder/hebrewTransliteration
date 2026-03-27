@@ -1,0 +1,122 @@
+---
+import NavigationLink from "./NavigationLink.astro";
+
+const links = [
+  { label: "Transliterate", href: "/" },
+  { label: "Remove", href: "/remove" },
+  { label: "Structure", href: "/structure" },
+  { label: "About", href: "/about" },
+];
+
+const current = Astro.url.pathname;
+---
+
+<!-- Desktop Nav -->
+<nav data-testid="nav" class="hidden md:flex gap-2">
+  {
+    links.map((l) => (
+      <NavigationLink href={l.href} label={l.label} is_current={l.href === current} />
+    ))
+  }
+</nav>
+
+<!-- Mobile Hamburger -->
+<div class="block md:hidden hamburger">
+  <input type="checkbox" id="toggle" />
+  <label for="toggle" class="icon">
+    <span class="bg-foreground"></span>
+    <span class="bg-foreground"></span>
+  </label>
+</div>
+
+<!-- Mobile nav -->
+<nav id="mobile-nav" class="mobile-nav bg-secondary md:hidden">
+  <div class="flex flex-col gap-4 p-2 md:py-4 md:px-4">
+    <h2 class="text-xl sm:text-2xl font-serif">Pages</h2>
+    <div class="flex flex-col gap-2">
+      {
+        links.map((l) => (
+          <NavigationLink
+            href={l.href}
+            label={l.label}
+            is_current={l.href === current}
+            classes="justify-start dark:bg-background"
+          />
+        ))
+      }
+    </div>
+  </div>
+</nav>
+
+<style>
+  :root {
+    --duration: 150ms;
+  }
+  .hamburger {
+    height: 32px;
+    width: 32px;
+
+    input[type="checkbox"] {
+      display: none;
+    }
+
+    .icon {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .icon span {
+      display: block;
+      position: absolute;
+      height: 3px;
+      width: 100%;
+      border-radius: 3px;
+      opacity: 1;
+      left: 0;
+      transform: rotate(0deg);
+      transition: var(--duration) ease-out;
+    }
+
+    .icon span:nth-child(1) {
+      top: 33%;
+    }
+
+    .icon span:nth-child(2) {
+      top: 66%;
+    }
+
+    input[type="checkbox"]:checked + .icon span:nth-child(1) {
+      top: 50%;
+      transform: rotate(45deg);
+    }
+
+    input[type="checkbox"]:checked + .icon span:nth-child(2) {
+      top: 50%;
+      transform: rotate(-45deg);
+    }
+  }
+
+  #mobile-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* hide the menu by setting the width to 0 */
+    width: 0;
+    height: 100dvh;
+    transition:
+      width var(--duration) ease-out,
+      padding var(--duration) ease-out;
+    overflow: hidden;
+
+    box-shadow:
+      2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+      6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+      12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+      22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+      41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+      100px 100px 80px rgba(0, 0, 0, 0.07);
+  }
+</style>

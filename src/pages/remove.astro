@@ -1,0 +1,22 @@
+---
+import RemoveComponent from "../components/remove/index.svelte";
+import MainLayout from "../layouts/MainLayout.astro";
+import SchemaOrg from "../layouts/SchemaOrg.astro";
+import "../styles/global.css";
+
+const title = "Remove";
+const description =
+  "Remove niqqud (vowels) and ta'amim (cantillation marks/accents) from Hebrew text.";
+const keywords = [
+  "remove niqqud",
+  "remove vowels",
+  "remove cantillation",
+  "strip hebrew",
+  "clean hebrew text",
+];
+---
+
+<MainLayout title={title} description={description} keywords={keywords}>
+  <SchemaOrg type="webapplication" />
+  <RemoveComponent client:load />
+</MainLayout>

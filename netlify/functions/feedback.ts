@@ -1,0 +1,54 @@
+import { GoogleSpreadsheet } from "google-spreadsheet";
+import { JWT } from "google-auth-library";
+import type { Handler, HandlerEvent } from "@netlify/functions";
+
+const handler: Handler = async (event: HandlerEvent) => {
+  try {
+    if (event.httpMethod !== "POST") {
+      throw new Error(`${event.httpMethod} Not Allowed`);
+    }
+    if (!event.body) {
+      throw new Error("No event body");
+    }
+
+    const serviceAccountAuth = new JWT({
+      email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      key: (process.env.GOOGLE_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    });
+
+    const doc = new GoogleSpreadsheet(process.env.SHEET_ID || "", serviceAccountAuth);
+
+    await doc.loadInfo();
+    const sheet = doc.sheetsByTitle[process.env.SHEET_FEEDBACK_TITLE || ""];
+
+    const body: { issue: string; response: string; email?: string } = JSON.parse(event.body);
+    const resp = await sheet.addRow({
+      Date: new Date().toLocaleDateString("en-CA").toString(),
+      Issue: body.issue,
+      Feedback: body.response,
+      Email: body.email || "",
+    });
+
+    return {
+      statusCode: 200,
+      headers: {
+        "access-control-allow-origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: `Wrote to row ${resp?.rowNumber || 0}` }),
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: 400,
+      headers: {
+        "access-control-allow-origin": "*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(error),
+    };
+  }
+};
+
+export { handler };

@@ -1,0 +1,93 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    :root {
+      /* from global.css --foreground, use reverse (i.e. don't use background, because the favicon would blend in) */
+      --bg-color: oklch(0.145 0 0); 
+
+      /* from global.css --background */
+      --text-color: oklch(1 0 0); 
+      
+      --duration: 5s; 
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: oklch(1 0 0);
+        --text-color: oklch(0.145 0 0);;
+      }
+    }
+
+    @keyframes flip {
+      /* Front Side (Hebrew) */
+      0%, 40% { transform: rotateY(0deg); }
+      
+      /* First Flip Transition (10% of total time) */
+      45% { transform: rotateY(90deg); }
+      50% { transform: rotateY(180deg); }
+
+      /* Back Side (Latin) */
+      50%, 90% { transform: rotateY(180deg); }
+
+      /* Second Flip Transition (10% of total time) */
+      95% { transform: rotateY(270deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    .coin {
+      transform-origin: center;
+      animation: flip var(--duration) infinite ease-in-out;
+    }
+
+    .side {
+      font-size: 24px;
+      font-family: serif;
+      user-select: none;
+    }
+
+    .hebrew { font-size: 28px;  font-family: 'SBL Hebrew', serif; }
+
+    /* Mirrors the 'A' so it appears correctly when the coin is rotated 180deg */
+    .latin-flip {
+      transform: scaleX(-1);
+      transform-origin: center;
+    }
+
+    /* 
+       SWAP LOGIC (Symmetrical):
+       Swap 1 at 45% (edge-on)
+       Swap 2 at 95% (edge-on)
+    */
+    @keyframes hide-front {
+      0%, 44.9% { opacity: 1; }
+      45%, 94.9% { opacity: 0; }
+      95%, 100% { opacity: 1; }
+    }
+    @keyframes hide-back {
+      0%, 44.9% { opacity: 0; }
+      45%, 94.9% { opacity: 1; }
+      95%, 100% { opacity: 0; }
+    }
+
+    .hebrew-group { animation: hide-front var(--duration) infinite; }
+    .latin-group { animation: hide-back var(--duration) infinite; }
+
+  </style>
+
+  <g class="coin">
+    <circle cx="16" cy="16" r="16" fill="var(--bg-color)" />
+    
+    <!-- Hebrew Side (Front) -->
+    <g class="hebrew-group">
+      <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" 
+            fill="var(--text-color)" class="side hebrew">א</text>
+    </g>
+
+    <!-- Latin Side (Back) -->
+    <g class="latin-group">
+      <g class="latin-flip">
+        <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" 
+              fill="var(--text-color)" class="side latin">A</text>
+      </g>
+    </g>
+  </g>
+</svg>
