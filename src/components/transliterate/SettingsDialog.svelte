@@ -20,21 +20,21 @@
   import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs/index.js";
   import IconInfoCircle from "@tabler/icons-svelte/icons/info-circle";
   import type { SBL } from "hebrew-transliteration";
+  import { getContext } from "svelte";
+  import { toast } from "svelte-sonner";
+  import { track_schema_change } from "../../lib/analytics";
   import {
     get_default_schema_fallback,
     load_schema,
     load_schema_manifest,
     type SchemaLoaderState,
   } from "../../lib/schemaLoader";
-  import { getContext } from "svelte";
-  import { toast } from "svelte-sonner";
   import type {
     Context,
     SchemaName,
     TransliterationState,
     VisibilityState,
   } from "../../types/index";
-  import { trackSchemaChange } from "../../lib/analytics";
   import { format_doc_url, format_label } from "../../utils/documentation";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
   import Dialog from "../shared/Dialog.svelte";
@@ -222,7 +222,7 @@
       ...transliteration_state.value.schema,
       [key]: value,
     };
-    trackSchemaChange({
+    track_schema_change({
       change_type: "manual_edit",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -401,7 +401,7 @@
       transliteration_state.value.modified_schema_base = null;
     }
 
-    trackSchemaChange({ change_type: "preset_change", schema: newValue });
+    track_schema_change({ change_type: "preset_change", schema: newValue });
   }
 
   function reset_to_base() {
@@ -427,7 +427,7 @@
       transliteration_state.value.modified_schema_base = null;
     }
 
-    trackSchemaChange({
+    track_schema_change({
       change_type: "reset",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -574,7 +574,7 @@
   function handle_add_feature() {
     editing_index = null;
     feature_editor_visibility = "visible";
-    trackSchemaChange({
+    track_schema_change({
       change_type: "feature_add",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -586,7 +586,7 @@
     newFeatures.splice(index, 1);
     handle_update_schema("ADDITIONAL_FEATURES", newFeatures);
     load_additional_features();
-    trackSchemaChange({
+    track_schema_change({
       change_type: "feature_delete",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -620,7 +620,7 @@
     handle_update_schema("ADDITIONAL_FEATURES", newFeatures);
     feature_editor_visibility = "hidden";
     load_additional_features();
-    trackSchemaChange({
+    track_schema_change({
       change_type: editing_index !== null ? "feature_edit" : "feature_add",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });

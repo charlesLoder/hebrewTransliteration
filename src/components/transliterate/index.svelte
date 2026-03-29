@@ -2,11 +2,11 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { setContext } from "svelte";
   import { toast } from "svelte-sonner";
-  import { serialize_schema, deserialize_schema } from "../../lib/schemaSerialization";
+  import { track_transliteration } from "../../lib/analytics";
+  import { deserialize_schema, serialize_schema } from "../../lib/schemaSerialization";
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
-  import { trackTransliteration } from "../../lib/analytics";
-  import { performTransliteration } from "../../services/transliterationService";
+  import { performTransliteration as perform_transliteration } from "../../services/transliterationService";
   import type {
     AppStatus,
     Context,
@@ -75,7 +75,7 @@
   let niqqud_modal_state: ModalState = $state("closed");
   let pending_input = $state("");
 
-  async function sendErrorToApi(text: string, error: string) {
+  async function send_error_to_api(text: string, error: string) {
     try {
       await fetch("/api/error", {
         method: "POST",
@@ -94,7 +94,7 @@
   }
 
   function do_transliteration(text: string) {
-    const result = performTransliteration({
+    const result = perform_transliteration({
       text,
       schemaOptions: transliteration_state.schema,
     });
@@ -107,7 +107,7 @@
       app_state = "error";
       const errorMsg = result.error || "Unknown error";
       toast.error(`Transliteration failed: ${errorMsg}`);
-      sendErrorToApi(text, errorMsg);
+      send_error_to_api(text, errorMsg);
     }
   }
 
@@ -129,7 +129,7 @@
     }
 
     do_transliteration(input);
-    trackTransliteration({
+    track_transliteration({
       schema: transliteration_state.selected_schema_name ?? "custom",
       has_niqqud: true,
     });
@@ -139,7 +139,7 @@
     niqqud_modal_state = "closed";
     app_state = "processing";
     do_transliteration(pending_input);
-    trackTransliteration({
+    track_transliteration({
       schema: transliteration_state.selected_schema_name ?? "custom",
       has_niqqud: false,
     });
@@ -157,7 +157,7 @@
     const { dialog_view_state, input_placeholder, schema } = transliteration_state;
 
     if (dialog_view_state === "close") {
-      const result = performTransliteration({
+      const result = perform_transliteration({
         text: input_placeholder,
         schemaOptions: schema,
       });
