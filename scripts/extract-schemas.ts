@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, readFileSync } from "fs";
+import { mkdirSync, readFileSync, writeFileSync } from "fs";
 import { SBL } from "hebrew-transliteration";
 import {
   brillAcademic,
@@ -10,6 +10,7 @@ import {
   sblSimple,
   tiberian,
 } from "hebrew-transliteration/schemas";
+import { serialize_schema } from "../src/lib/schemaSerialization.ts";
 
 const packageJson = JSON.parse(
   readFileSync("./node_modules/hebrew-transliteration/package.json", "utf-8"),
@@ -30,19 +31,9 @@ const schemaDefinitions = [
 
 const schemaFiles = [];
 
-function serializeValue(key, value) {
-  if (typeof value === "function") {
-    return { __function: value.toString() };
-  }
-  if (value instanceof RegExp) {
-    return { __regexp: value.source, flags: value.flags };
-  }
-  return value;
-}
-
 for (const { label, data } of schemaDefinitions) {
   const filename = label.toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".json";
-  const serialized = JSON.parse(JSON.stringify(data, serializeValue, 2));
+  const serialized = serialize_schema(data);
 
   mkdirSync("public/schemas", { recursive: true });
   writeFileSync(`public/schemas/${filename}`, JSON.stringify(serialized, null, 2));
