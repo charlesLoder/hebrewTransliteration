@@ -2,7 +2,7 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { setContext } from "svelte";
   import { toast } from "svelte-sonner";
-  import { deserialize_schema, serialize_schema } from "../../lib/featureSerialization";
+  import { serialize_schema, deserialize_schema } from "../../lib/schemaSerialization";
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
   import { trackTransliteration } from "../../lib/analytics";

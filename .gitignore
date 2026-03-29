@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# extracted schemas (build artifact)
+public/schemas/
+
 # dependencies
 node_modules/
 

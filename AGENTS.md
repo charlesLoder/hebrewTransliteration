@@ -29,6 +29,17 @@ Astro-based web application for converting Hebrew text to transliterated Latin c
 - **Enforcement**: ESLint + Prettier
 - **TypeScript**: Strict mode enabled
 - **Path alias**: Use `$lib` for imports from `src/lib/`
+- **State values**: always prefer named union types over booleans
+
+## Schema Extraction
+
+Preset schemas from `hebrew-transliteration` are extracted to static JSON files at build time via `scripts/extract-schemas.mjs`. This preserves callback function code in ADDITIONAL_FEATURES from minification.
+
+- Schema files: `public/schemas/{slug}.json`
+- Manifest: `public/schemas/manifest.json`
+- Loading: `src/lib/schemaLoader.ts`
+
+Run `npm run extract-schemas` to re-extract after package updates.
 
 ## Testing
 

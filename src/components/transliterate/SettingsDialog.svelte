@@ -21,16 +21,13 @@
   import IconInfoCircle from "@tabler/icons-svelte/icons/info-circle";
   import type { SBL } from "hebrew-transliteration";
   import {
-    brillAcademic,
-    brillSimple,
-    jss,
-    michiganClaremont,
-    romaniote,
-    sblAcademicSpirantization,
-    sblSimple,
-    tiberian,
-  } from "hebrew-transliteration/schemas";
+    get_default_schema_fallback,
+    load_schema,
+    load_schema_manifest,
+    type SchemaLoaderState,
+  } from "../../lib/schemaLoader";
   import { getContext } from "svelte";
+  import { toast } from "svelte-sonner";
   import type {
     Context,
     SchemaName,
@@ -96,18 +93,11 @@
     { title: "Additional Features", id: "additional_features" },
   ];
 
-  const schema_map: Record<string, Partial<SBL>> = {
-    "Brill Academic": brillAcademic,
-    "Brill Simple": brillSimple,
-    "Journal of Semitic Studies": jss,
-    "Michigan Claremont": michiganClaremont,
-    Romaniote: romaniote,
-    "SBL Academic Spirantization": sblAcademicSpirantization,
-    "SBL Simple": sblSimple,
-    Tiberian: tiberian,
-  };
+  let schema_map = $state<Record<string, Partial<SBL>>>({});
+  let loader_state = $state<SchemaLoaderState>("idle");
+  let loader_error = $state<string | null>(null);
 
-  const schema_options: SchemaName[] = [
+  const schema_labels = [
     "SBL Academic",
     "Brill Academic",
     "Brill Simple",
@@ -117,8 +107,27 @@
     "SBL Academic Spirantization",
     "SBL Simple",
     "Tiberian",
-    "Custom",
-  ];
+  ] as const;
+
+  async function load_schemas() {
+    loader_state = "loading";
+    loader_error = null;
+    try {
+      await load_schema_manifest();
+      const schemas = await Promise.all(schema_labels.map(load_schema));
+      schema_map = Object.fromEntries(schema_labels.map((label, i) => [label, schemas[i]]));
+      loader_state = "success";
+    } catch (err) {
+      loader_error = err instanceof Error ? err.message : "Failed to load schemas";
+      loader_state = "error";
+      schema_map = { "SBL Academic": get_default_schema_fallback() };
+      toast.warning("Using fallback schema. Some features may be unavailable.");
+    }
+  }
+
+  load_schemas();
+
+  const schema_options: SchemaName[] = [...schema_labels, "Custom"];
 
   const consonants = [
     "ALEF",
@@ -693,6 +702,13 @@
 
     <TabsContent value="schemas" class="flex flex-col gap-6">
       <div class="flex flex-col gap-4 h-72 xl:h-92">
+        {#if loader_state === "loading"}
+          <p class="text-muted-foreground">Loading schemas...</p>
+        {:else if loader_state === "error"}
+          <p class="text-destructive text-sm">
+            Warning: Using fallback schema. {loader_error}
+          </p>
+        {/if}
         <div class="shema-select flex flex-col gap-2">
           <Label for="schema-select" class="text-muted-foreground text-sm text-pretty"
             >Choose a premade schema and optionally customize it</Label

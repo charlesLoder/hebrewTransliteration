@@ -10,8 +10,11 @@
   ],
   "type": "module",
   "scripts": {
+    "predev": "node scripts/extract-schemas.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/extract-schemas.mjs",
     "build": "astro build",
+    "extract-schemas": "node scripts/extract-schemas.mjs",
     "astro": "astro",
     "lint": "eslint .",
     "svelte-check": "svelte-check",
