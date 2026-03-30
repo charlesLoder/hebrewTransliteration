@@ -11,7 +11,6 @@
     AppStatus,
     Context,
     DialogViewState,
-    SchemaName,
     TransliterationState,
   } from "../../types/index";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
@@ -24,8 +23,8 @@
 
   interface StoredSchemaData {
     values: TransliterationState["schema"];
-    selected_schema_name: SchemaName | null;
-    modified_schema_base: SchemaName | null;
+    selected_schema_name: string | null;
+    modified_schema_base: string | null;
   }
 
   const cantillation_regex = /[\u0591-\u05AE\u05BD\u05C3-\u05C5]/;

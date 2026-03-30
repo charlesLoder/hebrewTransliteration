@@ -29,12 +29,7 @@
     load_schema_manifest,
     type SchemaLoaderState,
   } from "../../lib/schemaLoader";
-  import type {
-    Context,
-    SchemaName,
-    TransliterationState,
-    VisibilityState,
-  } from "../../types/index";
+  import type { Context, TransliterationState, VisibilityState } from "../../types/index";
   import { format_doc_url, format_label } from "../../utils/documentation";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
   import Dialog from "../shared/Dialog.svelte";
@@ -96,24 +91,15 @@
   let schema_map = $state<Record<string, Partial<SBL>>>({});
   let loader_state = $state<SchemaLoaderState>("idle");
   let loader_error = $state<string | null>(null);
-
-  const schema_labels = [
-    "SBL Academic",
-    "Brill Academic",
-    "Brill Simple",
-    "Journal of Semitic Studies",
-    "Michigan Claremont",
-    "Romaniote",
-    "SBL Academic Spirantization",
-    "SBL Simple",
-    "Tiberian",
-  ] as const;
+  let schema_manifest = $state<{ label: string; file: string }[]>([]);
 
   async function load_schemas() {
     loader_state = "loading";
     loader_error = null;
     try {
-      await load_schema_manifest();
+      const manifest = await load_schema_manifest();
+      schema_manifest = manifest.schemas;
+      const schema_labels = schema_manifest.map((s) => s.label);
       const schemas = await Promise.all(schema_labels.map(load_schema));
       schema_map = Object.fromEntries(schema_labels.map((label, i) => [label, schemas[i]]));
       loader_state = "success";
@@ -127,7 +113,7 @@
 
   load_schemas();
 
-  const schema_options: SchemaName[] = [...schema_labels, "Custom"];
+  const schema_options = $derived([...schema_manifest.map((s) => s.label), "Custom"]);
 
   const consonants = [
     "ALEF",
@@ -374,17 +360,16 @@
   }
 
   function handle_schema_name_change(value: string) {
-    const newValue = value as SchemaName;
-    transliteration_state.value.selected_schema_name = newValue;
+    transliteration_state.value.selected_schema_name = value;
 
-    if (newValue === "Custom") {
+    if (value === "Custom") {
       custom_upload_visibility = "visible";
       return;
     }
 
     custom_upload_visibility = "hidden";
 
-    if (newValue === "SBL Academic") {
+    if (value === "SBL Academic") {
       const default_schema = get_default_SBL_schema();
       transliteration_state.value.schema = {
         ...default_schema,
@@ -393,7 +378,7 @@
       return;
     }
 
-    const new_schema = schema_map[newValue];
+    const new_schema = schema_map[value];
     if (new_schema) {
       transliteration_state.value.schema = {
         ...new_schema,
@@ -401,7 +386,7 @@
       transliteration_state.value.modified_schema_base = null;
     }
 
-    track_schema_change({ change_type: "preset_change", schema: newValue });
+    track_schema_change({ change_type: "preset_change", schema: value });
   }
 
   function reset_to_base() {
