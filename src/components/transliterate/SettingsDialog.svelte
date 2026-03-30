@@ -50,14 +50,14 @@
   let custom_schema_filename = $state("");
 
   function is_modified(): boolean {
-    return transliteration_state.value.modified_schema_base !== null;
+    return !!transliteration_state.value.modified_schema_base;
   }
 
   function get_display_schema_name(): string {
     if (is_modified()) {
       return `${transliteration_state.value.selected_schema_name} (user modified)`;
     }
-    return transliteration_state.value.selected_schema_name ?? "SBL Academic";
+    return transliteration_state.value.selected_schema_name;
   }
 
   let active_dagesh_chazaq_option: DageshChazaqOption = $state(get_dagesh_chazaq_option());
@@ -374,7 +374,7 @@
       transliteration_state.value.schema = {
         ...default_schema,
       };
-      transliteration_state.value.modified_schema_base = null;
+      transliteration_state.value.modified_schema_base = "";
       return;
     }
 
@@ -383,14 +383,14 @@
       transliteration_state.value.schema = {
         ...new_schema,
       };
-      transliteration_state.value.modified_schema_base = null;
+      transliteration_state.value.modified_schema_base = "";
     }
 
     track_schema_change({ change_type: "preset_change", schema: value });
   }
 
   function reset_to_base() {
-    const getBaseSchema = (): Partial<SBL> | undefined => {
+    const get_base_schema = (): Partial<SBL> | undefined => {
       if (transliteration_state.value.modified_schema_base === "SBL Academic") {
         return get_default_SBL_schema();
       }
@@ -403,18 +403,17 @@
       return undefined;
     };
 
-    const base_schema = getBaseSchema();
+    const base_schema = get_base_schema();
     if (base_schema) {
       transliteration_state.value.schema = {
         ...base_schema,
       };
-      transliteration_state.value.selected_schema_name = "SBL Academic";
-      transliteration_state.value.modified_schema_base = null;
+      transliteration_state.value.modified_schema_base = "";
     }
 
     track_schema_change({
       change_type: "reset",
-      schema: transliteration_state.value.selected_schema_name ?? undefined,
+      schema: transliteration_state.value.selected_schema_name,
     });
   }
 
@@ -494,7 +493,7 @@
         transliteration_state.value.schema = {
           ...reconstructed_schema,
         };
-        transliteration_state.value.modified_schema_base = null;
+        transliteration_state.value.modified_schema_base = "";
       } catch (err) {
         console.error("Failed to parse schema file:", err);
       }
@@ -542,7 +541,7 @@
     transliteration_state.value.schema = {
       ...default_schema,
     };
-    transliteration_state.value.modified_schema_base = null;
+    transliteration_state.value.modified_schema_base = "";
   }
 
   interface FeatureForm {
@@ -701,7 +700,7 @@
           <NativeSelectRoot
             id="schema-select"
             data-testid="schema-select"
-            value={transliteration_state.value.selected_schema_name ?? "SBL Academic"}
+            value={transliteration_state.value.selected_schema_name}
             onchange={(e: Event) =>
               handle_schema_name_change((e.currentTarget as HTMLSelectElement).value)}
           >

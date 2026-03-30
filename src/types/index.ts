@@ -25,7 +25,7 @@ export interface TransliterationState {
   output: string;
   schema: Partial<SBL>;
   selected_schema_name: string;
-  modified_schema_base: string | null;
+  modified_schema_base: string;
 }
 
 /**

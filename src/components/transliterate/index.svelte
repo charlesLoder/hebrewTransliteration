@@ -19,7 +19,7 @@
   interface StoredSchemaData {
     values: TransliterationState["schema"];
     selected_schema_name: string;
-    modified_schema_base: string | null;
+    modified_schema_base: string;
   }
 
   const cantillation_regex = /[\u0591-\u05AE\u05BD\u05C3-\u05C5]/;
@@ -29,7 +29,7 @@
   const stored_data = load_settings<StoredSchemaData>(STORAGE_KEYS.transliterate, {
     values: default_schema,
     selected_schema_name: "SBL Academic",
-    modified_schema_base: null,
+    modified_schema_base: "",
   });
 
   let transliteration_state: TransliterationState = $state({
