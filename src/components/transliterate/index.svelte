@@ -7,12 +7,7 @@
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
   import { performTransliteration as perform_transliteration } from "../../services/transliterationService";
-  import type {
-    AppStatus,
-    Context,
-    DialogViewState,
-    TransliterationState,
-  } from "../../types/index";
+  import type { AppStatus, Context, TransliterationState } from "../../types/index";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
   import Card from "../shared/Card.svelte";
   import ErrorBoundary from "../shared/ErrorBoundary.svelte";
@@ -38,22 +33,13 @@
   });
 
   let transliteration_state: TransliterationState = $state({
-    dialog_view_state: "close" as DialogViewState,
+    dialog_view_state: "close",
     input: "",
     input_placeholder: "עִבְרִית",
     output: "",
-    schema: deserialize_schema(stored_data.values ?? default_schema),
+    schema: deserialize_schema(stored_data.values),
     selected_schema_name: stored_data.selected_schema_name ?? "SBL Academic",
     modified_schema_base: stored_data.modified_schema_base,
-  });
-
-  $effect(() => {
-    const data: StoredSchemaData = {
-      values: serialize_schema(transliteration_state.schema),
-      selected_schema_name: transliteration_state.selected_schema_name,
-      modified_schema_base: transliteration_state.modified_schema_base,
-    };
-    save_settings(STORAGE_KEYS.transliterate, data);
   });
 
   // Provide context to child components
@@ -151,6 +137,18 @@
     }
   }
 
+  async function handle_copy_output() {
+    if (transliteration_state.output && app_state !== "error") {
+      try {
+        await navigator.clipboard.writeText(transliteration_state.output);
+        toast.success("Copied to clipboard");
+      } catch (error) {
+        console.error("Failed to copy:", error);
+        toast.error("Failed to copy to clipboard");
+      }
+    }
+  }
+
   $effect(() => {
     // This effect will re-run whenever input_placeholder, schema, or dialog_view_state changes
     const { dialog_view_state, input_placeholder, schema } = transliteration_state;
@@ -165,17 +163,14 @@
     }
   });
 
-  async function handle_copy_output() {
-    if (transliteration_state.output && app_state !== "error") {
-      try {
-        await navigator.clipboard.writeText(transliteration_state.output);
-        toast.success("Copied to clipboard");
-      } catch (error) {
-        console.error("Failed to copy:", error);
-        toast.error("Failed to copy to clipboard");
-      }
-    }
-  }
+  $effect(() => {
+    const data: StoredSchemaData = {
+      values: serialize_schema(transliteration_state.schema),
+      selected_schema_name: transliteration_state.selected_schema_name,
+      modified_schema_base: transliteration_state.modified_schema_base,
+    };
+    save_settings(STORAGE_KEYS.transliterate, data);
+  });
 </script>
 
 <ErrorBoundary>
