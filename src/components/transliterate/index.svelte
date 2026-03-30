@@ -18,7 +18,7 @@
 
   interface StoredSchemaData {
     values: TransliterationState["schema"];
-    selected_schema_name: string | null;
+    selected_schema_name: string;
     modified_schema_base: string | null;
   }
 
@@ -28,7 +28,7 @@
   const default_schema = get_default_SBL_schema();
   const stored_data = load_settings<StoredSchemaData>(STORAGE_KEYS.transliterate, {
     values: default_schema,
-    selected_schema_name: null,
+    selected_schema_name: "SBL Academic",
     modified_schema_base: null,
   });
 
@@ -38,7 +38,7 @@
     input_placeholder: "עִבְרִית",
     output: "",
     schema: deserialize_schema(stored_data.values),
-    selected_schema_name: stored_data.selected_schema_name ?? "SBL Academic",
+    selected_schema_name: stored_data.selected_schema_name,
     modified_schema_base: stored_data.modified_schema_base,
   });
 
