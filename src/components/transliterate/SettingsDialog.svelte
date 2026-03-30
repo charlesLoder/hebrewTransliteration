@@ -45,6 +45,17 @@
 
   type AdditionalFeatures = SBL["ADDITIONAL_FEATURES"];
 
+  interface FeatureForm {
+    feature_type: "word" | "syllable" | "cluster";
+    hebrew_text: string;
+    is_regex: boolean;
+    regex_flags: string;
+    pass_through: boolean;
+    is_callback: boolean;
+    transliteration_text: string;
+    callback_code: string;
+  }
+
   let active_tab = $state("schemas");
   let custom_upload_visibility: VisibilityState = $state("hidden");
   let custom_schema_filename = $state("");
@@ -74,10 +85,6 @@
   function load_additional_features() {
     additional_features = transliteration_state.value.schema.ADDITIONAL_FEATURES || [];
   }
-
-  $effect(() => {
-    load_additional_features();
-  });
 
   const pages = [
     { title: "Schemas", id: "schemas" },
@@ -544,17 +551,6 @@
     transliteration_state.value.modified_schema_base = "";
   }
 
-  interface FeatureForm {
-    feature_type: "word" | "syllable" | "cluster";
-    hebrew_text: string;
-    is_regex: boolean;
-    regex_flags: string;
-    pass_through: boolean;
-    is_callback: boolean;
-    transliteration_text: string;
-    callback_code: string;
-  }
-
   function handle_add_feature() {
     editing_index = null;
     feature_editor_visibility = "visible";
@@ -663,6 +659,10 @@
   function get_doc_url(key: string): string {
     return format_doc_url("/api/classes/schema", key);
   }
+
+  $effect(() => {
+    load_additional_features();
+  });
 </script>
 
 <Dialog text="Settings" testid="settings-button" on_change={handle_dialog_change}>
