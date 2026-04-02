@@ -20,24 +20,16 @@
   import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs/index.js";
   import IconInfoCircle from "@tabler/icons-svelte/icons/info-circle";
   import type { SBL } from "hebrew-transliteration";
-  import {
-    brillAcademic,
-    brillSimple,
-    jss,
-    michiganClaremont,
-    romaniote,
-    sblAcademicSpirantization,
-    sblSimple,
-    tiberian,
-  } from "hebrew-transliteration/schemas";
   import { getContext } from "svelte";
-  import type {
-    Context,
-    SchemaName,
-    TransliterationState,
-    VisibilityState,
-  } from "../../types/index";
-  import { trackSchemaChange } from "../../lib/analytics";
+  import { toast } from "svelte-sonner";
+  import { track_schema_change } from "../../lib/analytics";
+  import {
+    get_default_schema_fallback,
+    load_schema,
+    load_schema_manifest,
+    type SchemaLoaderState,
+  } from "../../lib/schemaLoader";
+  import type { Context, TransliterationState, VisibilityState } from "../../types/index";
   import { format_doc_url, format_label } from "../../utils/documentation";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
   import Dialog from "../shared/Dialog.svelte";
@@ -53,19 +45,30 @@
 
   type AdditionalFeatures = SBL["ADDITIONAL_FEATURES"];
 
+  interface FeatureForm {
+    feature_type: "word" | "syllable" | "cluster";
+    hebrew_text: string;
+    is_regex: boolean;
+    regex_flags: string;
+    pass_through: boolean;
+    is_callback: boolean;
+    transliteration_text: string;
+    callback_code: string;
+  }
+
   let active_tab = $state("schemas");
   let custom_upload_visibility: VisibilityState = $state("hidden");
   let custom_schema_filename = $state("");
 
   function is_modified(): boolean {
-    return transliteration_state.value.modified_schema_base !== null;
+    return !!transliteration_state.value.modified_schema_base;
   }
 
   function get_display_schema_name(): string {
     if (is_modified()) {
       return `${transliteration_state.value.selected_schema_name} (user modified)`;
     }
-    return transliteration_state.value.selected_schema_name ?? "SBL Academic";
+    return transliteration_state.value.selected_schema_name;
   }
 
   let active_dagesh_chazaq_option: DageshChazaqOption = $state(get_dagesh_chazaq_option());
@@ -83,10 +86,6 @@
     additional_features = transliteration_state.value.schema.ADDITIONAL_FEATURES || [];
   }
 
-  $effect(() => {
-    load_additional_features();
-  });
-
   const pages = [
     { title: "Schemas", id: "schemas" },
     { title: "Syllabification", id: "syllabification" },
@@ -96,29 +95,32 @@
     { title: "Additional Features", id: "additional_features" },
   ];
 
-  const schema_map: Record<string, Partial<SBL>> = {
-    "Brill Academic": brillAcademic,
-    "Brill Simple": brillSimple,
-    "Journal of Semitic Studies": jss,
-    "Michigan Claremont": michiganClaremont,
-    Romaniote: romaniote,
-    "SBL Academic Spirantization": sblAcademicSpirantization,
-    "SBL Simple": sblSimple,
-    Tiberian: tiberian,
-  };
+  let schema_map = $state<Record<string, Partial<SBL>>>({});
+  let loader_state = $state<SchemaLoaderState>("idle");
+  let loader_error = $state<string | null>(null);
+  let schema_manifest = $state<{ label: string; file: string }[]>([]);
 
-  const schema_options: SchemaName[] = [
-    "SBL Academic",
-    "Brill Academic",
-    "Brill Simple",
-    "Journal of Semitic Studies",
-    "Michigan Claremont",
-    "Romaniote",
-    "SBL Academic Spirantization",
-    "SBL Simple",
-    "Tiberian",
-    "Custom",
-  ];
+  async function load_schemas() {
+    loader_state = "loading";
+    loader_error = null;
+    try {
+      const manifest = await load_schema_manifest();
+      schema_manifest = manifest.schemas;
+      const schema_labels = schema_manifest.map((s) => s.label);
+      const schemas = await Promise.all(schema_labels.map(load_schema));
+      schema_map = Object.fromEntries(schema_labels.map((label, i) => [label, schemas[i]]));
+      loader_state = "success";
+    } catch (err) {
+      loader_error = err instanceof Error ? err.message : "Failed to load schemas";
+      loader_state = "error";
+      schema_map = { "SBL Academic": get_default_schema_fallback() };
+      toast.warning("Using fallback schema. Some features may be unavailable.");
+    }
+  }
+
+  load_schemas();
+
+  const schema_options = $derived([...schema_manifest.map((s) => s.label), "Custom"]);
 
   const consonants = [
     "ALEF",
@@ -213,7 +215,7 @@
       ...transliteration_state.value.schema,
       [key]: value,
     };
-    trackSchemaChange({
+    track_schema_change({
       change_type: "manual_edit",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -365,38 +367,37 @@
   }
 
   function handle_schema_name_change(value: string) {
-    const newValue = value as SchemaName;
-    transliteration_state.value.selected_schema_name = newValue;
+    transliteration_state.value.selected_schema_name = value;
 
-    if (newValue === "Custom") {
+    if (value === "Custom") {
       custom_upload_visibility = "visible";
       return;
     }
 
     custom_upload_visibility = "hidden";
 
-    if (newValue === "SBL Academic") {
+    if (value === "SBL Academic") {
       const default_schema = get_default_SBL_schema();
       transliteration_state.value.schema = {
         ...default_schema,
       };
-      transliteration_state.value.modified_schema_base = null;
+      transliteration_state.value.modified_schema_base = "";
       return;
     }
 
-    const new_schema = schema_map[newValue];
+    const new_schema = schema_map[value];
     if (new_schema) {
       transliteration_state.value.schema = {
         ...new_schema,
       };
-      transliteration_state.value.modified_schema_base = null;
+      transliteration_state.value.modified_schema_base = "";
     }
 
-    trackSchemaChange({ change_type: "preset_change", schema: newValue });
+    track_schema_change({ change_type: "preset_change", schema: value });
   }
 
   function reset_to_base() {
-    const getBaseSchema = (): Partial<SBL> | undefined => {
+    const get_base_schema = (): Partial<SBL> | undefined => {
       if (transliteration_state.value.modified_schema_base === "SBL Academic") {
         return get_default_SBL_schema();
       }
@@ -409,18 +410,17 @@
       return undefined;
     };
 
-    const base_schema = getBaseSchema();
+    const base_schema = get_base_schema();
     if (base_schema) {
       transliteration_state.value.schema = {
         ...base_schema,
       };
-      transliteration_state.value.selected_schema_name = "SBL Academic";
-      transliteration_state.value.modified_schema_base = null;
+      transliteration_state.value.modified_schema_base = "";
     }
 
-    trackSchemaChange({
+    track_schema_change({
       change_type: "reset",
-      schema: transliteration_state.value.selected_schema_name ?? undefined,
+      schema: transliteration_state.value.selected_schema_name,
     });
   }
 
@@ -500,7 +500,7 @@
         transliteration_state.value.schema = {
           ...reconstructed_schema,
         };
-        transliteration_state.value.modified_schema_base = null;
+        transliteration_state.value.modified_schema_base = "";
       } catch (err) {
         console.error("Failed to parse schema file:", err);
       }
@@ -548,24 +548,13 @@
     transliteration_state.value.schema = {
       ...default_schema,
     };
-    transliteration_state.value.modified_schema_base = null;
-  }
-
-  interface FeatureForm {
-    feature_type: "word" | "syllable" | "cluster";
-    hebrew_text: string;
-    is_regex: boolean;
-    regex_flags: string;
-    pass_through: boolean;
-    is_callback: boolean;
-    transliteration_text: string;
-    callback_code: string;
+    transliteration_state.value.modified_schema_base = "";
   }
 
   function handle_add_feature() {
     editing_index = null;
     feature_editor_visibility = "visible";
-    trackSchemaChange({
+    track_schema_change({
       change_type: "feature_add",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -577,7 +566,7 @@
     newFeatures.splice(index, 1);
     handle_update_schema("ADDITIONAL_FEATURES", newFeatures);
     load_additional_features();
-    trackSchemaChange({
+    track_schema_change({
       change_type: "feature_delete",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -611,7 +600,7 @@
     handle_update_schema("ADDITIONAL_FEATURES", newFeatures);
     feature_editor_visibility = "hidden";
     load_additional_features();
-    trackSchemaChange({
+    track_schema_change({
       change_type: editing_index !== null ? "feature_edit" : "feature_add",
       schema: transliteration_state.value.selected_schema_name ?? undefined,
     });
@@ -670,6 +659,10 @@
   function get_doc_url(key: string): string {
     return format_doc_url("/api/classes/schema", key);
   }
+
+  $effect(() => {
+    load_additional_features();
+  });
 </script>
 
 <Dialog text="Settings" testid="settings-button" on_change={handle_dialog_change}>
@@ -693,6 +686,13 @@
 
     <TabsContent value="schemas" class="flex flex-col gap-6">
       <div class="flex flex-col gap-4 h-72 xl:h-92">
+        {#if loader_state === "loading"}
+          <p class="text-muted-foreground">Loading schemas...</p>
+        {:else if loader_state === "error"}
+          <p class="text-destructive text-sm">
+            Warning: Using fallback schema. {loader_error}
+          </p>
+        {/if}
         <div class="shema-select flex flex-col gap-2">
           <Label for="schema-select" class="text-muted-foreground text-sm text-pretty"
             >Choose a premade schema and optionally customize it</Label
@@ -700,7 +700,7 @@
           <NativeSelectRoot
             id="schema-select"
             data-testid="schema-select"
-            value={transliteration_state.value.selected_schema_name ?? "SBL Academic"}
+            value={transliteration_state.value.selected_schema_name}
             onchange={(e: Event) =>
               handle_schema_name_change((e.currentTarget as HTMLSelectElement).value)}
           >

@@ -9,18 +9,6 @@ export type VisibilityState = "hidden" | "visible";
 
 export type CopyState = "idle" | "copied" | "error";
 
-export type SchemaName =
-  | "SBL Academic"
-  | "Brill Academic"
-  | "Brill Simple"
-  | "Journal of Semitic Studies"
-  | "Michigan Claremont"
-  | "Romaniote"
-  | "SBL Academic Spirantization"
-  | "SBL Simple"
-  | "Tiberian"
-  | "Custom";
-
 export interface Context<T> {
   get value(): T;
   set value(v: T);
@@ -36,8 +24,8 @@ export interface TransliterationState {
   input_placeholder: string;
   output: string;
   schema: Partial<SBL>;
-  selected_schema_name: SchemaName | null;
-  modified_schema_base: SchemaName | null;
+  selected_schema_name: string;
+  modified_schema_base: string;
 }
 
 /**

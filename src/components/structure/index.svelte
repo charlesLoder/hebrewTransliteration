@@ -2,9 +2,9 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { setContext } from "svelte";
   import { toast } from "svelte-sonner";
+  import { track_structure } from "../../lib/analytics";
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
-  import { trackStructure } from "../../lib/analytics";
   import { performStructure } from "../../services/structureService";
   import type { AppStatus, Context, StructureState } from "../../types/index";
   import { default_structure_options } from "../../utils/defaults";
@@ -52,7 +52,7 @@
       structure_state.output = result.output;
       app_state = "idle";
       const hasCustomWhitespace = Object.values(structure_state.options).some((v) => v !== "none");
-      trackStructure({ has_custom_whitespace: hasCustomWhitespace });
+      track_structure({ has_custom_whitespace: hasCustomWhitespace });
     } else {
       structure_state.output = "";
       app_state = "error";

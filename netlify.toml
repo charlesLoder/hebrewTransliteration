@@ -9,3 +9,8 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[[headers]]
+  for = "/schemas/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

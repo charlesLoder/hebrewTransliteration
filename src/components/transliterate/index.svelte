@@ -2,18 +2,12 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { setContext } from "svelte";
   import { toast } from "svelte-sonner";
-  import { deserialize_schema, serialize_schema } from "../../lib/featureSerialization";
+  import { track_transliteration } from "../../lib/analytics";
+  import { deserialize_schema, serialize_schema } from "../../lib/schemaSerialization";
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
-  import { trackTransliteration } from "../../lib/analytics";
-  import { performTransliteration } from "../../services/transliterationService";
-  import type {
-    AppStatus,
-    Context,
-    DialogViewState,
-    SchemaName,
-    TransliterationState,
-  } from "../../types/index";
+  import { performTransliteration as perform_transliteration } from "../../services/transliterationService";
+  import type { AppStatus, Context, TransliterationState } from "../../types/index";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
   import Card from "../shared/Card.svelte";
   import ErrorBoundary from "../shared/ErrorBoundary.svelte";
@@ -24,8 +18,8 @@
 
   interface StoredSchemaData {
     values: TransliterationState["schema"];
-    selected_schema_name: SchemaName | null;
-    modified_schema_base: SchemaName | null;
+    selected_schema_name: string;
+    modified_schema_base: string;
   }
 
   const cantillation_regex = /[\u0591-\u05AE\u05BD\u05C3-\u05C5]/;
@@ -34,27 +28,18 @@
   const default_schema = get_default_SBL_schema();
   const stored_data = load_settings<StoredSchemaData>(STORAGE_KEYS.transliterate, {
     values: default_schema,
-    selected_schema_name: null,
-    modified_schema_base: null,
+    selected_schema_name: "SBL Academic",
+    modified_schema_base: "",
   });
 
   let transliteration_state: TransliterationState = $state({
-    dialog_view_state: "close" as DialogViewState,
+    dialog_view_state: "close",
     input: "",
     input_placeholder: "עִבְרִית",
     output: "",
-    schema: deserialize_schema(stored_data.values ?? default_schema),
-    selected_schema_name: stored_data.selected_schema_name ?? "SBL Academic",
+    schema: deserialize_schema(stored_data.values),
+    selected_schema_name: stored_data.selected_schema_name,
     modified_schema_base: stored_data.modified_schema_base,
-  });
-
-  $effect(() => {
-    const data: StoredSchemaData = {
-      values: serialize_schema(transliteration_state.schema),
-      selected_schema_name: transliteration_state.selected_schema_name,
-      modified_schema_base: transliteration_state.modified_schema_base,
-    };
-    save_settings(STORAGE_KEYS.transliterate, data);
   });
 
   // Provide context to child components
@@ -75,7 +60,7 @@
   let niqqud_modal_state: ModalState = $state("closed");
   let pending_input = $state("");
 
-  async function sendErrorToApi(text: string, error: string) {
+  async function send_error_to_api(text: string, error: string) {
     try {
       await fetch("/api/error", {
         method: "POST",
@@ -94,7 +79,7 @@
   }
 
   function do_transliteration(text: string) {
-    const result = performTransliteration({
+    const result = perform_transliteration({
       text,
       schemaOptions: transliteration_state.schema,
     });
@@ -107,7 +92,7 @@
       app_state = "error";
       const errorMsg = result.error || "Unknown error";
       toast.error(`Transliteration failed: ${errorMsg}`);
-      sendErrorToApi(text, errorMsg);
+      send_error_to_api(text, errorMsg);
     }
   }
 
@@ -129,7 +114,7 @@
     }
 
     do_transliteration(input);
-    trackTransliteration({
+    track_transliteration({
       schema: transliteration_state.selected_schema_name ?? "custom",
       has_niqqud: true,
     });
@@ -139,7 +124,7 @@
     niqqud_modal_state = "closed";
     app_state = "processing";
     do_transliteration(pending_input);
-    trackTransliteration({
+    track_transliteration({
       schema: transliteration_state.selected_schema_name ?? "custom",
       has_niqqud: false,
     });
@@ -152,20 +137,6 @@
     }
   }
 
-  $effect(() => {
-    // This effect will re-run whenever input_placeholder, schema, or dialog_view_state changes
-    const { dialog_view_state, input_placeholder, schema } = transliteration_state;
-
-    if (dialog_view_state === "close") {
-      const result = performTransliteration({
-        text: input_placeholder,
-        schemaOptions: schema,
-      });
-
-      output_placeholder = result.success ? result.output : "";
-    }
-  });
-
   async function handle_copy_output() {
     if (transliteration_state.output && app_state !== "error") {
       try {
@@ -177,6 +148,29 @@
       }
     }
   }
+
+  $effect(() => {
+    // This effect will re-run whenever input_placeholder, schema, or dialog_view_state changes
+    const { dialog_view_state, input_placeholder, schema } = transliteration_state;
+
+    if (dialog_view_state === "close") {
+      const result = perform_transliteration({
+        text: input_placeholder,
+        schemaOptions: schema,
+      });
+
+      output_placeholder = result.success ? result.output : "";
+    }
+  });
+
+  $effect(() => {
+    const data: StoredSchemaData = {
+      values: serialize_schema(transliteration_state.schema),
+      selected_schema_name: transliteration_state.selected_schema_name,
+      modified_schema_base: transliteration_state.modified_schema_base,
+    };
+    save_settings(STORAGE_KEYS.transliterate, data);
+  });
 </script>
 
 <ErrorBoundary>

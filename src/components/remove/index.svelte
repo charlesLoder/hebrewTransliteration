@@ -2,9 +2,9 @@
   import { Button } from "$lib/components/ui/button/index.js";
   import { setContext } from "svelte";
   import { toast } from "svelte-sonner";
+  import { track_removal } from "../../lib/analytics";
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
-  import { trackRemoval } from "../../lib/analytics";
   import { performRemoval } from "../../services/removalService";
   import type { AppStatus, Context, RemoveState } from "../../types/index";
   import { default_remove_options } from "../../utils/defaults";
@@ -114,7 +114,7 @@
         "DEHI",
         "ZINOR",
       ];
-      trackRemoval({
+      track_removal({
         removed_vowels: vowels.some((k) => opts[k as keyof typeof opts]),
         removed_cantillation: taamim.some((k) => opts[k as keyof typeof opts]),
         removed_punctuation: punctuation.some((k) => opts[k as keyof typeof opts]),
