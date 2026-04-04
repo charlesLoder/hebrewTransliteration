@@ -69,7 +69,11 @@
           text,
           error,
           path: window.location.pathname,
-          options: JSON.stringify(transliteration_state.schema),
+          options: JSON.stringify({
+            schema_name: transliteration_state.selected_schema_name,
+            user_modified: transliteration_state.modified_schema_base,
+            schema: serialize_schema(transliteration_state.schema),
+          }),
           browser: navigator.userAgent,
         }),
       });
