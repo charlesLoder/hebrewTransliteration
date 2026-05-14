@@ -54,7 +54,7 @@
     "prettier": "^3.8.1",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-svelte": "^3.5.1",
-    "svelte": "^5.54.0",
+    "svelte": "^5.55.7",
     "svelte-check": "^4.3.5",
     "svelte-sonner": "^1.1.0",
     "tailwind-merge": "^3.5.0",
