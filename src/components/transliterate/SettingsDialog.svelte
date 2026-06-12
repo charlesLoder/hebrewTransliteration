@@ -18,9 +18,12 @@
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
   import { Switch } from "$lib/components/ui/switch/index.js";
   import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs/index.js";
+  import { javascript } from "@codemirror/lang-javascript";
+  import { EditorView } from "@codemirror/view";
   import IconInfoCircle from "@tabler/icons-svelte/icons/info-circle";
   import type { SBL } from "hebrew-transliteration";
   import { getContext } from "svelte";
+  import CodeMirror from "svelte-codemirror-editor";
   import { toast } from "svelte-sonner";
   import { track_schema_change } from "../../lib/analytics";
   import {
@@ -34,6 +37,7 @@
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
   import Dialog from "../shared/Dialog.svelte";
   import FeatureEditor from "./FeatureEditor.svelte";
+  import KetivQereEditor from "./KetivQereEditor.svelte";
 
   const transliteration_state = getContext<Context<TransliterationState>>("transliteration_state");
 
@@ -81,6 +85,168 @@
   let additional_features = $state<AdditionalFeatures>([]);
   let editing_index = $state<number | null>(null);
   let feature_editor_visibility: VisibilityState = $state("hidden");
+
+  // Ketiv/Qere state
+  interface KetivQerePair {
+    input: string;
+    output: string;
+    is_callback: boolean;
+    ignoreTaamim: boolean;
+    captureTaamim: boolean;
+  }
+
+  let ketiv_qere_pairs = $state<KetivQerePair[]>([]);
+  let kq_editor_index = $state<number | null>(null);
+  let kq_editor_code = $state("");
+
+  function load_ketiv_qere_pairs() {
+    const kq = transliteration_state.value.schema.ketivQeres;
+    if (kq && Array.isArray(kq)) {
+      ketiv_qere_pairs = kq.map((item) => ({
+        input:
+          typeof item.input === "string"
+            ? item.input
+            : item.input instanceof RegExp
+              ? `/${item.input.source}/${item.input.flags}`
+              : "",
+        output:
+          typeof item.output === "string"
+            ? item.output
+            : typeof item.output === "function"
+              ? item.output.toString()
+              : "",
+        is_callback: typeof item.output === "function",
+        ignoreTaamim: item.ignoreTaamim ?? true,
+        captureTaamim: item.captureTaamim ?? false,
+      }));
+    } else {
+      ketiv_qere_pairs = [];
+    }
+  }
+
+  function add_ketiv_qere_pair() {
+    mark_as_custom_if_needed();
+    ketiv_qere_pairs = [
+      ...ketiv_qere_pairs,
+      { input: "", output: "", is_callback: false, ignoreTaamim: true, captureTaamim: false },
+    ];
+  }
+
+  function update_ketiv_qere_pair(index: number, field: string, value: string | boolean) {
+    mark_as_custom_if_needed();
+    const updated = ketiv_qere_pairs.map((pair, i) =>
+      i === index ? { ...pair, [field]: value } : pair,
+    );
+    ketiv_qere_pairs = updated;
+    commit_ketiv_qere_pairs(updated);
+  }
+
+  function remove_ketiv_qere_pair(index: number) {
+    mark_as_custom_if_needed();
+    const updated = ketiv_qere_pairs.filter((_, i) => i !== index);
+    ketiv_qere_pairs = updated;
+    commit_ketiv_qere_pairs(updated);
+  }
+
+  function open_kq_callback_editor(index: number) {
+    kq_editor_index = index;
+    kq_editor_code = ketiv_qere_pairs[index].output;
+  }
+
+  function save_kq_callback_editor(code: string) {
+    const index = kq_editor_index;
+    if (index === null) return;
+    update_ketiv_qere_pair(index, "output", code);
+    kq_editor_index = null;
+    kq_editor_code = "";
+  }
+
+  function cancel_kq_callback_editor() {
+    kq_editor_index = null;
+    kq_editor_code = "";
+  }
+
+  function toggle_kq_output_type(index: number, is_callback: boolean) {
+    mark_as_custom_if_needed();
+    if (is_callback) {
+      const defaultFn = `(text, input) => {\n  return text.replace(input, "");\n}`;
+      const updated = ketiv_qere_pairs.map((p, i) =>
+        i === index ? { ...p, is_callback: true, output: defaultFn } : p,
+      );
+      ketiv_qere_pairs = updated;
+      commit_ketiv_qere_pairs(updated);
+    } else {
+      const updated = ketiv_qere_pairs.map((p, i) =>
+        i === index ? { ...p, is_callback: false, output: "" } : p,
+      );
+      ketiv_qere_pairs = updated;
+      commit_ketiv_qere_pairs(updated);
+    }
+  }
+
+  function commit_ketiv_qere_pairs(pairs: KetivQerePair[]) {
+    const valid = pairs.filter((p) => p.input.trim());
+    if (valid.length === 0) {
+      handle_update_schema("ketivQeres", undefined);
+    } else {
+      const ketivQeres = valid.map((p) => {
+        const input: string | RegExp =
+          p.input.startsWith("/") && p.input.lastIndexOf("/") > 0
+            ? (() => {
+                try {
+                  const m = p.input.match(/^\/(.*)\/([gimsu]*)$/);
+                  return m ? new RegExp(m[1], m[2]) : p.input;
+                } catch {
+                  return p.input;
+                }
+              })()
+            : p.input;
+        const output = p.is_callback
+          ? (() => {
+              try {
+                return eval(p.output);
+              } catch {
+                return p.output;
+              }
+            })()
+          : p.output || p.input;
+        return { input, output, ignoreTaamim: p.ignoreTaamim, captureTaamim: p.captureTaamim };
+      });
+      handle_update_schema("ketivQeres", ketivQeres);
+    }
+  }
+
+  // ON_COMPLETE state
+  let on_complete_enabled = $state(false);
+  let on_complete_code = $state("");
+
+  function load_on_complete() {
+    const oc = transliteration_state.value.schema.ON_COMPLETE;
+    if (typeof oc === "function") {
+      on_complete_enabled = true;
+      on_complete_code = oc.toString();
+    } else {
+      on_complete_enabled = false;
+      on_complete_code = "";
+    }
+  }
+
+  function handle_on_complete_toggle(enabled: boolean) {
+    mark_as_custom_if_needed();
+    on_complete_enabled = enabled;
+    if (!enabled) {
+      handle_update_schema("ON_COMPLETE", undefined);
+    } else {
+      const defaultFn = `(result, context) => {\n  return result;\n}`;
+      on_complete_code = defaultFn;
+      try {
+        const fn = eval(defaultFn);
+        handle_update_schema("ON_COMPLETE", fn);
+      } catch {
+        // ignore parse errors while editing
+      }
+    }
+  }
 
   function load_additional_features() {
     additional_features = transliteration_state.value.schema.ADDITIONAL_FEATURES || [];
@@ -662,7 +828,35 @@
 
   $effect(() => {
     load_additional_features();
+    load_ketiv_qere_pairs();
+    load_on_complete();
   });
+
+  $effect(() => {
+    const code = on_complete_code;
+    if (on_complete_enabled && code) {
+      const schema_fn = transliteration_state.value.schema.ON_COMPLETE;
+      if (typeof schema_fn === "function" && schema_fn.toString() === code) return;
+      mark_as_custom_if_needed();
+      try {
+        handle_update_schema("ON_COMPLETE", eval(code));
+      } catch {
+        // ignore parse errors while editing
+      }
+    }
+  });
+
+  const on_complete_extensions = [
+    javascript(),
+    EditorView.theme({
+      ".cm-gutters": {
+        backgroundColor: "var(--muted)",
+        color: "var(--muted-foreground)",
+        border: "none",
+      },
+      ".cm-gutterElement": { backgroundColor: "var(--muted)", color: "var(--muted-foreground)" },
+    }),
+  ];
 </script>
 
 <Dialog text="Settings" testid="settings-button" on_change={handle_dialog_change}>
@@ -790,6 +984,128 @@
             </div>
           {/each}
         </div>
+        <!-- Ketiv/Qere -->
+        <div class="flex flex-col gap-4 mt-6">
+          <Label class="gap-1 font-semibold"
+            >Ketiv/Qere Pairs<a
+              href={get_doc_url("ketivQeres")}
+              target="_blank"
+              class="text-pretty"
+            >
+              <IconInfoCircle size={14} />
+            </a></Label
+          >
+          <p class="text-xs text-muted-foreground">
+            Define pairs to replace specific Hebrew text patterns (e.g. ketiv/qere, irregular
+            spellings). Each pair replaces the input text with the output text prior to
+            syllabification.
+          </p>
+          {#each ketiv_qere_pairs as pair, index (index)}
+            <div class="flex flex-wrap gap-2 items-end p-2 border rounded-md">
+              <div class="flex flex-col gap-1">
+                <Label for="kq-input-{index}" class="text-xs">Input (text or /regex/)</Label>
+                <Input
+                  id="kq-input-{index}"
+                  class="max-w-40"
+                  value={pair.input}
+                  oninput={(e) =>
+                    update_ketiv_qere_pair(
+                      index,
+                      "input",
+                      (e.currentTarget as HTMLInputElement).value,
+                    )}
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <Label for="kq-output-{index}" class="text-xs">Output</Label>
+                <RadioGroup
+                  value={pair.is_callback ? "callback" : "string"}
+                  onValueChange={(value: string) =>
+                    toggle_kq_output_type(index, value === "callback")}
+                >
+                  <div class="flex gap-2">
+                    <div class="flex items-center gap-1">
+                      <RadioGroupItem value="string" id="kq-out-string-{index}" />
+                      <Label for="kq-out-string-{index}" class="text-xs">String</Label>
+                    </div>
+                    <div class="flex items-center gap-1">
+                      <RadioGroupItem value="callback" id="kq-out-callback-{index}" />
+                      <Label for="kq-out-callback-{index}" class="text-xs">Callback</Label>
+                    </div>
+                  </div>
+                </RadioGroup>
+                {#if pair.is_callback}
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs text-muted-foreground italic">(callback)</span>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onclick={() => open_kq_callback_editor(index)}
+                    >
+                      Edit Callback
+                    </Button>
+                  </div>
+                {:else}
+                  <Input
+                    id="kq-output-{index}"
+                    class="max-w-40"
+                    value={pair.output}
+                    oninput={(e) =>
+                      update_ketiv_qere_pair(
+                        index,
+                        "output",
+                        (e.currentTarget as HTMLInputElement).value,
+                      )}
+                  />
+                {/if}
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="flex items-center gap-1">
+                  <input
+                    id="kq-ignore-{index}"
+                    type="checkbox"
+                    checked={pair.ignoreTaamim}
+                    onchange={(e) =>
+                      update_ketiv_qere_pair(
+                        index,
+                        "ignoreTaamim",
+                        (e.currentTarget as HTMLInputElement).checked,
+                      )}
+                    class="w-3 h-3"
+                  />
+                  <Label for="kq-ignore-{index}" class="text-xs">Ignore Taamim</Label>
+                </div>
+                <div class="flex items-center gap-1">
+                  <input
+                    id="kq-capture-{index}"
+                    type="checkbox"
+                    checked={pair.captureTaamim}
+                    onchange={(e) =>
+                      update_ketiv_qere_pair(
+                        index,
+                        "captureTaamim",
+                        (e.currentTarget as HTMLInputElement).checked,
+                      )}
+                    class="w-3 h-3"
+                  />
+                  <Label for="kq-capture-{index}" class="text-xs">Capture Taamim</Label>
+                </div>
+              </div>
+              <Button variant="destructive" size="sm" onclick={() => remove_ketiv_qere_pair(index)}>
+                Delete
+              </Button>
+            </div>
+          {/each}
+          <Button variant="outline" size="sm" onclick={add_ketiv_qere_pair}>+ Add Pair</Button>
+        </div>
+        <!-- /Ketiv/Qere -->
+        {#if kq_editor_index !== null}
+          <KetivQereEditor
+            code={kq_editor_code}
+            on_save={save_kq_callback_editor}
+            on_cancel={cancel_kq_callback_editor}
+          />
+        {/if}
       </ScrollArea>
     </TabsContent>
 
@@ -989,6 +1305,44 @@
               </div>
             </div>
             <!-- /STRESS_MARKER -->
+            <!-- ON_COMPLETE -->
+            <div class="flex flex-col gap-4">
+              <Label class="gap-1 font-semibold"
+                >On Complete Callback<a
+                  href={get_doc_url("on_complete")}
+                  target="_blank"
+                  class="text-pretty"
+                >
+                  <IconInfoCircle size={14} />
+                </a></Label
+              >
+              <p class="text-xs text-muted-foreground">
+                A callback invoked when transliteration is complete. Receives
+                <code>(result, context)</code> where context contains <code>original</code>,
+                <code>schema</code>, and <code>text</code>.
+              </p>
+              <div class="flex items-center gap-2">
+                <Switch
+                  id="enable-on-complete"
+                  checked={on_complete_enabled}
+                  onCheckedChange={handle_on_complete_toggle}
+                />
+                <Label for="enable-on-complete">Enable On Complete</Label>
+              </div>
+              {#if on_complete_enabled}
+                <div
+                  class="border rounded-md text-sm overflow-x-auto"
+                  data-testid="on-complete-editor"
+                >
+                  <CodeMirror
+                    bind:value={on_complete_code}
+                    extensions={on_complete_extensions}
+                    styles={{ "&": { height: "200px", overflowX: "auto" } }}
+                  />
+                </div>
+              {/if}
+            </div>
+            <!-- /ON_COMPLETE -->
           </div>
         </div>
       </ScrollArea>

@@ -63,17 +63,9 @@ export function serialize_object(obj: unknown): unknown {
 }
 
 export function serialize_schema(schema: Partial<SBL>): Partial<SBL> {
-  if (!schema.ADDITIONAL_FEATURES) return schema;
-  return {
-    ...schema,
-    ADDITIONAL_FEATURES: serialize_object(schema.ADDITIONAL_FEATURES) as SBL["ADDITIONAL_FEATURES"],
-  };
+  return serialize_object(schema) as Partial<SBL>;
 }
 
 export function deserialize_schema(data: Partial<SBL>): Partial<SBL> {
-  if (!data.ADDITIONAL_FEATURES) return data;
-  return {
-    ...data,
-    ADDITIONAL_FEATURES: deserialize_object(data.ADDITIONAL_FEATURES) as SBL["ADDITIONAL_FEATURES"],
-  };
+  return deserialize_object(data) as Partial<SBL>;
 }

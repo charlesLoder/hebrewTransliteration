@@ -5,7 +5,9 @@
   import { track_removal } from "../../lib/analytics";
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
+  import { deserialize_object, serialize_object } from "../../lib/schemaSerialization";
   import { performRemoval } from "../../services/removalService";
+  import type { RemoveOptions } from "hebrew-transliteration";
   import type { AppStatus, Context, RemoveState } from "../../types/index";
   import { default_remove_options } from "../../utils/defaults";
   import Card from "../shared/Card.svelte";
@@ -13,7 +15,9 @@
   import Output from "../shared/Output.svelte";
   import Settings from "./Settings.svelte";
 
-  const saved_options = load_settings(STORAGE_KEYS.remove, default_remove_options);
+  const saved_options = deserialize_object(
+    load_settings(STORAGE_KEYS.remove, default_remove_options),
+  ) as RemoveOptions;
 
   let remove_state: RemoveState = $state({
     dialog_view_state: "close",
@@ -24,7 +28,7 @@
   });
 
   $effect(() => {
-    save_settings(STORAGE_KEYS.remove, remove_state.options);
+    save_settings(STORAGE_KEYS.remove, serialize_object(remove_state.options));
   });
 
   setContext<Context<RemoveState>>("remove_state", {

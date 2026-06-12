@@ -9,6 +9,10 @@
   import type { RemoveOptions } from "hebrew-transliteration";
   import { getContext } from "svelte";
   import type { Context, RemoveState } from "../../types/index";
+  import { Switch } from "$lib/components/ui/switch/index.js";
+  import { javascript } from "@codemirror/lang-javascript";
+  import { EditorView } from "@codemirror/view";
+  import CodeMirror from "svelte-codemirror-editor";
   import { format_doc_url } from "../../utils/documentation";
   import Dialog from "../shared/Dialog.svelte";
 
@@ -81,15 +85,15 @@
 
   let active_tab = $state("punctuation");
 
-  function handle_option_change(key: keyof RemoveOptions, checked: boolean | "indeterminate") {
+  function handle_option_change(key: string, checked: boolean | "indeterminate") {
     remove_state.value.options = {
       ...remove_state.value.options,
       [key]: checked === true,
     };
   }
 
-  function is_option_checked(key: keyof RemoveOptions): boolean {
-    return remove_state.value.options[key as keyof RemoveOptions] === true;
+  function is_option_checked(key: string): boolean {
+    return (remove_state.value.options as Record<string, unknown>)[key] === true;
   }
 
   function handle_dialog_change(open: boolean) {
@@ -100,6 +104,65 @@
     return format_doc_url("/api/interfaces/removeoptions", key);
   }
 
+  let on_complete_enabled = $state(false);
+  let on_complete_code = $state("");
+
+  function load_on_complete() {
+    const oc = remove_state.value.options.ON_COMPLETE;
+    if (typeof oc === "function") {
+      on_complete_enabled = true;
+      on_complete_code = oc.toString();
+    } else {
+      on_complete_enabled = false;
+      on_complete_code = "";
+    }
+  }
+
+  function handle_on_complete_toggle(enabled: boolean) {
+    on_complete_enabled = enabled;
+    if (!enabled) {
+      remove_state.value.options = { ...remove_state.value.options, ON_COMPLETE: undefined };
+    } else {
+      const defaultFn = `(result, context) => {\n  return result;\n}`;
+      on_complete_code = defaultFn;
+      try {
+        const fn = eval(defaultFn);
+        remove_state.value.options = { ...remove_state.value.options, ON_COMPLETE: fn };
+      } catch {
+        // ignore parse errors while editing
+      }
+    }
+  }
+
+  $effect(() => {
+    load_on_complete();
+  });
+
+  $effect(() => {
+    const code = on_complete_code;
+    if (on_complete_enabled && code) {
+      const opt_fn = remove_state.value.options.ON_COMPLETE;
+      if (typeof opt_fn === "function" && opt_fn.toString() === code) return;
+      try {
+        remove_state.value.options = { ...remove_state.value.options, ON_COMPLETE: eval(code) };
+      } catch {
+        // ignore parse errors while editing
+      }
+    }
+  });
+
+  const on_complete_extensions = [
+    javascript(),
+    EditorView.theme({
+      ".cm-gutters": {
+        backgroundColor: "var(--muted)",
+        color: "var(--muted-foreground)",
+        border: "none",
+      },
+      ".cm-gutterElement": { backgroundColor: "var(--muted)", color: "var(--muted-foreground)" },
+    }),
+  ];
+
   function toggle_all(category: "punctuation" | "taamim" | "vowels") {
     const items =
       category === "punctuation" ? punctuation : category === "taamim" ? taamim : vowels;
@@ -108,7 +171,7 @@
 
     const new_options = { ...remove_state.value.options };
     for (const item of items) {
-      new_options[item.key as keyof RemoveOptions] = !allChecked;
+      (new_options as Record<string, unknown>)[item.key] = !allChecked;
     }
     remove_state.value.options = new_options;
   }
@@ -206,4 +269,34 @@
       </ScrollArea>
     </TabsContent>
   </Tabs>
+
+  <div class="flex flex-col gap-4 mt-6 p-1">
+    <Label class="gap-1 font-semibold"
+      >ON_COMPLETE Callback<a href={get_doc_url("on_complete")} target="_blank" class="text-pretty">
+        <IconInfoCircle size={14} />
+      </a></Label
+    >
+    <p class="text-xs text-muted-foreground">
+      A callback invoked when removal is complete. Receives
+      <code>(result, context)</code> where context contains <code>original</code> and
+      <code>options</code>.
+    </p>
+    <div class="flex items-center gap-2">
+      <Switch
+        id="enable-on-complete"
+        checked={on_complete_enabled}
+        onCheckedChange={handle_on_complete_toggle}
+      />
+      <Label for="enable-on-complete">Enable ON_COMPLETE</Label>
+    </div>
+    {#if on_complete_enabled}
+      <div class="border rounded-md text-sm overflow-x-auto" data-testid="on-complete-editor">
+        <CodeMirror
+          bind:value={on_complete_code}
+          extensions={on_complete_extensions}
+          styles={{ "&": { height: "200px", overflowX: "auto" } }}
+        />
+      </div>
+    {/if}
+  </div>
 </Dialog>
