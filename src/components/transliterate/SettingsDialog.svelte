@@ -185,35 +185,30 @@
   }
 
   function commit_ketiv_qere_pairs(pairs: KetivQerePair[]) {
-    const valid = pairs.filter((p) => p.input.trim());
-    if (valid.length === 0) {
-      handle_update_schema("ketivQeres", undefined);
-    } else {
-      const ketivQeres = valid.map((p) => {
-        const input: string | RegExp =
-          p.input.startsWith("/") && p.input.lastIndexOf("/") > 0
-            ? (() => {
-                try {
-                  const m = p.input.match(/^\/(.*)\/([gimsu]*)$/);
-                  return m ? new RegExp(m[1], m[2]) : p.input;
-                } catch {
-                  return p.input;
-                }
-              })()
-            : p.input;
-        const output = p.is_callback
+    const ketivQeres = pairs.map((p) => {
+      const input: string | RegExp =
+        p.input.startsWith("/") && p.input.lastIndexOf("/") > 0
           ? (() => {
               try {
-                return eval(p.output);
+                const m = p.input.match(/^\/(.*)\/([gimsu]*)$/);
+                return m ? new RegExp(m[1], m[2]) : p.input;
               } catch {
-                return p.output;
+                return p.input;
               }
             })()
-          : p.output || p.input;
-        return { input, output, ignoreTaamim: p.ignoreTaamim, captureTaamim: p.captureTaamim };
-      });
-      handle_update_schema("ketivQeres", ketivQeres);
-    }
+          : p.input;
+      const output = p.is_callback
+        ? (() => {
+            try {
+              return eval(p.output);
+            } catch {
+              return p.output;
+            }
+          })()
+        : p.output;
+      return { input, output, ignoreTaamim: p.ignoreTaamim, captureTaamim: p.captureTaamim };
+    });
+    handle_update_schema("ketivQeres", ketivQeres);
   }
 
   // ON_COMPLETE state

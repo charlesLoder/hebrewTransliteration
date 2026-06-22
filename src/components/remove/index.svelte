@@ -1,13 +1,13 @@
 <script lang="ts">
   import { Button } from "$lib/components/ui/button/index.js";
+  import type { RemoveOptions } from "hebrew-transliteration";
   import { setContext } from "svelte";
   import { toast } from "svelte-sonner";
   import { track_removal } from "../../lib/analytics";
+  import { deserialize_object, serialize_object } from "../../lib/schemaSerialization";
   import { load_settings, save_settings } from "../../lib/storage";
   import { STORAGE_KEYS } from "../../lib/storageKeys";
-  import { deserialize_object, serialize_object } from "../../lib/schemaSerialization";
   import { performRemoval } from "../../services/removalService";
-  import type { RemoveOptions } from "hebrew-transliteration";
   import type { AppStatus, Context, RemoveState } from "../../types/index";
   import { default_remove_options } from "../../utils/defaults";
   import Card from "../shared/Card.svelte";

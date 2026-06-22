@@ -4,15 +4,15 @@
   import { DialogDescription, DialogHeader, DialogTitle } from "$lib/components/ui/dialog/index.js";
   import { Label } from "$lib/components/ui/label/index.js";
   import { ScrollArea } from "$lib/components/ui/scroll-area/index.js";
+  import { Switch } from "$lib/components/ui/switch/index.js";
   import { Tabs, TabsContent, TabsList, TabsTrigger } from "$lib/components/ui/tabs/index.js";
+  import { javascript } from "@codemirror/lang-javascript";
+  import { EditorView } from "@codemirror/view";
   import IconInfoCircle from "@tabler/icons-svelte/icons/info-circle";
   import type { RemoveOptions } from "hebrew-transliteration";
   import { getContext } from "svelte";
-  import type { Context, RemoveState } from "../../types/index";
-  import { Switch } from "$lib/components/ui/switch/index.js";
-  import { javascript } from "@codemirror/lang-javascript";
-  import { EditorView } from "@codemirror/view";
   import CodeMirror from "svelte-codemirror-editor";
+  import type { Context, RemoveState } from "../../types/index";
   import { format_doc_url } from "../../utils/documentation";
   import Dialog from "../shared/Dialog.svelte";
 
@@ -190,6 +190,7 @@
       <TabsTrigger value="punctuation">Punctuation</TabsTrigger>
       <TabsTrigger value="taamim">Taamim</TabsTrigger>
       <TabsTrigger value="vowels">Vowels</TabsTrigger>
+      <TabsTrigger value="on-complete">On Complete</TabsTrigger>
     </TabsList>
 
     <TabsContent value="punctuation" class="flex flex-col gap-6">
@@ -268,35 +269,41 @@
         </div>
       </ScrollArea>
     </TabsContent>
-  </Tabs>
 
-  <div class="flex flex-col gap-4 mt-6 p-1">
-    <Label class="gap-1 font-semibold"
-      >ON_COMPLETE Callback<a href={get_doc_url("on_complete")} target="_blank" class="text-pretty">
-        <IconInfoCircle size={14} />
-      </a></Label
-    >
-    <p class="text-xs text-muted-foreground">
-      A callback invoked when removal is complete. Receives
-      <code>(result, context)</code> where context contains <code>original</code> and
-      <code>options</code>.
-    </p>
-    <div class="flex items-center gap-2">
-      <Switch
-        id="enable-on-complete"
-        checked={on_complete_enabled}
-        onCheckedChange={handle_on_complete_toggle}
-      />
-      <Label for="enable-on-complete">Enable ON_COMPLETE</Label>
-    </div>
-    {#if on_complete_enabled}
-      <div class="border rounded-md text-sm overflow-x-auto" data-testid="on-complete-editor">
-        <CodeMirror
-          bind:value={on_complete_code}
-          extensions={on_complete_extensions}
-          styles={{ "&": { height: "200px", overflowX: "auto" } }}
-        />
+    <TabsContent value="on-complete" class="flex flex-col gap-6">
+      <div class="flex flex-col gap-4 mt-6 p-1">
+        <Label class="gap-1 font-semibold"
+          >ON_COMPLETE Callback<a
+            href={get_doc_url("on_complete")}
+            target="_blank"
+            class="text-pretty"
+          >
+            <IconInfoCircle size={14} />
+          </a></Label
+        >
+        <p class="text-xs text-muted-foreground">
+          A callback invoked when removal is complete. Receives
+          <code>(result, context)</code> where context contains <code>original</code> and
+          <code>options</code>.
+        </p>
+        <div class="flex items-center gap-2">
+          <Switch
+            data-testid="enable-on-complete"
+            checked={on_complete_enabled}
+            onCheckedChange={handle_on_complete_toggle}
+          />
+          <Label data-testid="enable-on-complete-label">Enable ON_COMPLETE</Label>
+        </div>
+        {#if on_complete_enabled}
+          <div class="border rounded-md text-sm overflow-x-auto" data-testid="on-complete-editor">
+            <CodeMirror
+              bind:value={on_complete_code}
+              extensions={on_complete_extensions}
+              styles={{ "&": { height: "200px", overflowX: "auto" } }}
+            />
+          </div>
+        {/if}
       </div>
-    {/if}
-  </div>
+    </TabsContent>
+  </Tabs>
 </Dialog>
