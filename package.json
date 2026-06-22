@@ -43,7 +43,7 @@
     "@internationalized/date": "^3.12.0",
     "@lucide/svelte": "^0.577.0",
     "@netlify/functions": "^5.1.5",
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.61.0",
     "@types/node": "^25.5.0",
     "bits-ui": "^2.16.3",
     "clsx": "^2.1.1",
