@@ -33,7 +33,7 @@
     "astro": "^7.0.0",
     "google-auth-library": "^10.7.0",
     "google-spreadsheet": "^5.3.0",
-    "hebrew-transliteration": "^2.10.1",
+    "hebrew-transliteration": "^2.10.2",
     "svelte-codemirror-editor": "^2.1.0",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3"
