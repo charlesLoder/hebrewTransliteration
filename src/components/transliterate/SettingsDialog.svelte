@@ -41,12 +41,11 @@
 
   const transliteration_state = getContext<Context<TransliterationState>>("transliteration_state");
 
+  // ── Types ──────────────────────────────────────────────────────────
+
   type DageshChazaqOption = "none" | "double" | "custom";
-
   type StressMarkerLocation = NonNullable<SBL["STRESS_MARKER"]>["location"];
-
   type StressMarkerExclude = NonNullable<NonNullable<SBL["STRESS_MARKER"]>["exclude"]>;
-
   type AdditionalFeatures = SBL["ADDITIONAL_FEATURES"];
 
   interface FeatureForm {
@@ -60,9 +59,173 @@
     callback_code: string;
   }
 
-  let active_tab = $state("schemas");
-  let custom_upload_visibility: VisibilityState = $state("hidden");
-  let custom_schema_filename = $state("");
+  interface KetivQerePair {
+    input: string;
+    output: string;
+    is_callback: boolean;
+    ignoreTaamim: boolean;
+    captureTaamim: boolean;
+  }
+
+  // ── Constants ──────────────────────────────────────────────────────
+
+  const pages = [
+    { title: "Schemas", id: "schemas" },
+    { title: "Syllabification", id: "syllabification" },
+    { title: "Consonants", id: "consonants" },
+    { title: "Vowels", id: "vowels" },
+    { title: "Others", id: "others" },
+    { title: "Additional Features", id: "additional_features" },
+  ];
+
+  const consonants = [
+    "ALEF",
+    "BET",
+    "BET_DAGESH",
+    "GIMEL",
+    "GIMEL_DAGESH",
+    "DALET",
+    "DALET_DAGESH",
+    "HE",
+    "VAV",
+    "ZAYIN",
+    "HET",
+    "TET",
+    "YOD",
+    "KAF",
+    "KAF_DAGESH",
+    "FINAL_KAF",
+    "LAMED",
+    "MEM",
+    "FINAL_MEM",
+    "NUN",
+    "FINAL_NUN",
+    "SAMEKH",
+    "AYIN",
+    "PE",
+    "PE_DAGESH",
+    "FINAL_PE",
+    "TSADI",
+    "FINAL_TSADI",
+    "QOF",
+    "RESH",
+    "SHIN",
+    "SIN",
+    "TAV",
+    "TAV_DAGESH",
+  ] as const;
+
+  const vowels = [
+    "VOCAL_SHEVA",
+    "PATAH",
+    "HATAF_PATAH",
+    "PATAH_HE",
+    "FURTIVE_PATAH",
+    "QAMATS",
+    "HATAF_QAMATS",
+    "QAMATS_HE",
+    "QAMATS_QATAN",
+    "HIRIQ",
+    "HIRIQ_YOD",
+    "TSERE",
+    "TSERE_YOD",
+    "TSERE_HE",
+    "SEGOL",
+    "HATAF_SEGOL",
+    "SEGOL_HE",
+    "SEGOL_YOD",
+    "HOLAM",
+    "HOLAM_HASER",
+    "HOLAM_VAV",
+    "QUBUTS",
+    "SHUREQ",
+  ] as const;
+
+  const orthographies = [
+    "MS_SUFX",
+    "DIVINE_NAME",
+    "DIVINE_NAME_ELOHIM",
+    "SYLLABLE_SEPARATOR",
+    "DAGESH",
+    "MAQAF",
+    "PASEQ",
+    "SOF_PASUQ",
+  ] as const;
+
+  const syllabification = [
+    "allowNoNiqqud",
+    "article",
+    "holemHaser",
+    "longVowels",
+    "qametsQatan",
+    "shevaAfterMeteg",
+    "shevaWithMeteg",
+    "sqnmlvy",
+    "strict",
+    "wawShureq",
+  ] as const;
+
+  // ── Core schema functions ──────────────────────────────────────────
+
+  function mark_as_custom_if_needed() {
+    if (!transliteration_state.value.modified_schema_base) {
+      transliteration_state.value.modified_schema_base =
+        transliteration_state.value.selected_schema_name;
+    }
+  }
+
+  function handle_update_schema(key: keyof SBL, value: SBL[keyof SBL] | undefined) {
+    mark_as_custom_if_needed();
+    transliteration_state.value.schema = {
+      ...transliteration_state.value.schema,
+      [key]: value,
+    };
+    track_schema_change({
+      change_type: "manual_edit",
+      schema: transliteration_state.value.selected_schema_name ?? undefined,
+    });
+  }
+
+  function handle_schema_change(
+    key: keyof SBL,
+    value: (typeof transliteration_state.value.schema)[keyof typeof transliteration_state.value.schema],
+  ) {
+    let convertedValue: SBL[keyof SBL] | undefined;
+    if (value === "undefined") {
+      convertedValue = undefined;
+    } else if (value === "true") {
+      convertedValue = true;
+    } else if (value === "false") {
+      convertedValue = false;
+    } else {
+      convertedValue = value as SBL[keyof SBL];
+    }
+    handle_update_schema(key, convertedValue);
+  }
+
+  function get_transliteration_value(key: keyof SBL): string {
+    const val =
+      transliteration_state.value.schema[key as keyof typeof transliteration_state.value.schema];
+    if (val === undefined || val === null) {
+      return "undefined";
+    }
+
+    if (typeof val === "boolean") {
+      return val ? "true" : "false";
+    }
+
+    return String(val);
+  }
+
+  function serialize_value(key: string, value: unknown): unknown {
+    if (value instanceof RegExp) {
+      return `new RegExp(${JSON.stringify(value.source)}, ${JSON.stringify(value.flags)})`;
+    }
+    if (typeof value === "function") {
+      return `(${value.toString()})`;
+    }
+    return value;
+  }
 
   function is_modified(): boolean {
     return !!transliteration_state.value.modified_schema_base;
@@ -75,7 +238,220 @@
     return transliteration_state.value.selected_schema_name;
   }
 
-  // DAGESH_CHAZAQ state
+  function get_doc_url(key: string): string {
+    return format_doc_url("/api/classes/schema", key);
+  }
+
+  function format_syllabification_label(key: string): string {
+    switch (key) {
+      case "allowNoNiqqud":
+        return "Allow No Niqqud";
+      case "article":
+        return "Article";
+      case "holemHaser":
+        return "Holem Haser";
+      case "longVowels":
+        return "Long Vowels";
+      case "qametsQatan":
+        return "Qamets Qatan";
+      case "shevaAfterMeteg":
+        return "Sheva After Meteg";
+      case "shevaWithMeteg":
+        return "Sheva With Meteg";
+      case "sqnmlvy":
+        return "SQNMLVY";
+      case "strict":
+        return "Strict";
+      case "wawShureq":
+        return "Waw Shureq";
+      default:
+        return format_label(key);
+    }
+  }
+
+  // ── Schema loader ──────────────────────────────────────────────────
+
+  /** loaded schema data keyed by label */
+  let schema_map = $state<Record<string, Partial<SBL>>>({});
+  /** current status of the async schema loading process */
+  let loader_state = $state<SchemaLoaderState>("idle");
+  /** error message if schema loading failed */
+  let loader_error = $state<string | null>(null);
+  /** metadata for available preset schemas */
+  let schema_manifest = $state<{ label: string; file: string }[]>([]);
+
+  async function load_schemas() {
+    loader_state = "loading";
+    loader_error = null;
+    try {
+      const manifest = await load_schema_manifest();
+      schema_manifest = manifest.schemas;
+      const schema_labels = schema_manifest.map((s) => s.label);
+      const schemas = await Promise.all(schema_labels.map(load_schema));
+      schema_map = Object.fromEntries(schema_labels.map((label, i) => [label, schemas[i]]));
+      loader_state = "success";
+    } catch (err) {
+      loader_error = err instanceof Error ? err.message : "Failed to load schemas";
+      loader_state = "error";
+      schema_map = { "SBL Academic": get_default_schema_fallback() };
+      toast.warning("Using fallback schema. Some features may be unavailable.");
+    }
+  }
+
+  /** dropdown options for schema selection */
+  const schema_options = $derived([...schema_manifest.map((s) => s.label), "Custom"]);
+
+  // ── Schema management ──────────────────────────────────────────────
+
+  /** visibility of the custom schema file upload input */
+  let custom_upload_visibility: VisibilityState = $state("hidden");
+  /** name of the uploaded custom schema file */
+  let custom_schema_filename = $state("");
+
+  function handle_schema_name_change(value: string) {
+    transliteration_state.value.selected_schema_name = value;
+
+    if (value === "Custom") {
+      custom_upload_visibility = "visible";
+      return;
+    }
+
+    custom_upload_visibility = "hidden";
+
+    if (value === "SBL Academic") {
+      const default_schema = get_default_SBL_schema();
+      transliteration_state.value.schema = {
+        ...default_schema,
+      };
+      transliteration_state.value.modified_schema_base = "";
+      return;
+    }
+
+    const new_schema = schema_map[value];
+    if (new_schema) {
+      transliteration_state.value.schema = {
+        ...new_schema,
+      };
+      transliteration_state.value.modified_schema_base = "";
+    }
+
+    track_schema_change({ change_type: "preset_change", schema: value });
+  }
+
+  function reset_to_base() {
+    const get_base_schema = (): Partial<SBL> | undefined => {
+      if (transliteration_state.value.modified_schema_base === "SBL Academic") {
+        return get_default_SBL_schema();
+      }
+      if (transliteration_state.value.modified_schema_base) {
+        return schema_map[transliteration_state.value.modified_schema_base];
+      }
+      if (transliteration_state.value.selected_schema_name !== "SBL Academic") {
+        return get_default_SBL_schema();
+      }
+      return undefined;
+    };
+
+    const base_schema = get_base_schema();
+    if (base_schema) {
+      transliteration_state.value.schema = {
+        ...base_schema,
+      };
+      transliteration_state.value.modified_schema_base = "";
+    }
+
+    track_schema_change({
+      change_type: "reset",
+      schema: transliteration_state.value.selected_schema_name,
+    });
+  }
+
+  function handle_custom_schema_upload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    custom_schema_filename = file.name;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      try {
+        const match = content.match(/export\s+const\s+schema\s*=\s*(\{[\s\S]*\});?/);
+        if (!match) {
+          console.error("Invalid schema file format");
+          return;
+        }
+        const schemaObj = eval(`(${match[1]})`) as SBL;
+        const reconstructed_schema = reconstruct_special_values(schemaObj) as SBL;
+        transliteration_state.value.schema = {
+          ...reconstructed_schema,
+        };
+        transliteration_state.value.modified_schema_base = "";
+      } catch (err) {
+        console.error("Failed to parse schema file:", err);
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function reconstruct_special_values(obj: unknown): unknown {
+    if (Array.isArray(obj)) {
+      return obj.map(reconstruct_special_values);
+    }
+    if (obj && typeof obj === "object") {
+      const result: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(obj)) {
+        if (typeof value === "string") {
+          if (/^new RegExp\(/.test(value)) {
+            try {
+              result[key] = eval(value);
+            } catch {
+              result[key] = value;
+            }
+          } else if (/^\(.*\) =>/.test(value) || /^function\(/.test(value)) {
+            try {
+              result[key] = eval(value);
+            } catch {
+              result[key] = value;
+            }
+          } else {
+            result[key] = value;
+          }
+        } else {
+          result[key] = reconstruct_special_values(value);
+        }
+      }
+      return result;
+    }
+    return obj;
+  }
+
+  function clear_custom_schema() {
+    custom_schema_filename = "";
+    custom_upload_visibility = "hidden";
+    transliteration_state.value.selected_schema_name = "SBL Academic";
+    const default_schema = get_default_SBL_schema();
+    transliteration_state.value.schema = {
+      ...default_schema,
+    };
+    transliteration_state.value.modified_schema_base = "";
+  }
+
+  function export_schema() {
+    const schemaContent = `export const schema = ${JSON.stringify(transliteration_state.value.schema, serialize_value, 2)};`;
+    const blob = new Blob([schemaContent], { type: "text/javascript" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "hebrew-schema.js";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── DAGESH_CHAZAQ ─────────────────────────────────────────────────
+
+  /** currently selected dagesh chazaq mode derived from schema */
   let active_dagesh_chazaq_option: DageshChazaqOption = $derived(
     transliteration_state.value.schema.DAGESH_CHAZAQ === true
       ? "double"
@@ -85,6 +461,7 @@
         : "custom",
   );
 
+  /** custom replacement string when dagesh chazaq mode is "custom" */
   let dagesh_chazaq_custom_option_value: string = $derived(
     active_dagesh_chazaq_option === "custom" &&
       typeof transliteration_state.value.schema.DAGESH_CHAZAQ === "string"
@@ -92,7 +469,6 @@
       : "",
   );
 
-  // DAGESH_CHAZAQ handlers
   function handle_dagesh_chazaq_option_change(value: string) {
     function is_valid_option(val: string): val is DageshChazaqOption {
       return ["none", "double", "custom"].includes(val);
@@ -116,17 +492,21 @@
     }
   }
 
-  // STRESS_MARKER state
+  // ── STRESS_MARKER ─────────────────────────────────────────────────
+
+  /** whether stress marker feature is enabled */
   let stress_marker_selected = $derived(!!transliteration_state.value.schema.STRESS_MARKER);
+  /** where to place the stress marker relative to syllable or vowel */
   let stress_marker_location = $derived(
     transliteration_state.value.schema.STRESS_MARKER?.location ?? "before-syllable",
   );
+  /** character used as the stress marker */
   let stress_marker_mark = $derived(transliteration_state.value.schema.STRESS_MARKER?.mark ?? "ˈ");
+  /** when to exclude stress marker placement */
   let stress_marker_exclude = $derived(
     transliteration_state.value.schema.STRESS_MARKER?.exclude ?? "never",
   );
 
-  // STRESS_MARKER handlers
   function update_stress_marker_schema(
     overrides:
       | Partial<{ location: StressMarkerLocation; mark: string; exclude: StressMarkerExclude }>
@@ -178,21 +558,13 @@
     update_stress_marker_schema({ exclude: value });
   }
 
-  let additional_features = $state<AdditionalFeatures>([]);
-  let editing_index = $state<number | null>(null);
-  let feature_editor_visibility: VisibilityState = $state("hidden");
+  // ── Ketiv/Qere ────────────────────────────────────────────────────
 
-  // Ketiv/Qere state
-  interface KetivQerePair {
-    input: string;
-    output: string;
-    is_callback: boolean;
-    ignoreTaamim: boolean;
-    captureTaamim: boolean;
-  }
-
+  /** list of ketiv/qere replacement pairs */
   let ketiv_qere_pairs = $state<KetivQerePair[]>([]);
+  /** index of the pair currently being edited, or null */
   let kq_editor_index = $state<number | null>(null);
+  /** callback code being edited in the ketiv/qere editor */
   let kq_editor_code = $state("");
 
   function load_ketiv_qere_pairs() {
@@ -307,391 +679,17 @@
     handle_update_schema("ketivQeres", ketivQeres);
   }
 
-  // ON_COMPLETE state
-  let on_complete_enabled = $state(false);
-  let on_complete_code = $state("");
+  // ── Additional features ───────────────────────────────────────────
 
-  function load_on_complete() {
-    const oc = transliteration_state.value.schema.ON_COMPLETE;
-    if (typeof oc === "function") {
-      on_complete_enabled = true;
-      on_complete_code = oc.toString();
-    } else {
-      on_complete_enabled = false;
-      on_complete_code = "";
-    }
-  }
-
-  function handle_on_complete_toggle(enabled: boolean) {
-    mark_as_custom_if_needed();
-    on_complete_enabled = enabled;
-    if (!enabled) {
-      handle_update_schema("ON_COMPLETE", undefined);
-    } else {
-      const defaultFn = `(result, context) => {\n  return result;\n}`;
-      on_complete_code = defaultFn;
-      try {
-        const fn = eval(defaultFn);
-        handle_update_schema("ON_COMPLETE", fn);
-      } catch {
-        // ignore parse errors while editing
-      }
-    }
-  }
+  /** list of additional transliteration features from the schema */
+  let additional_features = $state<AdditionalFeatures>([]);
+  /** index of the feature being edited, or null for a new feature */
+  let editing_index = $state<number | null>(null);
+  /** visibility of the feature editor panel */
+  let feature_editor_visibility: VisibilityState = $state("hidden");
 
   function load_additional_features() {
     additional_features = transliteration_state.value.schema.ADDITIONAL_FEATURES || [];
-  }
-
-  const pages = [
-    { title: "Schemas", id: "schemas" },
-    { title: "Syllabification", id: "syllabification" },
-    { title: "Consonants", id: "consonants" },
-    { title: "Vowels", id: "vowels" },
-    { title: "Others", id: "others" },
-    { title: "Additional Features", id: "additional_features" },
-  ];
-
-  let schema_map = $state<Record<string, Partial<SBL>>>({});
-  let loader_state = $state<SchemaLoaderState>("idle");
-  let loader_error = $state<string | null>(null);
-  let schema_manifest = $state<{ label: string; file: string }[]>([]);
-
-  async function load_schemas() {
-    loader_state = "loading";
-    loader_error = null;
-    try {
-      const manifest = await load_schema_manifest();
-      schema_manifest = manifest.schemas;
-      const schema_labels = schema_manifest.map((s) => s.label);
-      const schemas = await Promise.all(schema_labels.map(load_schema));
-      schema_map = Object.fromEntries(schema_labels.map((label, i) => [label, schemas[i]]));
-      loader_state = "success";
-    } catch (err) {
-      loader_error = err instanceof Error ? err.message : "Failed to load schemas";
-      loader_state = "error";
-      schema_map = { "SBL Academic": get_default_schema_fallback() };
-      toast.warning("Using fallback schema. Some features may be unavailable.");
-    }
-  }
-
-  load_schemas();
-
-  const schema_options = $derived([...schema_manifest.map((s) => s.label), "Custom"]);
-
-  const consonants = [
-    "ALEF",
-    "BET",
-    "BET_DAGESH",
-    "GIMEL",
-    "GIMEL_DAGESH",
-    "DALET",
-    "DALET_DAGESH",
-    "HE",
-    "VAV",
-    "ZAYIN",
-    "HET",
-    "TET",
-    "YOD",
-    "KAF",
-    "KAF_DAGESH",
-    "FINAL_KAF",
-    "LAMED",
-    "MEM",
-    "FINAL_MEM",
-    "NUN",
-    "FINAL_NUN",
-    "SAMEKH",
-    "AYIN",
-    "PE",
-    "PE_DAGESH",
-    "FINAL_PE",
-    "TSADI",
-    "FINAL_TSADI",
-    "QOF",
-    "RESH",
-    "SHIN",
-    "SIN",
-    "TAV",
-    "TAV_DAGESH",
-  ] as const;
-
-  const vowels = [
-    "VOCAL_SHEVA",
-    "PATAH",
-    "HATAF_PATAH",
-    "PATAH_HE",
-    "FURTIVE_PATAH",
-    "QAMATS",
-    "HATAF_QAMATS",
-    "QAMATS_HE",
-    "QAMATS_QATAN",
-    "HIRIQ",
-    "HIRIQ_YOD",
-    "TSERE",
-    "TSERE_YOD",
-    "TSERE_HE",
-    "SEGOL",
-    "HATAF_SEGOL",
-    "SEGOL_HE",
-    "SEGOL_YOD",
-    "HOLAM",
-    "HOLAM_HASER",
-    "HOLAM_VAV",
-    "QUBUTS",
-    "SHUREQ",
-  ] as const;
-
-  const orthographies = [
-    "MS_SUFX",
-    "DIVINE_NAME",
-    "DIVINE_NAME_ELOHIM",
-    "SYLLABLE_SEPARATOR",
-    "DAGESH",
-    "MAQAF",
-    "PASEQ",
-    "SOF_PASUQ",
-  ] as const;
-
-  const syllabification = [
-    "allowNoNiqqud",
-    "article",
-    "holemHaser",
-    "longVowels",
-    "qametsQatan",
-    "shevaAfterMeteg",
-    "shevaWithMeteg",
-    "sqnmlvy",
-    "strict",
-    "wawShureq",
-  ] as const;
-
-  function handle_update_schema(key: keyof SBL, value: SBL[keyof SBL] | undefined) {
-    mark_as_custom_if_needed();
-    transliteration_state.value.schema = {
-      ...transliteration_state.value.schema,
-      [key]: value,
-    };
-    track_schema_change({
-      change_type: "manual_edit",
-      schema: transliteration_state.value.selected_schema_name ?? undefined,
-    });
-  }
-
-  function get_transliteration_value(key: keyof SBL): string {
-    const val =
-      transliteration_state.value.schema[key as keyof typeof transliteration_state.value.schema];
-    if (val === undefined || val === null) {
-      return "undefined";
-    }
-
-    if (typeof val === "boolean") {
-      return val ? "true" : "false";
-    }
-
-    return String(val);
-  }
-
-  function handle_schema_change(
-    key: keyof SBL,
-    value: (typeof transliteration_state.value.schema)[keyof typeof transliteration_state.value.schema],
-  ) {
-    let convertedValue: SBL[keyof SBL] | undefined;
-    if (value === "undefined") {
-      convertedValue = undefined;
-    } else if (value === "true") {
-      convertedValue = true;
-    } else if (value === "false") {
-      convertedValue = false;
-    } else {
-      convertedValue = value as SBL[keyof SBL];
-    }
-    handle_update_schema(key, convertedValue);
-  }
-
-  function handle_schema_name_change(value: string) {
-    transliteration_state.value.selected_schema_name = value;
-
-    if (value === "Custom") {
-      custom_upload_visibility = "visible";
-      return;
-    }
-
-    custom_upload_visibility = "hidden";
-
-    if (value === "SBL Academic") {
-      const default_schema = get_default_SBL_schema();
-      transliteration_state.value.schema = {
-        ...default_schema,
-      };
-      transliteration_state.value.modified_schema_base = "";
-      return;
-    }
-
-    const new_schema = schema_map[value];
-    if (new_schema) {
-      transliteration_state.value.schema = {
-        ...new_schema,
-      };
-      transliteration_state.value.modified_schema_base = "";
-    }
-
-    track_schema_change({ change_type: "preset_change", schema: value });
-  }
-
-  function reset_to_base() {
-    const get_base_schema = (): Partial<SBL> | undefined => {
-      if (transliteration_state.value.modified_schema_base === "SBL Academic") {
-        return get_default_SBL_schema();
-      }
-      if (transliteration_state.value.modified_schema_base) {
-        return schema_map[transliteration_state.value.modified_schema_base];
-      }
-      if (transliteration_state.value.selected_schema_name !== "SBL Academic") {
-        return get_default_SBL_schema();
-      }
-      return undefined;
-    };
-
-    const base_schema = get_base_schema();
-    if (base_schema) {
-      transliteration_state.value.schema = {
-        ...base_schema,
-      };
-      transliteration_state.value.modified_schema_base = "";
-    }
-
-    track_schema_change({
-      change_type: "reset",
-      schema: transliteration_state.value.selected_schema_name,
-    });
-  }
-
-  function mark_as_custom_if_needed() {
-    if (!transliteration_state.value.modified_schema_base) {
-      transliteration_state.value.modified_schema_base =
-        transliteration_state.value.selected_schema_name;
-    }
-  }
-
-  function serialize_value(key: string, value: unknown): unknown {
-    if (value instanceof RegExp) {
-      return `new RegExp(${JSON.stringify(value.source)}, ${JSON.stringify(value.flags)})`;
-    }
-    if (typeof value === "function") {
-      return `(${value.toString()})`;
-    }
-    return value;
-  }
-
-  function export_schema() {
-    const schemaContent = `export const schema = ${JSON.stringify(transliteration_state.value.schema, serialize_value, 2)};`;
-    const blob = new Blob([schemaContent], { type: "text/javascript" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "hebrew-schema.js";
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function format_syllabification_label(key: string): string {
-    switch (key) {
-      case "allowNoNiqqud":
-        return "Allow No Niqqud";
-      case "article":
-        return "Article";
-      case "holemHaser":
-        return "Holem Haser";
-      case "longVowels":
-        return "Long Vowels";
-      case "qametsQatan":
-        return "Qamets Qatan";
-      case "shevaAfterMeteg":
-        return "Sheva After Meteg";
-      case "shevaWithMeteg":
-        return "Sheva With Meteg";
-      case "sqnmlvy":
-        return "SQNMLVY";
-      case "strict":
-        return "Strict";
-      case "wawShureq":
-        return "Waw Shureq";
-      default:
-        return format_label(key);
-    }
-  }
-
-  function handle_custom_schema_upload(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-    if (!file) return;
-
-    custom_schema_filename = file.name;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const content = e.target?.result as string;
-      try {
-        const match = content.match(/export\s+const\s+schema\s*=\s*(\{[\s\S]*\});?/);
-        if (!match) {
-          console.error("Invalid schema file format");
-          return;
-        }
-        const schemaObj = eval(`(${match[1]})`) as SBL;
-        const reconstructed_schema = reconstruct_special_values(schemaObj) as SBL;
-        transliteration_state.value.schema = {
-          ...reconstructed_schema,
-        };
-        transliteration_state.value.modified_schema_base = "";
-      } catch (err) {
-        console.error("Failed to parse schema file:", err);
-      }
-    };
-    reader.readAsText(file);
-  }
-
-  function reconstruct_special_values(obj: unknown): unknown {
-    if (Array.isArray(obj)) {
-      return obj.map(reconstruct_special_values);
-    }
-    if (obj && typeof obj === "object") {
-      const result: Record<string, unknown> = {};
-      for (const [key, value] of Object.entries(obj)) {
-        if (typeof value === "string") {
-          if (/^new RegExp\(/.test(value)) {
-            try {
-              result[key] = eval(value);
-            } catch {
-              result[key] = value;
-            }
-          } else if (/^\(.*\) =>/.test(value) || /^function\(/.test(value)) {
-            try {
-              result[key] = eval(value);
-            } catch {
-              result[key] = value;
-            }
-          } else {
-            result[key] = value;
-          }
-        } else {
-          result[key] = reconstruct_special_values(value);
-        }
-      }
-      return result;
-    }
-    return obj;
-  }
-
-  function clear_custom_schema() {
-    custom_schema_filename = "";
-    custom_upload_visibility = "hidden";
-    transliteration_state.value.selected_schema_name = "SBL Academic";
-    const default_schema = get_default_SBL_schema();
-    transliteration_state.value.schema = {
-      ...default_schema,
-    };
-    transliteration_state.value.modified_schema_base = "";
   }
 
   function handle_add_feature() {
@@ -795,13 +793,65 @@
     };
   }
 
+  // ── ON_COMPLETE ───────────────────────────────────────────────────
+
+  /** whether the ON_COMPLETE callback is active */
+  let on_complete_enabled = $state(false);
+  /** source code of the ON_COMPLETE callback function */
+  let on_complete_code = $state("");
+
+  const on_complete_extensions = [
+    javascript(),
+    EditorView.theme({
+      ".cm-gutters": {
+        backgroundColor: "var(--muted)",
+        color: "var(--muted-foreground)",
+        border: "none",
+      },
+      ".cm-gutterElement": { backgroundColor: "var(--muted)", color: "var(--muted-foreground)" },
+    }),
+  ];
+
+  function load_on_complete() {
+    const oc = transliteration_state.value.schema.ON_COMPLETE;
+    if (typeof oc === "function") {
+      on_complete_enabled = true;
+      on_complete_code = oc.toString();
+    } else {
+      on_complete_enabled = false;
+      on_complete_code = "";
+    }
+  }
+
+  function handle_on_complete_toggle(enabled: boolean) {
+    mark_as_custom_if_needed();
+    on_complete_enabled = enabled;
+    if (!enabled) {
+      handle_update_schema("ON_COMPLETE", undefined);
+    } else {
+      const defaultFn = `(result, context) => {\n  return result;\n}`;
+      on_complete_code = defaultFn;
+      try {
+        const fn = eval(defaultFn);
+        handle_update_schema("ON_COMPLETE", fn);
+      } catch {
+        // ignore parse errors while editing
+      }
+    }
+  }
+
+  // ── UI state ──────────────────────────────────────────────────────
+
+  /** currently selected settings tab */
+  let active_tab = $state("schemas");
+
   function handle_dialog_change(open: boolean) {
     transliteration_state.value.dialog_view_state = open ? "open" : "close";
   }
 
-  function get_doc_url(key: string): string {
-    return format_doc_url("/api/classes/schema", key);
-  }
+  // ── Effects ───────────────────────────────────────────────────────
+
+  load_schemas();
 
   $effect(() => {
     load_additional_features();
@@ -822,18 +872,6 @@
       }
     }
   });
-
-  const on_complete_extensions = [
-    javascript(),
-    EditorView.theme({
-      ".cm-gutters": {
-        backgroundColor: "var(--muted)",
-        color: "var(--muted-foreground)",
-        border: "none",
-      },
-      ".cm-gutterElement": { backgroundColor: "var(--muted)", color: "var(--muted-foreground)" },
-    }),
-  ];
 </script>
 
 <Dialog text="Settings" testid="settings-button" on_change={handle_dialog_change}>
