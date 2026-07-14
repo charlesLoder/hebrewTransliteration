@@ -75,12 +75,108 @@
     return transliteration_state.value.selected_schema_name;
   }
 
-  let active_dagesh_chazaq_option: DageshChazaqOption = $state(get_dagesh_chazaq_option());
-  let dagesh_chazaq_custom_option_value = $state(get_dagesh_chazaq_custom_option_value());
-  let stress_marker_selected = $state(get_stress_marker_selected());
-  let stress_marker_location = $state(get_stress_marker_location());
-  let stress_marker_mark = $state(get_stress_marker_mark());
-  let stress_marker_exclude = $state(get_stress_marker_exclude());
+  // DAGESH_CHAZAQ state
+  let active_dagesh_chazaq_option: DageshChazaqOption = $derived(
+    transliteration_state.value.schema.DAGESH_CHAZAQ === true
+      ? "double"
+      : transliteration_state.value.schema.DAGESH_CHAZAQ === false ||
+          transliteration_state.value.schema.DAGESH_CHAZAQ === undefined
+        ? "none"
+        : "custom",
+  );
+
+  let dagesh_chazaq_custom_option_value: string = $derived(
+    active_dagesh_chazaq_option === "custom" &&
+      typeof transliteration_state.value.schema.DAGESH_CHAZAQ === "string"
+      ? transliteration_state.value.schema.DAGESH_CHAZAQ
+      : "",
+  );
+
+  // DAGESH_CHAZAQ handlers
+  function handle_dagesh_chazaq_option_change(value: string) {
+    function is_valid_option(val: string): val is DageshChazaqOption {
+      return ["none", "double", "custom"].includes(val);
+    }
+
+    if (!is_valid_option(value)) {
+      console.warn(`Invalid Dagesh Chazaq option: ${value}`);
+      return;
+    }
+
+    if (value === "custom") {
+      handle_schema_change("DAGESH_CHAZAQ", dagesh_chazaq_custom_option_value);
+    } else {
+      handle_schema_change("DAGESH_CHAZAQ", value === "double");
+    }
+  }
+
+  function handle_dagesh_chazaq_custom_option_change(value: string) {
+    if (active_dagesh_chazaq_option === "custom") {
+      handle_schema_change("DAGESH_CHAZAQ", value);
+    }
+  }
+
+  // STRESS_MARKER state
+  let stress_marker_selected = $derived(!!transliteration_state.value.schema.STRESS_MARKER);
+  let stress_marker_location = $derived(
+    transliteration_state.value.schema.STRESS_MARKER?.location ?? "before-syllable",
+  );
+  let stress_marker_mark = $derived(transliteration_state.value.schema.STRESS_MARKER?.mark ?? "ˈ");
+  let stress_marker_exclude = $derived(
+    transliteration_state.value.schema.STRESS_MARKER?.exclude ?? "never",
+  );
+
+  // STRESS_MARKER handlers
+  function update_stress_marker_schema(
+    overrides:
+      | Partial<{ location: StressMarkerLocation; mark: string; exclude: StressMarkerExclude }>
+      | undefined,
+  ) {
+    const schema_value = {
+      location: overrides?.location ?? stress_marker_location,
+      mark: overrides?.mark ?? stress_marker_mark,
+      exclude: overrides?.exclude ?? stress_marker_exclude,
+    };
+    handle_schema_change("STRESS_MARKER", schema_value);
+  }
+
+  function handle_stress_marker_toggle(value: boolean) {
+    if (!value) {
+      handle_schema_change("STRESS_MARKER", undefined);
+    } else {
+      update_stress_marker_schema(undefined);
+    }
+  }
+
+  function handle_stress_marker_location_change(value: string) {
+    function is_valid_location(val: string): val is StressMarkerLocation {
+      return ["before-syllable", "after-syllable", "before-vowel", "after-vowel"].includes(val);
+    }
+
+    if (!is_valid_location(value)) {
+      console.warn(`Invalid stress marker location: ${value}`);
+      return;
+    }
+
+    update_stress_marker_schema({ location: value });
+  }
+
+  function handle_stress_marker_mark_change(value: string) {
+    update_stress_marker_schema({ mark: value });
+  }
+
+  function handle_stress_marker_exclude_change(value: string) {
+    function is_valid_exclude(val: string): val is StressMarkerExclude {
+      return ["never", "final", "single"].includes(val);
+    }
+
+    if (!is_valid_exclude(value)) {
+      console.warn(`Invalid stress marker exclude: ${value}`);
+      return;
+    }
+
+    update_stress_marker_schema({ exclude: value });
+  }
 
   let additional_features = $state<AdditionalFeatures>([]);
   let editing_index = $state<number | null>(null);
@@ -396,44 +492,6 @@
     return String(val);
   }
 
-  function get_dagesh_chazaq_option(): DageshChazaqOption {
-    if (transliteration_state.value.schema.DAGESH_CHAZAQ === true) {
-      return "double";
-    } else if (
-      transliteration_state.value.schema.DAGESH_CHAZAQ === false ||
-      transliteration_state.value.schema.DAGESH_CHAZAQ === undefined
-    ) {
-      return "none";
-    } else {
-      return "custom";
-    }
-  }
-
-  function get_dagesh_chazaq_custom_option_value(): string {
-    const option = get_dagesh_chazaq_option();
-    if (option === "custom") {
-      const val = transliteration_state.value.schema.DAGESH_CHAZAQ;
-      return typeof val === "string" ? val : "";
-    }
-    return "";
-  }
-
-  function get_stress_marker_selected(): boolean {
-    return !!transliteration_state.value.schema.STRESS_MARKER;
-  }
-
-  function get_stress_marker_location(): StressMarkerLocation {
-    return transliteration_state.value.schema.STRESS_MARKER?.location ?? "before-syllable";
-  }
-
-  function get_stress_marker_mark(): string {
-    return transliteration_state.value.schema.STRESS_MARKER?.mark ?? "ˈ";
-  }
-
-  function get_stress_marker_exclude(): StressMarkerExclude {
-    return transliteration_state.value.schema.STRESS_MARKER?.exclude ?? "never";
-  }
-
   function handle_schema_change(
     key: keyof SBL,
     value: (typeof transliteration_state.value.schema)[keyof typeof transliteration_state.value.schema],
@@ -449,82 +507,6 @@
       convertedValue = value as SBL[keyof SBL];
     }
     handle_update_schema(key, convertedValue);
-  }
-
-  function handle_dagesh_chazaq_option_change(value: string) {
-    function is_valid_option(val: string): val is DageshChazaqOption {
-      return ["none", "double", "custom"].includes(val);
-    }
-
-    if (!is_valid_option(value)) {
-      console.warn(`Invalid Dagesh Chazaq option: ${value}`);
-      return;
-    }
-
-    active_dagesh_chazaq_option = value;
-    if (value === "custom") {
-      handle_schema_change("DAGESH_CHAZAQ", dagesh_chazaq_custom_option_value);
-    } else {
-      handle_schema_change("DAGESH_CHAZAQ", value === "double");
-    }
-  }
-
-  function handle_dagesh_chazaq_custom_option_change(value: string) {
-    dagesh_chazaq_custom_option_value = value;
-    if (active_dagesh_chazaq_option === "custom") {
-      handle_schema_change("DAGESH_CHAZAQ", value);
-    }
-  }
-
-  function handle_stress_marker_toggle(value: boolean) {
-    stress_marker_selected = value;
-    if (!stress_marker_selected) {
-      handle_schema_change("STRESS_MARKER", undefined);
-    } else {
-      update_stress_marker_schema();
-    }
-  }
-
-  function handle_stress_marker_location_change(value: string) {
-    function is_valid_location(val: string): val is StressMarkerLocation {
-      return ["before-syllable", "after-syllable", "before-vowel", "after-vowel"].includes(val);
-    }
-
-    if (!is_valid_location(value)) {
-      console.warn(`Invalid stress marker location: ${value}`);
-      return;
-    }
-
-    stress_marker_location = value;
-    update_stress_marker_schema();
-  }
-
-  function handle_stress_marker_mark_change(value: string) {
-    stress_marker_mark = value;
-    update_stress_marker_schema();
-  }
-
-  function handle_stress_marker_exclude_change(value: string) {
-    function is_valid_exclude(val: string): val is StressMarkerExclude {
-      return ["never", "final", "single"].includes(val);
-    }
-
-    if (!is_valid_exclude(value)) {
-      console.warn(`Invalid stress marker exclude: ${value}`);
-      return;
-    }
-
-    stress_marker_exclude = value;
-    update_stress_marker_schema();
-  }
-
-  function update_stress_marker_schema() {
-    const schema_value = {
-      location: stress_marker_location as StressMarkerLocation,
-      mark: stress_marker_mark,
-      exclude: stress_marker_exclude as StressMarkerExclude,
-    };
-    handle_schema_change("STRESS_MARKER", schema_value);
   }
 
   function handle_schema_name_change(value: string) {
