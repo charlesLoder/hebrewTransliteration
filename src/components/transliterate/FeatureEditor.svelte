@@ -163,8 +163,8 @@
               <Checkbox
                 id="is-regex"
                 checked={form.is_regex}
-                onchange={(e: Event) => {
-                  form.is_regex = (e.currentTarget as HTMLInputElement).checked;
+                onCheckedChange={(checked: boolean) => {
+                  form.is_regex = checked;
                 }}
               />
               <Label for="is-regex" class="text-sm">Regex</Label>
