@@ -20,6 +20,8 @@
 
   interface FeatureForm {
     feature_type: "word" | "syllable" | "cluster";
+    title: string;
+    description: string;
     hebrew_text: string;
     is_regex: boolean;
     regex_flags: string;
@@ -43,6 +45,8 @@
   let form = $state<FeatureForm>(
     initial_form ?? {
       feature_type: "word",
+      title: "",
+      description: "",
       hebrew_text: "",
       is_regex: false,
       regex_flags: "g",
@@ -127,6 +131,32 @@
 
     <ScrollArea class="h-72 xl:h-92">
       <div class="flex flex-col gap-4 py-4 px-1">
+        <div class="flex flex-col gap-2">
+          <Label for="feature-title">Title (optional)</Label>
+          <Input
+            id="feature-title"
+            data-testid="feature-title-input"
+            value={form.title}
+            oninput={(e: Event) => {
+              form.title = (e.currentTarget as HTMLInputElement).value;
+            }}
+            placeholder="Descriptive title for this feature"
+          />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <Label for="feature-description">Description (optional)</Label>
+          <Input
+            id="feature-description"
+            data-testid="feature-description-input"
+            value={form.description}
+            oninput={(e: Event) => {
+              form.description = (e.currentTarget as HTMLInputElement).value;
+            }}
+            placeholder="Brief description of what this feature does"
+          />
+        </div>
+
         <div class="flex flex-col gap-2">
           <Label for="feature-type">Feature Type</Label>
           <NativeSelectRoot

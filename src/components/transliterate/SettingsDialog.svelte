@@ -50,6 +50,8 @@
 
   interface FeatureForm {
     feature_type: "word" | "syllable" | "cluster";
+    title: string;
+    description: string;
     hebrew_text: string;
     is_regex: boolean;
     regex_flags: string;
@@ -726,6 +728,8 @@
 
     const feature = {
       FEATURE: form.feature_type,
+      TITLE: form.title || undefined,
+      DESCRIPTION: form.description || undefined,
       HEBREW: hebrew,
       PASS_THROUGH: form.pass_through,
       TRANSLITERATION: transliteration,
@@ -765,6 +769,8 @@
 
   function create_form_for_feature(feature: NonNullable<AdditionalFeatures>[number]): {
     feature_type: "word" | "syllable" | "cluster";
+    title: string;
+    description: string;
     hebrew_text: string;
     is_regex: boolean;
     regex_flags: string;
@@ -781,6 +787,8 @@
 
     return {
       feature_type: feature.FEATURE,
+      title: feature.TITLE ?? "",
+      description: feature.DESCRIPTION ?? "",
       hebrew_text: hebrew,
       is_regex,
       regex_flags,
@@ -1385,8 +1393,11 @@
             <Card data-testid="additional-feature-{index}">
               <CardHeader>
                 <CardTitle class="capitalize text-sm">
-                  {feature.FEATURE}
+                  {feature.TITLE || feature.FEATURE}
                 </CardTitle>
+                {#if feature.DESCRIPTION}
+                  <p class="text-xs text-muted-foreground mb-2">{feature.DESCRIPTION}</p>
+                {/if}
               </CardHeader>
               <CardContent>
                 <div class="grid grid-cols-2 gap-4 text-sm">

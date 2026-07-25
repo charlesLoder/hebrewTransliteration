@@ -1,3 +1,8 @@
+---
+name: update-hebrew-transliteration
+description: Update the `hebrew-transliteration` npm package and sync the application's UI with any new/changed schema options
+---
+
 # Update `hebrew-transliteration` Package
 
 Steps to update the `hebrew-transliteration` npm package and sync the application's UI with any new/changed schema options.
