@@ -22,6 +22,7 @@
   import { EditorView } from "@codemirror/view";
   import IconInfoCircle from "@tabler/icons-svelte/icons/info-circle";
   import type { SBL } from "hebrew-transliteration";
+  import { version } from "hebrew-transliteration/package.json";
   import { getContext } from "svelte";
   import CodeMirror from "svelte-codemirror-editor";
   import { toast } from "svelte-sonner";
@@ -441,7 +442,11 @@
   }
 
   function export_schema() {
-    const schemaContent = `export const schema = ${JSON.stringify(transliteration_state.value.schema, serialize_value, 2)};`;
+    const schemaContent =
+      `// hebrew-transliteration v${version}\n// ${new Intl.DateTimeFormat(
+        navigator.language,
+      ).format(new Date())}\n` +
+      `export const schema = ${JSON.stringify(transliteration_state.value.schema, serialize_value, 2)};`.trim();
     const blob = new Blob([schemaContent], { type: "text/javascript" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
