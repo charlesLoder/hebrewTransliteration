@@ -34,6 +34,7 @@
     "google-auth-library": "^10.7.0",
     "google-spreadsheet": "^5.3.0",
     "hebrew-transliteration": "^2.11.0",
+    "serialize-javascript": "^7.0.7",
     "svelte-codemirror-editor": "^2.1.0",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3"
