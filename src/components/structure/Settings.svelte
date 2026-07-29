@@ -8,7 +8,7 @@
   import { getContext } from "svelte";
   import type { WhitespaceOption } from "../../services/structureService";
   import type { Context, StructureState } from "../../types/index";
-  import Dialog from "../shared/Dialog.svelte";
+  import Dialog from "../Dialog/Dialog.svelte";
 
   const structure_state = getContext<Context<StructureState>>("structure_state");
 
