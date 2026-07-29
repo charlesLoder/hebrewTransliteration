@@ -99,14 +99,14 @@ Configuration in `netlify.toml`.
 
 ```
 src/
-├── components/       # Svelte components
-├── layouts/         # Astro layouts
-├── lib/             # Utilities, UI components
-├── pages/           # Astro routes (*.astro)
-├── services/        # Business logic
-└── types/           # TypeScript types
-tests/               # Playwright e2e specs
-netlify/functions/  # Netlify serverless functions
+├── components/       # Svelte components, each in [Name]/[Name].svelte
+├── layouts/          # Astro layouts (MainLayout.astro)
+├── lib/              # Utilities, UI components
+├── pages/            # Astro routes (*.astro)
+├── services/         # Business logic
+└── types/            # TypeScript types
+tests/                # Playwright e2e specs
+netlify/functions/   # Netlify serverless functions
 ```
 
 ## State Management
@@ -123,7 +123,7 @@ Uses Svelte 5's `$state` runes with context-based sharing.
 
 ### Architecture Pattern
 
-1. **Root component** (`transliterate/index.svelte`) creates state with `$state()` and exposes it via Svelte context using `setContext<Context<T>>("state_key", ...)`
+1. **Root component** (e.g. `Transliterate/Transliterate.svelte`) creates state with `$state()` and exposes it via Svelte context using `setContext<Context<T>>("state_key", ...)`
 
 2. **Consumer components** access state via `getContext<Context<T>>("state_key")` and mutate directly via `.value` property
 
