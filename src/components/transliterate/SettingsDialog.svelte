@@ -22,6 +22,8 @@
   import { EditorView } from "@codemirror/view";
   import IconInfoCircle from "@tabler/icons-svelte/icons/info-circle";
   import type { SBL } from "hebrew-transliteration";
+  import { version } from "hebrew-transliteration/package.json";
+  import serialize from "serialize-javascript";
   import { getContext } from "svelte";
   import CodeMirror from "svelte-codemirror-editor";
   import { toast } from "svelte-sonner";
@@ -219,16 +221,6 @@
     return String(val);
   }
 
-  function serialize_value(key: string, value: unknown): unknown {
-    if (value instanceof RegExp) {
-      return `new RegExp(${JSON.stringify(value.source)}, ${JSON.stringify(value.flags)})`;
-    }
-    if (typeof value === "function") {
-      return `(${value.toString()})`;
-    }
-    return value;
-  }
-
   function is_modified(): boolean {
     return !!transliteration_state.value.modified_schema_base;
   }
@@ -385,9 +377,8 @@
           return;
         }
         const schemaObj = eval(`(${match[1]})`) as SBL;
-        const reconstructed_schema = reconstruct_special_values(schemaObj) as SBL;
         transliteration_state.value.schema = {
-          ...reconstructed_schema,
+          ...schemaObj,
         };
         transliteration_state.value.modified_schema_base = "";
       } catch (err) {
@@ -395,38 +386,6 @@
       }
     };
     reader.readAsText(file);
-  }
-
-  function reconstruct_special_values(obj: unknown): unknown {
-    if (Array.isArray(obj)) {
-      return obj.map(reconstruct_special_values);
-    }
-    if (obj && typeof obj === "object") {
-      const result: Record<string, unknown> = {};
-      for (const [key, value] of Object.entries(obj)) {
-        if (typeof value === "string") {
-          if (/^new RegExp\(/.test(value)) {
-            try {
-              result[key] = eval(value);
-            } catch {
-              result[key] = value;
-            }
-          } else if (/^\(.*\) =>/.test(value) || /^function\(/.test(value)) {
-            try {
-              result[key] = eval(value);
-            } catch {
-              result[key] = value;
-            }
-          } else {
-            result[key] = value;
-          }
-        } else {
-          result[key] = reconstruct_special_values(value);
-        }
-      }
-      return result;
-    }
-    return obj;
   }
 
   function clear_custom_schema() {
@@ -441,7 +400,11 @@
   }
 
   function export_schema() {
-    const schemaContent = `export const schema = ${JSON.stringify(transliteration_state.value.schema, serialize_value, 2)};`;
+    const schemaContent =
+      `// hebrew-transliteration v${version}\n// ${new Intl.DateTimeFormat(
+        navigator.language,
+      ).format(new Date())}\n` +
+      `export const schema = ${serialize(transliteration_state.value.schema, { space: 2 })};`.trim();
     const blob = new Blob([schemaContent], { type: "text/javascript" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");

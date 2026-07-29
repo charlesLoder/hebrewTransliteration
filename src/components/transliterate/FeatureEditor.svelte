@@ -104,6 +104,9 @@
       ".cm-completionDetail": {
         color: "var(--muted-foreground)",
       },
+      ".ͼg": {
+        color: "#7878f7",
+      },
     }),
   ];
 </script>
