@@ -9,10 +9,10 @@
   import { performTransliteration as perform_transliteration } from "../../services/transliterationService";
   import type { AppStatus, Context, TransliterationState } from "../../types/index";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
-  import Card from "../shared/Card.svelte";
-  import ErrorBoundary from "../shared/ErrorBoundary.svelte";
-  import Input from "../shared/Input.svelte";
-  import Output from "../shared/Output.svelte";
+  import Card from "../Card/Card.svelte";
+  import ErrorBoundary from "../ErrorBoundary/ErrorBoundary.svelte";
+  import Input from "../Input/Input.svelte";
+  import Output from "../Output/Output.svelte";
   import NiqqudModal from "./NiqqudModal.svelte";
   import Settings from "./SettingsDialog.svelte";
 

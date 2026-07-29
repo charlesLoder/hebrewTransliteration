@@ -10,9 +10,9 @@
   import { performRemoval } from "../../services/removalService";
   import type { AppStatus, Context, RemoveState } from "../../types/index";
   import { default_remove_options } from "../../utils/defaults";
-  import Card from "../shared/Card.svelte";
-  import Input from "../shared/Input.svelte";
-  import Output from "../shared/Output.svelte";
+  import Card from "../Card/Card.svelte";
+  import Input from "../Input/Input.svelte";
+  import Output from "../Output/Output.svelte";
   import Settings from "./Settings.svelte";
 
   const saved_options = deserialize_object(
