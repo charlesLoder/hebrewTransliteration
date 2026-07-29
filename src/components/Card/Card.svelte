@@ -3,7 +3,7 @@
   import { Separator } from "$lib/components/ui/separator/index.js";
   import { version } from "hebrew-transliteration/package.json";
   import type { Snippet } from "svelte";
-  import FeedbackModal from "./FeedbackModal.svelte";
+  import FeedbackModal from "../FeedbackModal/FeedbackModal.svelte";
 
   interface Props {
     aria_busy: boolean;
