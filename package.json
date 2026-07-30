@@ -51,7 +51,6 @@
     "eslint": "^10.5.0",
     "eslint-plugin-svelte": "^3.19.0",
     "globals": "^17.7.0",
-    "mode-watcher": "^1.1.0",
     "npm-check-updates": "^22.2.7",
     "prettier": "^3.8.4",
     "prettier-plugin-astro": "^0.14.1",
