@@ -2,11 +2,12 @@
 
 @import "tw-animate-css";
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@custom-variant dark (@container style(--theme: dark));
 
 :root {
   --radius: 0.625rem;
   color-scheme: light dark;
+  --theme: light;
   --background: light-dark(oklch(1 0 0), oklch(0.145 0 0));
   --foreground: light-dark(oklch(0.145 0 0), oklch(0.985 0 0));
   --card: light-dark(oklch(1 0 0), oklch(0.205 0 0));
@@ -40,24 +41,20 @@
   --sidebar-ring: light-dark(oklch(0.708 0 0), oklch(0.556 0 0));
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color-scheme: light;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-  }
-}
-
 :root[data-theme="light"] {
   color-scheme: light;
+  --theme: light;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
+  --theme: dark;
+}
+
+:root[data-theme="system"] {
+  @media (prefers-color-scheme: dark) {
+    --theme: dark;
+  }
 }
 
 @theme inline {
