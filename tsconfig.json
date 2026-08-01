@@ -4,6 +4,8 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "paths": {
+      // A new catch-all that replaces the baseUrl:
+      "*": ["./src/*"],
       "$lib": ["./src/lib"],
       "$lib/*": ["./src/lib/*"]
     }

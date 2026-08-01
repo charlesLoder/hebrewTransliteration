@@ -28,6 +28,7 @@
     "@astrojs/netlify": "^8.0.0",
     "@astrojs/svelte": "^9.0.0",
     "@codemirror/lang-javascript": "^6.2.5",
+    "@tabler/icons-astro": "^3.46.0",
     "@tabler/icons-svelte": "^3.44.0",
     "@tailwindcss/vite": "^4.3.1",
     "astro": "^7.0.0",
