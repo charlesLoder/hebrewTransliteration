@@ -9,7 +9,7 @@ export default defineConfig({
     timeout: 10000,
   },
   webServer: {
-    command: "npm run dev",
+    command: "NETLIFY_DEV=1 npm run dev",
     port: 4321,
     reuseExistingServer: false,
     timeout: 120 * 1000,
