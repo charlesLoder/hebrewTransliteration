@@ -37,7 +37,7 @@
   import type { Context, TransliterationState, VisibilityState } from "../../types/index";
   import { format_doc_url, format_label } from "../../utils/documentation";
   import { get_default_SBL_schema } from "../../utils/schemaDefaults";
-  import Dialog from "../shared/Dialog.svelte";
+  import Dialog from "../Dialog/Dialog.svelte";
   import FeatureEditor from "./FeatureEditor.svelte";
   import KetivQereEditor from "./KetivQereEditor.svelte";
 

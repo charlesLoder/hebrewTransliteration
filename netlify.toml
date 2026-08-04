@@ -14,3 +14,14 @@
   for = "/schemas/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+  
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Accept-CH = "Sec-CH-Prefers-Color-Scheme"
+    Critical-CH = "Sec-CH-Prefers-Color-Scheme"
+    Vary = "Sec-CH-Prefers-Color-Scheme"
+  
+[[edge_functions]]
+  function = "check-theme"
+  path = "/*"

@@ -14,7 +14,7 @@
   import CodeMirror from "svelte-codemirror-editor";
   import type { Context, RemoveState } from "../../types/index";
   import { format_doc_url } from "../../utils/documentation";
-  import Dialog from "../shared/Dialog.svelte";
+  import Dialog from "../Dialog/Dialog.svelte";
 
   const remove_state = getContext<Context<RemoveState>>("remove_state");
 

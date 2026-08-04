@@ -1,12 +1,14 @@
 ---
 import { Separator } from "$lib/components/ui/separator/index.js";
-import BrandBlueSky from "node_modules/@tabler/icons-svelte/dist/icons/brand-bluesky.svelte";
-import BrandLinkedIn from "node_modules/@tabler/icons-svelte/dist/icons/brand-linkedin.svelte";
-import BrandX from "node_modules/@tabler/icons-svelte/dist/icons/brand-x.svelte";
-import CircleA from "node_modules/@tabler/icons-svelte/dist/icons/circle-letter-a.svelte";
-import MainLayout from "src/layouts/MainLayout.astro";
-import Card from "../components/shared/Card.svelte";
-import SchemaOrg from "../layouts/SchemaOrg.astro";
+import {
+  IconBrandBluesky,
+  IconBrandLinkedin,
+  IconBrandX,
+  IconCircleLetterA,
+} from "@tabler/icons-astro/";
+import Card from "../components/Card/Card.svelte";
+import SchemaOrg from "../components/SchemaOrg/SchemaOrg.astro";
+import MainLayout from "../layouts/MainLayout.astro";
 import "../styles/global.css";
 
 const title = "About";
@@ -27,14 +29,15 @@ const keywords = [
       <div>
         <h1 class="text-lg font-semibold mb-2">Hebrew Transliteration</h1>
         <p class="text-sm text-muted-foreground">
-          This web app transliterates Hebrew text into any output. It's powered by the open-source
+          This web app transliterates Hebrew text into any output. It's powered by the open-source{
+            " "
+          }
           <a
             href="https://www.npmjs.com/package/hebrew-transliteration"
-            class="bg-ring px-1 py-0.5
-          rounded text-foreground"
+            class="underline"
             target="_blank"
-            rel="noopener noreferrer"><code>hebrew-transliteration</code></a
-          >
+            rel="noopener noreferrer">hebrew-transliteration</a
+          >{" "}
           JavaScript package and supports multiple transliteration schemas — including SBL academic style,
           Brill, and fully custom mappings.
         </p>
@@ -47,7 +50,7 @@ const keywords = [
         <p class="text-sm text-muted-foreground">
           Transliteration converts texts from one script to another, making the text readable to
           those unfamiliar with the Hebrew script. It's widely used in biblical scholarship,
-          liturgy, linguistics, and language education.
+          liturgy, linguistics, and language education.{" "}
           <a
             href="https://taatik.org/blog/what-is-transliteration/"
             target="_blank"
@@ -78,44 +81,52 @@ const keywords = [
           This app and the package that powers it were built by Charles Loder. Check him out on
           social media at:
         </p>
-        <div class="flex gap-2 items-center">
-          <a
-            href="https://x.com/charles_loder"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-foreground"
-            aria-label="Twitter / X"
-          >
-            <BrandX size={24} /></a
-          >
-          <a
-            href="https://bsky.app/profile/charlesloder.bsky.social"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-foreground"
-            aria-label="Bluesky"
-          >
-            <BrandBlueSky size={24} /></a
-          >
-          <a
-            href="https://bsky.app/profile/charlesloder.bsky.social"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-foreground"
-            aria-label="LinkedIn"
-          >
-            <BrandLinkedIn size={24} /></a
-          >
-          <a
-            href="https://independentresearcher.academia.edu/CharlesLoder"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-foreground"
-            aria-label="Academia.edu"
-          >
-            <CircleA size={24} /></a
-          >
-        </div>
+        <ul class="flex gap-2 items-center mt-2">
+          <li>
+            <a
+              href="https://x.com/charles_loder"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-foreground"
+              aria-label="Twitter / X"
+            >
+              <IconBrandX size={24} /></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://bsky.app/profile/charlesloder.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-foreground"
+              aria-label="Bluesky"
+            >
+              <IconBrandBluesky size={24} /></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://bsky.app/profile/charlesloder.bsky.social"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-foreground"
+              aria-label="LinkedIn"
+            >
+              <IconBrandLinkedin size={24} /></a
+            >
+          </li>
+          <li>
+            <a
+              href="https://independentresearcher.academia.edu/CharlesLoder"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-foreground"
+              aria-label="Academia.edu"
+            >
+              <IconCircleLetterA size={24} /></a
+            >
+          </li>
+        </ul>
       </div>
     </div>
   </Card>

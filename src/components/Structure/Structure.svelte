@@ -8,9 +8,9 @@
   import { performStructure } from "../../services/structureService";
   import type { AppStatus, Context, StructureState } from "../../types/index";
   import { default_structure_options } from "../../utils/defaults";
-  import Card from "../shared/Card.svelte";
-  import Input from "../shared/Input.svelte";
-  import Output from "../shared/Output.svelte";
+  import Card from "../Card/Card.svelte";
+  import Input from "../Input/Input.svelte";
+  import Output from "../Output/Output.svelte";
   import Settings from "./Settings.svelte";
 
   const saved_options = load_settings(STORAGE_KEYS.structure, default_structure_options);

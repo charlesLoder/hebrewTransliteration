@@ -3,9 +3,9 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"],
   "compilerOptions": {
-    // ...
-    "baseUrl": ".",
     "paths": {
+      // A new catch-all that replaces the baseUrl:
+      "*": ["./src/*"],
       "$lib": ["./src/lib"],
       "$lib/*": ["./src/lib/*"]
     }
