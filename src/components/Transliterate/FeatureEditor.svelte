@@ -168,9 +168,7 @@
             value={form.feature_type}
             onchange={(e: Event) => {
               form.feature_type = (e.currentTarget as HTMLSelectElement).value as
-                | "word"
-                | "syllable"
-                | "cluster";
+                "word" | "syllable" | "cluster";
             }}
           >
             <NativeSelectOption value="word">Word</NativeSelectOption>
