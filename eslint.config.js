@@ -1,11 +1,12 @@
 // eslint.config.js
 import js from "@eslint/js";
 import svelte from "eslint-plugin-svelte";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import ts from "typescript-eslint";
 import svelteConfig from "./svelte.config.js";
 
-export default ts.config(
+export default defineConfig(
   {
     ignores: ["dist/", ".netlify", ".astro", ".vscode", "test-results"],
   },

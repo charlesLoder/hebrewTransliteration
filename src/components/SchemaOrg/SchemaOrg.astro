@@ -1,7 +1,6 @@
 ---
 interface Props {
   type: "webapplication" | "about";
-  url?: string;
 }
 
 const SITE_NAME = "Hebrew Transliteration App";
@@ -10,7 +9,7 @@ const SITE_URL = "https://hebrew-transliteration.app";
 const description =
   "Accurate Hebrew transliteration app for academic, religious, or personal needs, along with a suite of other tools for dealing with Hebrew texts.";
 
-const { type, url = SITE_URL } = Astro.props;
+const { type } = Astro.props;
 
 const baseSchema = {
   "@context": "https://schema.org",
@@ -64,4 +63,4 @@ const schema =
       };
 ---
 
-<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+<script is:inline type="application/ld+json" set:html={JSON.stringify(schema)} />

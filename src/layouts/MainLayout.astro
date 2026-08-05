@@ -49,7 +49,7 @@ const canonicalUrl = new URL(
     <meta name="twitter:image" content={imageUrl} />
     <meta name="twitter:image:alt" content="Hebrew Transliteration App" />
     <meta http-equiv="Accept-CH" content="Sec-CH-Prefers-Color-Scheme" />
-    <script define:vars={{ gaId: import.meta.env.PUBLIC_GA_TAG_ID }}>
+    <script is:inline define:vars={{ gaId: import.meta.env.PUBLIC_GA_TAG_ID }}>
       (function () {
         if (!gaId) return;
         window.dataLayer = window.dataLayer || [];
@@ -63,6 +63,7 @@ const canonicalUrl = new URL(
     {
       import.meta.env.PUBLIC_GA_TAG_ID && (
         <script
+          is:inline
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_TAG_ID}`}
         />

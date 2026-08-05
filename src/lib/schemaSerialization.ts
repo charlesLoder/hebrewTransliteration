@@ -7,7 +7,7 @@ export interface SerializableSchemaFeature {
   TRANSLITERATION: string | { __function: string };
 }
 
-export function serialize_value(key: string, value: unknown): unknown {
+export function serialize_value(value: unknown): unknown {
   if (typeof value === "function") {
     return { __function: value.toString() };
   }
@@ -57,7 +57,7 @@ export function serialize_object(obj: unknown): unknown {
 
   const result: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(obj)) {
-    result[key] = serialize_value(key, serialize_object(value));
+    result[key] = serialize_value(serialize_object(value));
   }
   return result;
 }
