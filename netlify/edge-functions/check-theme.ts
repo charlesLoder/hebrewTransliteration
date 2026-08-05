@@ -1,6 +1,6 @@
 import type { Config, Context } from "@netlify/edge-functions";
 
-export default async (request: Request, context: Context) => {
+export default async (_: Request, context: Context) => {
   const response = await context.next();
 
   const contentType = response.headers.get("content-type");
