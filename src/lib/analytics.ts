@@ -65,12 +65,7 @@ export function track_structure(params: StructureEventParams): void {
 }
 
 export type SchemaChangeType =
-  | "preset_change"
-  | "manual_edit"
-  | "feature_add"
-  | "feature_edit"
-  | "feature_delete"
-  | "reset";
+  "preset_change" | "manual_edit" | "feature_add" | "feature_edit" | "feature_delete" | "reset";
 
 export interface SchemaChangeEventParams {
   change_type: SchemaChangeType;
